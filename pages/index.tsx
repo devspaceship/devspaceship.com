@@ -12,11 +12,19 @@ export default function Home() {
       <main className={styles.main}>
         <img className={styles.ppic} src="/ppic.jpg" alt="Profile picture" />
         <h1 className={styles.title}>Science Decoder</h1>
-
-        {/* <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p> */}
+        <p className={styles.description}>
+          Hello, my name is Thomas Saint-Gérand. I am a French developer
+          currently living, studying and working in Amsterdam, The Netherlands.
+          <br />
+          This website is intented to be a repository of stuff that I find cool,
+          interesting, visually pleasing or all of these. I try to answer
+          specific questions with detailed examples.
+        </p>
+        <p>
+          This website is still under construction.
+          <br />
+          It do not contain the posts yet
+        </p>
 
         {/* <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>
