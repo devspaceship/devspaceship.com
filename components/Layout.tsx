@@ -1,6 +1,7 @@
 import Footer from './Footer';
+import { FC, ReactNode } from 'react';
 
-const Layout = ({ children }) => (
+const Layout: FC<{ children: ReactNode }> = ({ children }) => (
   <>
     {children}
     <Footer />
