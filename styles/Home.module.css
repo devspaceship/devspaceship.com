@@ -16,6 +16,13 @@
   align-items: center;
 }
 
+.ppic {
+  border-radius: 50%;
+  border: #26c5de 1rem solid;
+  max-width: 250px;
+  max-height: 250px;
+}
+
 .footer {
   width: 100%;
   height: 100px;

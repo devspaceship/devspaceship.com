@@ -10,6 +10,7 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
+        <img className={styles.ppic} src="/ppic.jpg" alt="Profile picture" />
         <h1 className={styles.title}>Science Decoder</h1>
 
         {/* <p className={styles.description}>
