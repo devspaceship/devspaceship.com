@@ -5,7 +5,7 @@ import styles from '../styles/Home.module.css';
 import { FC } from 'react';
 
 const Home: FC = () => (
-  <Layout>
+  <>
     <Head>
       <title>Science Decoder</title>
       <link rel="icon" href="/favicon.ico" />
@@ -28,7 +28,7 @@ const Home: FC = () => (
         It does not contain the posts yet
       </p>
     </main>
-  </Layout>
+  </>
 );
 
 export default Home;
