@@ -1,6 +1,6 @@
 import Footer from './Footer';
 import NavBar from './NavBar';
-import styles from '../styles/Layout.module.scss';
+import styles from '../../styles/Layout.module.scss';
 import { FC, ReactNode } from 'react';
 
 type LayoutProps = {

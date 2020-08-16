@@ -3,7 +3,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import SchoolIcon from '@material-ui/icons/School';
 import PersonIcon from '@material-ui/icons/Person';
 
-import styles from '../styles/Layout.module.scss';
+import styles from '../../styles/Layout.module.scss';
 
 import { FC } from 'react';
 
