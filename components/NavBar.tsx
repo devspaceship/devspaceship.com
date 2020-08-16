@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import HomeIcon from '@material-ui/icons/Home';
 import SchoolIcon from '@material-ui/icons/School';
 import PersonIcon from '@material-ui/icons/Person';
@@ -8,9 +9,15 @@ import { FC } from 'react';
 
 const NavBar: FC = () => (
   <nav className={styles.navbar}>
-    <HomeIcon fontSize="large" />
-    <SchoolIcon fontSize="large" />
-    <PersonIcon fontSize="large" />
+    <Link href="/">
+      <HomeIcon fontSize="large" />
+    </Link>
+    <Link href="/posts">
+      <SchoolIcon fontSize="large" />
+    </Link>
+    <Link href="/resume">
+      <PersonIcon fontSize="large" />
+    </Link>
   </nav>
 );
 
