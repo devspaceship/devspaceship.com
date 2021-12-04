@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import Layout from '../components/Layout';
 import styles from '../styles/Home.module.css';
 
 import { FC } from 'react';
@@ -12,7 +11,7 @@ const Home: FC = () => (
     </Head>
 
     <main>
-      <img className={styles.ppic} src="/ppic.jpg" alt="Profile picture" />
+      <img className={styles.ppic} src="/static/ppic.jpg" alt="Profile picture" />
       <h1 className={styles.title}>Science Decoder</h1>
       <p className={styles.description}>
         Hello, my name is Thomas Saint-Gérand. I am a French developer currently
