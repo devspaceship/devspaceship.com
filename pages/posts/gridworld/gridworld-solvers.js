@@ -112,4 +112,39 @@ const policyIteration = (gridstate, gamma = 0.97, threshold = 1e-5) => {
   return newPi;
 };
 
-export { policyIteration, matrix };
+const valueIteration = (gridstate, gamma = 0.97, threshold = 1e-5) => {
+  const n = gridstate.length;
+  const m = gridstate[0].length;
+  const V_new = matrix(n, m, 0);
+  let V_old = matrix(n, m, 0);
+
+  while (true) {
+    let delta = 0;
+
+    for (let i = 0; i < n; i++) {
+      for (let j = 0; j < m; j++) {
+        let best = -Infinity;
+
+        for (const action of ['N', 'E', 'S', 'W']) {
+          const [i_, j_, r] = transition(gridstate, i, j, action);
+          const v = r + gamma * V_old[i_][j_];
+          if (v > best) {
+            best = v;
+          }
+        }
+
+        V_new[i][j] = best;
+        delta = Math.max(delta, Math.abs(V_new[i][j] - V_old[i][j]));
+      }
+    }
+
+    if (delta < threshold) {
+      break;
+    }
+    V_old = _.cloneDeep(V_new);
+  }
+
+  return policyImprovement(gridstate, V_new, gamma);
+};
+
+export { matrix, policyIteration, valueIteration };

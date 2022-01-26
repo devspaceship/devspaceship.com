@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import GridworldSvg from './gridworld-svg';
 import GridworldControl from './gridworld-control';
-import { policyIteration, matrix } from './gridworld-solvers';
+import { matrix, policyIteration, valueIteration } from './gridworld-solvers';
 
 export default () => {
   const [gridstate, setGridstate] = useState([
@@ -14,6 +14,7 @@ export default () => {
     ['A', 'T', 'T', 'T', 'T', 'T', 'A', 'A', 'A', 'A', 'A', 'A'],
     ['A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'E'],
   ]);
+  // TODO Change variable name from grid to policy
   const [policy, setPolicy] = useState({
     visible: false,
     grid: matrix(8, 12, 'N'),
@@ -34,6 +35,12 @@ export default () => {
       setPolicy({
         visible: true,
         grid: policyIteration(gridstate, gamma, threshold),
+      });
+    } else if (solver.name === 'value-iteration') {
+      const { gamma, threshold } = solver.configs['value-iteration'];
+      setPolicy({
+        visible: true,
+        grid: valueIteration(gridstate, gamma, threshold),
       });
     }
   };
