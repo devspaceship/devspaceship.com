@@ -10,3 +10,7 @@ The implementation of the next version of my website [Next.js | TypeScript | MDX
 ## Installation
 
 - run `yarn` in the directory
+
+## Running
+
+- run `yarn run dev` in the directory
