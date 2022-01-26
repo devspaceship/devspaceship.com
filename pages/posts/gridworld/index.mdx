@@ -90,7 +90,7 @@ $$
   V^{\pi}(s_t) &= \sum_{i = t}^{+ \infty} \gamma^{i-t} r_i\\
   &= r_t + \sum_{i = t+1}^{+ \infty} \gamma^{i-t} r_i\\
   &= r_t + \gamma \sum_{i = t+1}^{+ \infty} \gamma^{i-(t+1)} r_i\\
-  &= R(s_t, \pi(s_t)) + \gamma V^{\pi}(s_{t+1})
+  &= R(s_t, s(s_t, \pi(s_t))) + \gamma V^{\pi}(s(s_t, \pi(s_t)))
 \end{aligned}
 $$
 
@@ -108,7 +108,7 @@ For the optimal state-value and action-value functions, we have:
 
 $$
 \begin{aligned}
-  V^*(s_t) &= R(s_t, \pi^*(s_t)) + \gamma V^*(s_{t+1})\\
+  V^*(s_t) &= R(s_t, s(s_t,\pi^*(s_t))) + \gamma V^*(s(s_t,\pi^*(s_t)))\\
   Q^*(s_t, a_t) &= R(s_t, s(s_t, a_t)) + \gamma V^*(s(s_t, a_t))
 \end{aligned}
 $$
