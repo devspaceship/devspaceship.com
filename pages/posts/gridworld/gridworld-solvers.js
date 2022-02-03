@@ -203,7 +203,15 @@ const Q_to_policy = (Q) => {
   return pi;
 };
 
-const SARSA = (gridstate, num_iter, alpha, gamma, eps_0, T) => {
+const SARSA_Q = (
+  gridstate,
+  num_iter,
+  alpha,
+  gamma,
+  eps_0,
+  T,
+  Q_mode = false
+) => {
   const n = gridstate.length;
   const m = gridstate[0].length;
   const Q = init_Q(n, m);
@@ -216,8 +224,14 @@ const SARSA = (gridstate, num_iter, alpha, gamma, eps_0, T) => {
       const [i_, j_, r] = transition(gridstate, i, j, a);
       const a_ = epsilon_greedy_policy(pi, i_, j_, eps_0, T, t);
 
-      Q[i][j][a] =
-        (1 - alpha) * Q[i][j][a] + alpha * (r + gamma * Q[i_][j_][a_]);
+      if (Q_mode) {
+        Q[i][j][a] =
+          (1 - alpha) * Q[i][j][a] +
+          alpha * (r + gamma * Math.max(...ACTIONS.map((a) => Q[i_][j_][a])));
+      } else {
+        Q[i][j][a] =
+          (1 - alpha) * Q[i][j][a] + alpha * (r + gamma * Q[i_][j_][a_]);
+      }
 
       [i, j, a] = [i_, j_, a_];
       if (['E', 'T'].includes(gridstate[i][j])) {
@@ -230,4 +244,4 @@ const SARSA = (gridstate, num_iter, alpha, gamma, eps_0, T) => {
   return pi;
 };
 
-export { matrix, policyIteration, valueIteration, SARSA };
+export { matrix, policyIteration, valueIteration, SARSA_Q };

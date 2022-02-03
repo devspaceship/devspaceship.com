@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import GridworldSvg from './gridworld-svg';
+import React, { useEffect, useState } from 'react';
 import GridworldControl from './gridworld-control';
 import {
   matrix,
-  policyIteration,
-  valueIteration,
-  SARSA,
+  policyIteration, SARSA_Q, valueIteration
 } from './gridworld-solvers';
+import GridworldSvg from './gridworld-svg';
 
 export default () => {
   const [gridstate, setGridstate] = useState([
@@ -19,7 +17,6 @@ export default () => {
     ['A', 'T', 'T', 'T', 'T', 'T', 'A', 'A', 'A', 'A', 'A', 'A'],
     ['A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'E'],
   ]);
-  // TODO Change variable name from grid to policy
   const [policy, setPolicy] = useState({
     visible: false,
     grid: matrix(8, 12, 'N'),
@@ -57,7 +54,13 @@ export default () => {
       const { num_iter, alpha, gamma, eps_0, T } = solver.configs.sarsa;
       setPolicy({
         visible: true,
-        grid: SARSA(gridstate, num_iter, alpha, gamma, eps_0, T),
+        grid: SARSA_Q(gridstate, num_iter, alpha, gamma, eps_0, T),
+      });
+    } else if (solver.name === 'q-learning') {
+      const { num_iter, alpha, gamma, eps_0, T } = solver.configs['q-learning'];
+      setPolicy({
+        visible: true,
+        grid: SARSA_Q(gridstate, num_iter, alpha, gamma, eps_0, T, true),
       });
     }
   };
@@ -81,3 +84,4 @@ export default () => {
 };
 
 // TODO Replace all [[0] for j in range(M)] for i in range(N) by matrix(n,m,0) in md file
+// TODO Add hyperparameters controls and fine tune them
