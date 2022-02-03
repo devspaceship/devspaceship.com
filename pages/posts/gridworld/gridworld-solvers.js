@@ -1,12 +1,13 @@
 import _ from 'lodash';
-// const _ = require('lodash');
+
+const ACTIONS = ['N', 'E', 'S', 'W'];
 
 // a <= x <= b
 const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
 // n rows * m columns
 const matrix = (n, m, v) =>
   new Array(n).fill(null).map(() => new Array(m).fill(v));
-const isStable = (p1, p2) => JSON.stringify(p1) === JSON.stringify(p2);
+const is_stable = (p1, p2) => JSON.stringify(p1) === JSON.stringify(p2);
 
 const transition = (gridstate, i, j, action) => {
   const state = gridstate[i][j];
@@ -77,7 +78,7 @@ const policyImprovement = (gridstate, V, gamma) => {
       let best = -Infinity;
       let bestAction = '';
 
-      for (const action of ['N', 'E', 'S', 'W']) {
+      for (const action of ACTIONS) {
         const [i_, j_, r] = transition(gridstate, i, j, action);
         const reward = r + gamma * V[i_][j_];
         if (reward > best) {
@@ -103,7 +104,7 @@ const policyIteration = (gridstate, gamma = 0.97, threshold = 1e-5) => {
   while (true) {
     V = policyEvaluation(gridstate, pi, gamma, threshold, V);
     newPi = policyImprovement(gridstate, V, gamma);
-    if (isStable(pi, newPi)) {
+    if (is_stable(pi, newPi)) {
       break;
     }
     pi = newPi;
@@ -125,7 +126,7 @@ const valueIteration = (gridstate, gamma = 0.97, threshold = 1e-5) => {
       for (let j = 0; j < m; j++) {
         let best = -Infinity;
 
-        for (const action of ['N', 'E', 'S', 'W']) {
+        for (const action of ACTIONS) {
           const [i_, j_, r] = transition(gridstate, i, j, action);
           const v = r + gamma * V_old[i_][j_];
           if (v > best) {
@@ -147,4 +148,86 @@ const valueIteration = (gridstate, gamma = 0.97, threshold = 1e-5) => {
   return policyImprovement(gridstate, V_new, gamma);
 };
 
-export { matrix, policyIteration, valueIteration };
+const random_choice = (choices) =>
+  choices[Math.floor(Math.random() * choices.length)];
+
+const epsilon_greedy_policy = (pi, i, j, eps_0, T, t) => {
+  const eps = eps_0 / (1 + t / T);
+  return Math.random() < eps ? random_choice(ACTIONS) : pi[i][j];
+};
+
+const random_policy = (n, m) => {
+  const pi = matrix(n, m, 0);
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < m; j++) {
+      pi[i][j] = epsilon_greedy_policy(pi, i, j, 1, 1, 0);
+    }
+  }
+  return pi;
+};
+
+const random_valid_state = (gridstate) => {
+  const n = gridstate.length;
+  const m = gridstate[0].length;
+  return [Math.floor(Math.random() * n), Math.floor(Math.random() * m)];
+};
+
+const init_Q = (n, m) => {
+  const Q = matrix(n, m, null);
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < m; j++) {
+      Q[i][j] = { N: 0, E: 0, S: 0, W: 0 };
+    }
+  }
+  return Q;
+};
+
+const Q_to_policy = (Q) => {
+  const n = Q.length;
+  const m = Q[0].length;
+  const pi = matrix(n, m, 'N');
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < m; j++) {
+      const q = Q[i][j];
+      let best_action = 'N';
+      let best_q = q[best_action];
+      for (const action of ['E', 'S', 'W']) {
+        if (q[action] > best_q) {
+          best_action = action;
+          best_q = q[action];
+        }
+      }
+      pi[i][j] = best_action;
+    }
+  }
+  return pi;
+};
+
+const SARSA = (gridstate, num_iter, alpha, gamma, eps_0, T) => {
+  const n = gridstate.length;
+  const m = gridstate[0].length;
+  const Q = init_Q(n, m);
+  let pi = random_policy(n, m);
+
+  for (let t = 0; t < num_iter; t++) {
+    let [i, j] = random_valid_state(gridstate);
+    let a = epsilon_greedy_policy(pi, i, j, eps_0, T, t);
+    while (true) {
+      const [i_, j_, r] = transition(gridstate, i, j, a);
+      const a_ = epsilon_greedy_policy(pi, i_, j_, eps_0, T, t);
+
+      Q[i][j][a] =
+        (1 - alpha) * Q[i][j][a] + alpha * (r + gamma * Q[i_][j_][a_]);
+
+      [i, j, a] = [i_, j_, a_];
+      if (['E', 'T'].includes(gridstate[i][j])) {
+        break;
+      }
+    }
+    pi = Q_to_policy(Q);
+  }
+
+  return pi;
+};
+
+export { matrix, policyIteration, valueIteration, SARSA };
