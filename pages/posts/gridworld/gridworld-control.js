@@ -30,22 +30,10 @@ export default (props) => {
       }}
     >
       <div id="solver-selection-wrapper">
-        <SolverRadio
-          name="policy-iteration"
-          label="Policy Iteration"
-        />
-        <SolverRadio
-          name="value-iteration"
-          label="Value Iteration"
-        />
-        <SolverRadio
-          name="sarsa"
-          label="SARSA"
-        />
-        <SolverRadio
-          name="q-learning"
-          label="Q-Learning"
-        />
+        <SolverRadio name="policy-iteration" label="Policy Iteration" />
+        <SolverRadio name="value-iteration" label="Value Iteration" />
+        <SolverRadio name="sarsa" label="SARSA" />
+        <SolverRadio name="q-learning" label="Q-Learning" />
       </div>
       <input type="submit" value="Solve" aria-label="Solve" />
     </form>
