@@ -299,9 +299,9 @@ this version of the algorithm can be seen as $k$ steps of evaluation followed by
 
 With SARSA and Q-Learning we are going to be estimating Q instead of V and derive the optimal policy from it.
 Another difference with these methods is that we are going to be simulating episodes
-through the gridworld in order to estimate the Q-function instead of sweeping through the _state_ space $S$.\
+through the gridworld in order to estimate the Q-function instead of sweeping through the _state_ space $S$.
 SARSA stands for State-Action-Reward-State-Action because we are going to look one action forward following the policy to estimate $Q(s,a)$.
-In fact we are not always going to follow the policy because it can be biased if it had not tried certain actions.
+In fact we are not always going to follow the policy because it can be biased if it has not tried certain actions.
 To ensure that we explore the state-action space we need to take a random action once in a while and to start at a random valid position on the grid.
 Since we don't need to explore as much as in the beginning episodes after episodes we can decrease the probability over time.
 This probability of chosing a random action in a given _state_ is represented by $\varepsilon$
@@ -311,12 +311,7 @@ which decreases in $\frac{1}{t}$ where $t$ represent the epsiode.
 def choose_action(pi, i, j, eps_0, T, t):
   eps = eps_0/(1+(t/T))
 
-  if random() < eps:
-    a = randint(0, 3)
-  else:
-    a = pi[i][j]
-
-  return a
+  return randint(0, 3) if random() < eps else pi[i][j]
 ```
 
 Here we use $\varepsilon = \frac{\varepsilon_0}{1+t/T}$. $\varepsilon_0$ is $\varepsilon$ at time-step $t=0$ and $T$
