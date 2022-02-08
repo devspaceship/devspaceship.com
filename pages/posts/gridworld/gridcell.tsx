@@ -3,6 +3,7 @@ import React from 'react';
 const SPACING = 0.08;
 const ROUNDNESS = 0.22;
 
+// TODO Define types
 const PolicyArrow = (props) => {
   const [visible, direction] = props.policy;
   let { rows, columns, i, j, state } = props;
