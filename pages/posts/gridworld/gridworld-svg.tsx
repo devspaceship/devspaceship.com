@@ -1,16 +1,26 @@
 import React, { useState } from 'react';
 import GridCell from './gridcell';
+import { Action, GridState, PolicyWrapper } from './types';
 
-export default (props) => {
+interface GridWorldSVGProps {
+  gridstate: GridState;
+  setGridstate: (gridstate: GridState) => void;
+  policy: PolicyWrapper;
+}
+
+const GridWorldSVG = (props: GridWorldSVGProps) => {
   const { gridstate, setGridstate, policy } = props;
-  const [mouseState, setMouseState] = useState('NONE');
   // ['NONE', 'MOVING_START', 'MOVING_END', 'ADDING_TRAPS', 'REMOVING_TRAPS']
+  const [mouseState, setMouseState] = useState('NONE');
 
   const rows = gridstate.length;
   const columns = gridstate[0].length;
 
-  const getMousePosition = (e) => {
+  const getMousePosition = (e: React.MouseEvent) => {
     const svg = document.querySelector('#gridworld-svg');
+    if (!svg) {
+      return [0, 0];
+    }
     const width = svg.clientWidth;
     const height = svg.clientHeight;
     const i = Math.floor((e.nativeEvent.offsetY / height) * rows);
@@ -18,7 +28,7 @@ export default (props) => {
     return [i, j];
   };
 
-  const handleMouseDown = (e) => {
+  const handleMouseDown = (e: React.MouseEvent) => {
     const [i, j] = getMousePosition(e);
     if (i < 0 || i >= rows || j < 0 || j >= columns) {
       return;
@@ -40,18 +50,18 @@ export default (props) => {
     }
   };
 
-  const handleMouseUp = (e) => {
+  const handleMouseUp = (e: React.MouseEvent) => {
     setMouseState('NONE');
   };
 
-  const handleMouseOut = (e) => {
+  const handleMouseOut = (e: React.MouseEvent) => {
     const [i, j] = getMousePosition(e);
     if (i < 0 || i >= rows || j < 0 || j >= columns) {
       setMouseState('NONE');
     }
   };
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: React.MouseEvent) => {
     if (mouseState === 'NONE') {
       return;
     }
@@ -65,14 +75,14 @@ export default (props) => {
 
     if (state === 'T' || state === 'A') {
       if (mouseState === 'MOVING_START') {
-        let newGridstate = [...gridstate].map((row) =>
+        let newGridstate: GridState = [...gridstate].map((row) =>
           row.map((s) => (s === 'S' ? 'A' : s))
         );
         newGridstate[i][j] = 'S';
         setGridstate(newGridstate);
         return;
       } else if (mouseState === 'MOVING_END') {
-        let newGridstate = [...gridstate].map((row) =>
+        let newGridstate: GridState = [...gridstate].map((row) =>
           row.map((s) => (s === 'E' ? 'A' : s))
         );
         newGridstate[i][j] = 'E';
@@ -101,7 +111,6 @@ export default (props) => {
       onMouseUp={handleMouseUp}
       onMouseOut={handleMouseOut}
       onMouseMove={handleMouseMove}
-      onBlur={handleMouseMove}
     >
       {props.gridstate.map((row, i) =>
         row.map((state, j) => (
@@ -119,3 +128,5 @@ export default (props) => {
     </svg>
   );
 };
+
+export default GridWorldSVG;

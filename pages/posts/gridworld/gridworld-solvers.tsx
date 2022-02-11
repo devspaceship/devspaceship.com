@@ -1,15 +1,22 @@
 import _ from 'lodash';
+import type { Action, GridState, Policy, QTable } from './types';
 
-const ACTIONS = ['N', 'E', 'S', 'W'];
+const ACTIONS: Action[] = ['N', 'E', 'S', 'W'];
 
 // a <= x <= b
-const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
+const clamp = (x: number, a: number, b: number) => Math.min(b, Math.max(a, x));
 // n rows * m columns
-const matrix = (n, m, v) =>
+const matrix: <T>(n: number, m: number, v: T) => T[][] = (n, m, v) =>
   new Array(n).fill(null).map(() => new Array(m).fill(v));
-const is_stable = (p1, p2) => JSON.stringify(p1) === JSON.stringify(p2);
+const is_stable = (p1: Policy, p2: Policy) =>
+  JSON.stringify(p1) === JSON.stringify(p2);
 
-const transition = (gridstate, i, j, action) => {
+const transition = (
+  gridstate: GridState,
+  i: number,
+  j: number,
+  action: Action
+) => {
   const state = gridstate[i][j];
   if (state === 'E' || state === 'T') {
     return [i, j, 0];
@@ -32,12 +39,12 @@ const transition = (gridstate, i, j, action) => {
 };
 
 const policyEvaluation = (
-  gridstate,
-  policy,
+  gridstate: GridState,
+  policy: Policy,
   gamma = 0.97,
   threshold = 1e-5,
-  VInit = null
-) => {
+  VInit: number[][] | null = null
+): number[][] => {
   const n = policy.length;
   const m = policy[0].length;
 
@@ -68,15 +75,19 @@ const policyEvaluation = (
   }
 };
 
-const policyImprovement = (gridstate, V, gamma) => {
+const policyImprovement = (
+  gridstate: GridState,
+  V: number[][],
+  gamma: number
+): Policy => {
   const n = V.length;
   const m = V[0].length;
 
-  const policy = matrix(n, m, 0);
+  const policy: Policy = matrix(n, m, 'N');
   for (let i = 0; i < n; i++) {
     for (let j = 0; j < m; j++) {
       let best = -Infinity;
-      let bestAction = '';
+      let bestAction: Action = 'N';
 
       for (const action of ACTIONS) {
         const [i_, j_, r] = transition(gridstate, i, j, action);
@@ -94,11 +105,15 @@ const policyImprovement = (gridstate, V, gamma) => {
   return policy;
 };
 
-const policyIteration = (gridstate, gamma = 0.97, threshold = 1e-5) => {
+const policyIteration = (
+  gridstate: GridState,
+  gamma = 0.97,
+  threshold = 1e-5
+) => {
   const n = gridstate.length;
   const m = gridstate[0].length;
   let V = matrix(n, m, 0);
-  let pi = matrix(n, m, 'N');
+  let pi: Policy = matrix(n, m, 'N');
   let newPi;
 
   while (true) {
@@ -113,7 +128,11 @@ const policyIteration = (gridstate, gamma = 0.97, threshold = 1e-5) => {
   return newPi;
 };
 
-const valueIteration = (gridstate, gamma = 0.97, threshold = 1e-5) => {
+const valueIteration = (
+  gridstate: GridState,
+  gamma = 0.97,
+  threshold = 1e-5
+) => {
   const n = gridstate.length;
   const m = gridstate[0].length;
   const V_new = matrix(n, m, 0);
@@ -148,16 +167,23 @@ const valueIteration = (gridstate, gamma = 0.97, threshold = 1e-5) => {
   return policyImprovement(gridstate, V_new, gamma);
 };
 
-const random_choice = (choices) =>
+const random_choice = (choices: any[]) =>
   choices[Math.floor(Math.random() * choices.length)];
 
-const epsilon_greedy_policy = (pi, i, j, eps_0, T, t) => {
+const epsilon_greedy_policy = (
+  pi: Policy,
+  i: number,
+  j: number,
+  eps_0: number,
+  T: number,
+  t: number
+): Action => {
   const eps = eps_0 / (1 + t / T);
   return Math.random() < eps ? random_choice(ACTIONS) : pi[i][j];
 };
 
-const random_policy = (n, m) => {
-  const pi = matrix(n, m, 0);
+const random_policy = (n: number, m: number) => {
+  const pi: Policy = matrix(n, m, 'N');
   for (let i = 0; i < n; i++) {
     for (let j = 0; j < m; j++) {
       pi[i][j] = epsilon_greedy_policy(pi, i, j, 1, 1, 0);
@@ -166,14 +192,14 @@ const random_policy = (n, m) => {
   return pi;
 };
 
-const random_valid_state = (gridstate) => {
+const random_valid_state = (gridstate: GridState) => {
   const n = gridstate.length;
   const m = gridstate[0].length;
   return [Math.floor(Math.random() * n), Math.floor(Math.random() * m)];
 };
 
-const init_Q = (n, m) => {
-  const Q = matrix(n, m, null);
+const init_Q = (n: number, m: number): QTable => {
+  const Q: QTable = matrix(n, m, { N: 0, E: 0, S: 0, W: 0 });
   for (let i = 0; i < n; i++) {
     for (let j = 0; j < m; j++) {
       Q[i][j] = { N: 0, E: 0, S: 0, W: 0 };
@@ -182,16 +208,17 @@ const init_Q = (n, m) => {
   return Q;
 };
 
-const Q_to_policy = (Q) => {
+const Q_to_policy = (Q: QTable): Policy => {
   const n = Q.length;
   const m = Q[0].length;
-  const pi = matrix(n, m, 'N');
+  const pi: Policy = matrix(n, m, 'N');
   for (let i = 0; i < n; i++) {
     for (let j = 0; j < m; j++) {
       const q = Q[i][j];
-      let best_action = 'N';
+      let best_action: Action = 'N';
       let best_q = q[best_action];
-      for (const action of ['E', 'S', 'W']) {
+      const remaining_actions: Action[] = ['E', 'S', 'W'];
+      for (const action of remaining_actions) {
         if (q[action] > best_q) {
           best_action = action;
           best_q = q[action];
@@ -204,12 +231,12 @@ const Q_to_policy = (Q) => {
 };
 
 const SARSA_Q = (
-  gridstate,
-  num_iter,
-  alpha,
-  gamma,
-  eps_0,
-  T,
+  gridstate: GridState,
+  num_iter: number,
+  alpha: number,
+  gamma: number,
+  eps_0: number,
+  T: number,
   Q_mode = false
 ) => {
   const n = gridstate.length;

@@ -1,16 +1,21 @@
 import React from 'react';
+import type { Action, State } from './types';
 
 const SPACING = 0.08;
 const ROUNDNESS = 0.22;
 
-// TODO Define types
-const PolicyArrow = (props) => {
+interface GridCellProps {
+  policy: [boolean, Action];
+  rows: number;
+  columns: number;
+  i: number;
+  j: number;
+  state: State;
+}
+
+const PolicyArrow = (props: GridCellProps) => {
   const [visible, direction] = props.policy;
   let { rows, columns, i, j, state } = props;
-  rows = parseInt(rows);
-  columns = parseInt(columns);
-  i = parseInt(i);
-  j = parseInt(j);
   const width = 1.5 / columns;
   const height = 1 / rows;
 
@@ -55,15 +60,10 @@ const PolicyArrow = (props) => {
   } else {
     return null;
   }
-  // return <circle></circle>;
 };
 
-export default (props) => {
+const GridCell = (props: GridCellProps) => {
   let { rows, columns, i, j, state, policy } = props;
-  rows = parseInt(rows);
-  columns = parseInt(columns);
-  i = parseInt(i);
-  j = parseInt(j);
 
   const width = (1.5 / columns) * (1 - SPACING);
   const height = (1 / rows) * (1 - SPACING);
@@ -103,3 +103,5 @@ export default (props) => {
     </g>
   );
 };
+
+export default GridCell;
