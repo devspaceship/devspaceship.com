@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import GridworldControl from './gridworld-control';
 import {
   matrix,
-  policyIteration, SARSA_Q, valueIteration
+  policyIteration,
+  SARSA_Q,
+  valueIteration,
 } from './gridworld-solvers';
-import GridworldSvg from './gridworld-svg';
+import GridWorldSVG from './gridworld-svg';
+import { GridState, PolicyWrapper } from './types';
 
 export default () => {
-  const [gridstate, setGridstate] = useState([
+  const [gridstate, setGridstate] = useState<GridState>([
     ['A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A'],
     ['A', 'A', 'A', 'A', 'A', 'A', 'T', 'T', 'T', 'A', 'A', 'A'],
     ['A', 'A', 'T', 'T', 'A', 'T', 'A', 'S', 'T', 'T', 'A', 'A'],
@@ -17,7 +20,7 @@ export default () => {
     ['A', 'T', 'T', 'T', 'T', 'T', 'A', 'A', 'A', 'A', 'A', 'A'],
     ['A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'E'],
   ]);
-  const [policy, setPolicy] = useState({
+  const [policy, setPolicy] = useState<PolicyWrapper>({
     visible: false,
     grid: matrix(8, 12, 'N'),
   });
@@ -73,7 +76,7 @@ export default () => {
 
   return (
     <div>
-      <GridworldSvg
+      <GridWorldSVG
         gridstate={gridstate}
         setGridstate={setGridstate}
         policy={policy}
