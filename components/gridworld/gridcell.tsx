@@ -35,7 +35,7 @@ const PolicyArrow = (props: GridCellProps) => {
           y2="0"
           stroke="#71d44a"
           strokeWidth="0.01"
-          stroke-linecap="round"
+          strokeLinecap="round"
         />
         <line
           x1={width / 4}
@@ -44,7 +44,7 @@ const PolicyArrow = (props: GridCellProps) => {
           y2="0"
           stroke="#71d44a"
           strokeWidth="0.01"
-          stroke-linecap="round"
+          strokeLinecap="round"
         />
         <line
           x1={width / 4}
@@ -53,7 +53,7 @@ const PolicyArrow = (props: GridCellProps) => {
           y2="0"
           stroke="#71d44a"
           strokeWidth="0.01"
-          stroke-linecap="round"
+          strokeLinecap="round"
         />
       </g>
     );
