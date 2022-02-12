@@ -1,7 +1,9 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
+import profilePic from '../public/static/ppic.jpg';
 
 import { FC } from 'react';
+import Image from 'next/image';
 
 const Home: FC = () => (
   <>
@@ -11,7 +13,15 @@ const Home: FC = () => (
     </Head>
 
     <main>
-      <img className={styles.ppic} src="/static/ppic.jpg" alt="Profile picture" />
+      <div className={styles.ppic_wrapper}>
+        <Image
+          className={styles.ppic}
+          src={profilePic}
+          alt="Profile picture"
+          height={200}
+          width={200}
+        />
+      </div>
       <h1 className={styles.title}>Science Decoder</h1>
       <p className={styles.description}>
         Hello, my name is Thomas Saint-Gérand. I am a French developer currently

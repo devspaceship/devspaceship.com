@@ -9,7 +9,7 @@ import {
 import GridWorldSVG from './gridworld-svg';
 import { GridState, PolicyWrapper } from './types';
 
-export default () => {
+const GridWorld = () => {
   const [gridstate, setGridstate] = useState<GridState>([
     ['A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A'],
     ['A', 'A', 'A', 'A', 'A', 'A', 'T', 'T', 'T', 'A', 'A', 'A'],
@@ -86,5 +86,8 @@ export default () => {
   );
 };
 
+export default GridWorld;
+
+// TODO Replace ps part of post with link to js code
 // TODO Replace all [[0] for j in range(M)] for i in range(N) by matrix(n,m,0) in md file
 // TODO Add hyperparameters controls and fine tune them

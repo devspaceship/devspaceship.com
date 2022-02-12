@@ -9,13 +9,13 @@ import { FC } from 'react';
 
 const NavBar: FC = () => (
   <nav className={styles.navbar}>
-    <Link href="/">
+    <Link href="/" passHref>
       <HomeIcon fontSize="large" />
     </Link>
-    <Link href="/posts">
+    <Link href="/posts" passHref>
       <SchoolIcon fontSize="large" />
     </Link>
-    <Link href="/resume">
+    <Link href="/resume" passHref>
       <PersonIcon fontSize="large" />
     </Link>
   </nav>

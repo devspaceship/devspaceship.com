@@ -1,14 +1,20 @@
+.ppic_wrapper {
+  border-radius: 50%;
+  border: #26c5de 0.5rem solid;
+  width: 200px;
+  height: 200px;
+  margin: auto;
+  margin-top: 2.5rem;
+}
+
 .ppic {
   border-radius: 50%;
-  border: #26c5de 1rem solid;
-  max-width: 250px;
-  max-height: 250px;
 }
 
 .title {
   margin: 0;
   line-height: 1.15;
-  font-size: 4rem;
+  font-size: 3rem;
 }
 
 .title,
@@ -18,5 +24,5 @@
 
 .description {
   line-height: 1.5;
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
