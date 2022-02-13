@@ -23,3 +23,13 @@ a:focus,
 a:active {
   text-decoration: underline;
 }
+
+main {
+  max-width: 100vw;
+  margin: auto;
+  padding: 0% 10px;
+}
+
+.math-display {
+  overflow: scroll;
+}
