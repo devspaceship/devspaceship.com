@@ -43,5 +43,5 @@ svg#gridworld-svg {
 }
 
 .math-display {
-  overflow: scroll;
+  overflow: auto;
 }
