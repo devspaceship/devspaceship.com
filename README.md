@@ -4,8 +4,8 @@ The implementation of the next version of my website [Next.js | TypeScript | MDX
 
 ## Requirements
 
-- Node.js 16
-- Yarn 1
+- Node.js >= 16.14.0
+- Yarn >= 3.2.0
 
 ## Installation
 

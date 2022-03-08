@@ -1,17 +1,19 @@
-import GitHubIcon from '@material-ui/icons/GitHub';
-import LinkedInIcon from '@material-ui/icons/LinkedIn';
-import InstagramIcon from '@material-ui/icons/Instagram';
-import TwitterIcon from '@material-ui/icons/Twitter';
+import GitHubIcon from "@mui/icons-material/GitHub";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import TwitterIcon from "@mui/icons-material/Twitter";
 
-import styles from '../../styles/Layout.module.scss';
+import styles from "../../styles/Layout.module.scss";
 
-import { OverridableComponent } from '@material-ui/core/OverridableComponent';
-import { SvgIconTypeMap } from '@material-ui/core';
-import { FC } from 'react';
+import { OverridableComponent } from "@mui/material/OverridableComponent";
+import { SvgIconTypeMap } from "@mui/material";
+import { FC } from "react";
 
 type SocialLinkProps = {
   href: string;
-  Icon: OverridableComponent<SvgIconTypeMap>;
+  Icon: OverridableComponent<SvgIconTypeMap<{}, "svg">> & {
+    muiName: string;
+  };
 };
 
 const SocialLink: FC<SocialLinkProps> = ({ href, Icon }) => (
