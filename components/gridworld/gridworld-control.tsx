@@ -1,7 +1,7 @@
-import React, { ChangeEvent, useState } from "react";
-import { ReactNode } from "react";
-import Row from "react-bootstrap/Row";
+import React, { ChangeEvent, ReactNode, useState } from "react";
+import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
 
 interface SettingsRowProps {
   children: ReactNode;
@@ -132,12 +132,20 @@ const GridWorldControl = (props: GridWorldControlProps) => {
         solve();
       }}
     >
-      <div id="solver-selection-wrapper">
-        <SolverRadio name="policy-iteration" label="Policy Iteration" />
-        <SolverRadio name="value-iteration" label="Value Iteration" />
-        <SolverRadio name="sarsa" label="SARSA" />
-        <SolverRadio name="q-learning" label="Q-Learning" />
-      </div>
+      <Row className="mb-4">
+        <Col sm>
+          <SolverRadio name="policy-iteration" label="Policy Iteration" />
+        </Col>
+        <Col sm>
+          <SolverRadio name="value-iteration" label="Value Iteration" />
+        </Col>
+        <Col sm>
+          <SolverRadio name="sarsa" label="SARSA" />
+        </Col>
+        <Col sm>
+          <SolverRadio name="q-learning" label="Q-Learning" />
+        </Col>
+      </Row>
 
       <SettingsRow>
         <div>
