@@ -13,3 +13,6 @@ const Posts: FC = () => (
 );
 
 export default Posts;
+
+// TODO Put title head field in posts
+// TODO Add Open Graph Protocol metadata

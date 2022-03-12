@@ -255,3 +255,5 @@ const GridWorldControl = (props: GridWorldControlProps) => {
 };
 
 export default GridWorldControl;
+
+// TODO Refactor form range into component
