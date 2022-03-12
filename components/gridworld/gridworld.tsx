@@ -84,4 +84,3 @@ const GridWorld = () => {
 export default GridWorld;
 
 // TODO Replace ps part of post with link to js code
-// TODO Replace all [[0] for j in range(M)] for i in range(N) by matrix(n,m,0) in md file

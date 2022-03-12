@@ -148,6 +148,14 @@ Here, 'N' is the number of rows, 'M' the number of columns and
 'transition' is a function that gives the next _state_ and the _reward_ given the current _state_ and _action_.
 Finally, threshold is a small value that will determine when we stop the iterations.
 
+Let's also introduce a helper function `matrix` that takes a number of rows `n`, of columns `m` and a value `value`
+and returns a matrix of `n` rows, `m` columns filled with `value`:
+
+```python
+def matrix(n, m, value):
+  return [[value]*m for _ in range(n)]
+```
+
 ```python
 def policy_evaluation(policy: List[List[str]], gamma=0.97, threshold=1e-5, V_init=None) -> List[List[float]]:
   """
@@ -159,8 +167,8 @@ def policy_evaluation(policy: List[List[str]], gamma=0.97, threshold=1e-5, V_ini
     V_old = copy.deepcopy(V_init)
     V_new = copy.deepcopy(V_init)
   else:
-    V_old = [[0]*M for _ in range(N)]
-    V_new = [[0]*M for _ in range(N)]
+    V_old = matrix(N, M, 0)
+    V_new = matrix(N, M, 0)
 
   while True:
     delta = 0
@@ -192,7 +200,7 @@ def policy_improvement(V: List[List[float]], gamma=0.97) -> List[List[str]]:
   """
   V: state-value function
   """
-  policy = [[]*M for _ in range(N)]
+  policy = matrix(N, M, None)
 
   for i in range(N):
     for j in range(M):
@@ -234,8 +242,8 @@ We can now write the full algorithm:
 
 ```python
 def policy_iteration(gamma=0.97, threshold=1e-5) -> List[List[str]]:
-  V = [[0]*M for _ in range(N)]
-  pi = [['N']*M for _ in range(N)]
+  V = matrix(N, M, 0)
+  pi = matrix(N, M, 'N')
 
   while True:
     V = policy_evaluation(pi, gamma, threshold, V)
@@ -262,8 +270,8 @@ It discards the need for actually computing the policy between each evaluation.
 
 ```python
 def value_iteration(threshold: float=1e-5) -> list[list]:
-  V_old = [[0]*M for _ in range(N)]
-  V_new = [[0]*M for _ in range(N)]
+  V_old = matrix(N, M, 0)
+  V_new = matrix(N, M, 0)
 
   while True:
     delta = 0
