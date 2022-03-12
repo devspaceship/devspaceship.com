@@ -1,17 +1,17 @@
 export const metadata = {
-  slug: 'gridworld',
-  title: 'Interactive Gridworld',
-  creation: '15-01-2019',
-  updated: '09-05-2020',
+  slug: "gridworld",
+  title: "Interactive Gridworld",
+  creation: "15-01-2019",
+  updated: "09-05-2020",
   summary:
-    'An easy introduction to Markov Decision Processes and Reinforcement Learning by the mean of a gridworld environement' +
-    'where you can play with different parameters of solving algorithms and modify the map to see the effects.' +
-    'We see what are state-value function and policies and we look into four solvers.',
-  categories: 'Artificial Intelligence',
-  tags: ['Reinforcement Learning', 'Markov Decision Process', 'Gridworld'],
+    "An easy introduction to Markov Decision Processes and Reinforcement Learning by the mean of a gridworld environement" +
+    "where you can play with different parameters of solving algorithms and modify the map to see the effects." +
+    "We see what are state-value function and policies and we look into four solvers.",
+  categories: "Artificial Intelligence",
+  tags: ["Reinforcement Learning", "Markov Decision Process", "Gridworld"],
 };
 
-import Gridworld from '../../components/gridworld/gridworld';
+import Gridworld from "../../components/gridworld/gridworld";
 
 # Interactive Gridworld
 
@@ -398,7 +398,7 @@ def Q_Learning(num_iter: int, alpha:float, gamma: float, eps_0: float, T: int) -
 ## Final Note
 
 The code presented here is halfway between Python and pseudo-code as it does not define some functions.
-If you want to see the actual code used here (JavaScript - p5), look [here][3].
+If you want to see the actual code used here (TypeScript React), look [here][3].
 Also, a lot of simplifications have been done in order to explain more directly
 the different concepts. Finally, we only looked at the case of deterministic MDP with known model.
 To have a better view of **Reinforcement Learning**, I recommend this [excellent book][4] about it
@@ -406,5 +406,5 @@ written by Sutton & Barto.
 
 [1]: https://en.wikipedia.org/wiki/Markov_decision_process
 [2]: https://en.wikipedia.org/wiki/Bellman_equation
-[3]: https://github.com/devspaceship/devspaceship.github.io/tree/master/scripts/gridworld
+[3]: https://github.com/devspaceship/science-decoder/tree/master/components/gridworld
 [4]: http://incompleteideas.net/book/bookdraft2017nov5.pdf

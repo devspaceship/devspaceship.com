@@ -82,5 +82,3 @@ const GridWorld = () => {
 };
 
 export default GridWorld;
-
-// TODO Replace ps part of post with link to js code
