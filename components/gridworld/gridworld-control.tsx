@@ -41,23 +41,19 @@ const GridWorldControl = (props: GridWorldControlProps) => {
     label: string;
   }
 
-  // TODO Replace radio by React Bootstrap one
   const SolverRadio = (props: SolverRadioProps) => {
     const { name, label } = props;
 
     return (
-      <span className="solver-radio">
-        <input
+        <Form.Check
           type="radio"
           name="solver"
           id={name}
           value={name}
-          aria-label={label}
+          label={label}
           checked={solver.name === name}
           onChange={(e) => setSolver({ ...solver, name: e.target.value })}
         />
-        <label htmlFor={name}>{label}</label>
-      </span>
     );
   };
 
@@ -132,7 +128,7 @@ const GridWorldControl = (props: GridWorldControlProps) => {
         solve();
       }}
     >
-      <Row className="mb-4">
+      <Row className="mt-3 mb-4">
         <Col sm>
           <SolverRadio name="policy-iteration" label="Policy Iteration" />
         </Col>

@@ -82,3 +82,5 @@ const GridWorld = () => {
 };
 
 export default GridWorld;
+
+// TODO Make Gridworld touch compatible
