@@ -11,7 +11,14 @@ export const metadata = {
   tags: ["Reinforcement Learning", "Markov Decision Process", "Gridworld"],
 };
 
-import Gridworld from "../../components/gridworld";
+<!-- Images -->
+
+import Image from "next/image";
+import MDP from "./MDP.svg";
+import policy_iteration from "./policy_iteration.svg";
+import value_iteration from "./value_iteration.svg";
+
+import Gridworld from "../../../components/gridworld";
 
 # Interactive Gridworld
 
@@ -48,7 +55,7 @@ In a deterministic **MDP**, you have:
 - a set of _actions_ $A$, where $A_t$ is the subset of _actions_ you can chose at time step $t$.
 - a _reward_ function $R$, where $R(s, s')$ is the _reward_ you get when transitionning from _state_ $s$ to $s'$.
 
-![Finite Deterministic Markov Decision Process](/static/gridworld/MDP.svg)
+<Image src={MDP} alt="Finite Deterministic Markov Decision Process" />
 
 ## What is a policy, a state value and a Q-function ?
 
@@ -221,7 +228,7 @@ def policy_improvement(V: List[List[float]], gamma=0.97) -> List[List[str]]:
 
 ### Final Algorithm
 
-![Policy Iteration](/static/gridworld/policy_iteration.svg)
+<Image src={policy_iteration} alt="Policy Iteration" />
 
 We write an helper function to determine if the policy is stable:
 
@@ -262,7 +269,7 @@ This have the effect of greatly speeding up the evaluation step.
 
 ## Value Iteration
 
-![Value Iteration](/static/gridworld/value_iteration.svg)
+<Image src={value_iteration} alt="Value Iteration" />
 
 In Policy Iteration, we were estimating the state-value function of the policies until reasonable convergence.
 In Value Iteration, we instantly greedify the policy between the sweeps for state-value evaluation.
