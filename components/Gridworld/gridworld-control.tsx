@@ -3,19 +3,6 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 
-interface SettingsRowProps {
-  children: ReactNode;
-}
-
-const SettingsRow = (props: SettingsRowProps) => {
-  let { children } = props;
-  return (
-    <Row md={2} lg={3} className="justify-content-evenly">
-      {children}
-    </Row>
-  );
-};
-
 interface Solver {
   name: string;
   gamma: number;
@@ -45,15 +32,15 @@ const GridWorldControl = (props: GridWorldControlProps) => {
     const { name, label } = props;
 
     return (
-        <Form.Check
-          type="radio"
-          name="solver"
-          id={name}
-          value={name}
-          label={label}
-          checked={solver.name === name}
-          onChange={(e) => setSolver({ ...solver, name: e.target.value })}
-        />
+      <Form.Check
+        type="radio"
+        name="solver"
+        id={name}
+        value={name}
+        label={label}
+        checked={solver.name === name}
+        onChange={(e) => setSolver({ ...solver, name: e.target.value })}
+      />
     );
   };
 
@@ -143,7 +130,7 @@ const GridWorldControl = (props: GridWorldControlProps) => {
         </Col>
       </Row>
 
-      <SettingsRow>
+      <Row md={2} lg={3} className="justify-content-evenly">
         <div>
           <Form.Label htmlFor="policy_value_iter_gamma">Gamma</Form.Label>
           <Form.Range
@@ -248,7 +235,7 @@ const GridWorldControl = (props: GridWorldControlProps) => {
             </div>
           </>
         ) : null}
-      </SettingsRow>
+      </Row>
       <input type="submit" value="Solve" aria-label="Solve" />
     </form>
   );
