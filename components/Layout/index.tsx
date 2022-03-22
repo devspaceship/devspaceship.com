@@ -11,7 +11,7 @@ type LayoutProps = {
 const Layout: FC<LayoutProps> = ({ children }) => (
   <div className={styles.container}>
     <NavBar />
-    <main>
+    <main style={{ marginTop: "2rem" }}>
       <Container>{children}</Container>
     </main>
     <Footer />

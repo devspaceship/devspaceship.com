@@ -1,13 +1,10 @@
-import Row from "react-bootstrap/Row";
-import Form from "react-bootstrap/Form";
 import { ChangeEvent, FC, useState } from "react";
+import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
+import type { Params } from "./types";
 
-interface Params {
-  d: number;
-  alpha: number;
-  beta: number;
-}
-
+// TODO Use function of previous value in setter
+// TODO Or switch to useReducer
 interface ControlProps {
   params: Params;
   setParams: (params: Params) => void;
@@ -16,9 +13,9 @@ interface ControlProps {
 const Control: FC<ControlProps> = (props) => {
   const { params, setParams } = props;
   const [sliderState, setSliderState] = useState({
-    slider_d: 200,
-    slider_alpha: 8,
-    slider_beta: 4,
+    slider_d: 300,
+    slider_alpha: 10,
+    slider_beta: 12,
   });
 
   const handle_change = (e: ChangeEvent) => {
@@ -36,6 +33,9 @@ const Control: FC<ControlProps> = (props) => {
       case "slider_alpha":
         setParams({ ...params, alpha: parseInt(value) });
         break;
+      case "slider_beta":
+        setParams({ ...params, beta: parseInt(value) });
+        break;
     }
   };
 
@@ -44,8 +44,8 @@ const Control: FC<ControlProps> = (props) => {
       <div>
         <Form.Label htmlFor="slider_d">d</Form.Label>
         <Form.Range
-          min="175"
-          max="1000"
+          min="200"
+          max="800"
           value={sliderState.slider_d}
           id="slider_d"
           onChange={handle_change}

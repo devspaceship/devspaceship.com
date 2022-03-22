@@ -1,36 +1,76 @@
-import * as THREE from "three";
-import React, { useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
+import React, { FC, useMemo, useRef, useState } from "react";
+import * as THREE from "three";
+import { matrix } from "../Gridworld/gridworld-solvers";
+import { get_tesseract, get_rot4, matmul, project_tesseract } from "./matrix";
+import type { Params } from "./types";
 
-function Box(props: JSX.IntrinsicElements["mesh"]) {
+const Tesseract = (props: DisplayProps) => {
+  const { params } = props;
+  const tesseract = useMemo(() => get_tesseract(), []);
+  const [projected_tesseract, set_projected_tesseract] = useState(
+    project_tesseract(tesseract.points, params.d / 50)
+  );
+
   const mesh = useRef<THREE.Mesh>(null!);
   const [hovered, setHover] = useState(false);
-  const [active, setActive] = useState(false);
-  useFrame((state, delta) => (mesh.current.rotation.x += 0.01));
+  const [active, setActive] = useState(true);
+  useFrame((state, delta) => {
+    const t = state.clock.elapsedTime;
+    const rotation = get_rot4((t * params.alpha) / 25, (t * params.beta) / 25);
+    const rotated_tesseract = tesseract.points.map((point) =>
+      matmul(rotation, point)
+    );
+    set_projected_tesseract(
+      project_tesseract(rotated_tesseract, params.d / 75)
+    );
+  });
+
   return (
-    <mesh
-      {...props}
-      ref={mesh}
-      scale={active ? 1.5 : 1}
-      onClick={(event) => setActive(!active)}
-      onPointerOver={(event) => setHover(true)}
-      onPointerOut={(event) => setHover(false)}
-    >
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={hovered ? "hotpink" : "orange"} />
-    </mesh>
+    <>
+      {projected_tesseract.map((point) => {
+        const [x, y, z] = point;
+        return (
+          <mesh position={[z, y, x]}>
+            <sphereGeometry args={[0.15]} />
+            <meshStandardMaterial color={"#0c8bb9"} />
+          </mesh>
+        );
+      })}
+      {tesseract.connections.map((connection) => {
+        const [x_a, y_a, z_a] = projected_tesseract[connection[0]];
+        const [x_b, y_b, z_b] = projected_tesseract[connection[1]];
+        const vec_a = new THREE.Vector3(z_a, y_a, x_a);
+        const vec_b = new THREE.Vector3(z_b, y_b, x_b);
+        const connection_line = new THREE.LineCurve3(vec_a, vec_b);
+
+        return (
+          <mesh position={[0, 0, 0]}>
+            <tubeGeometry args={[connection_line, 1, 0.1]} />
+            <meshStandardMaterial color={"#1eaedb"} />
+          </mesh>
+        );
+      })}
+    </>
   );
+};
+
+interface DisplayProps {
+  params: Params;
 }
 
-const Display = () => {
+const Display: FC<DisplayProps> = (props) => {
+  const { params } = props;
+
   return (
     <Canvas style={{ height: "400px" }}>
       <ambientLight />
       <pointLight position={[5, 5, 5]} />
-      <Box position={[-1.2, 0, 0]} />
-      <Box position={[1.2, 0, 0]} />
+      <Tesseract params={params} />
     </Canvas>
   );
 };
 
 export default Display;
+
+// TODO Refactor this mess + matrix.ts

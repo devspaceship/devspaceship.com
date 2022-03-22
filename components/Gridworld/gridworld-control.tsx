@@ -14,6 +14,8 @@ interface Solver {
   T: number;
 }
 
+// TODO Use function of previous value in setter
+// TODO Or switch to useReducer
 interface GridWorldControlProps {
   solver: Solver;
   setSolver: (solver: Solver) => void;
