@@ -15,15 +15,6 @@ tags:
   - Gridworld
 ---
 
-<!-- Images -->
-
-import Image from "next/image";
-import MDP from "./MDP.svg";
-import policy_iteration from "./policy_iteration.svg";
-import value_iteration from "./value_iteration.svg";
-
-import Gridworld from "../../components/Gridworld";
-
 # Interactive Gridworld
 
 <Gridworld />
@@ -59,7 +50,7 @@ In a deterministic **MDP**, you have:
 - a set of _actions_ $A$, where $A_t$ is the subset of _actions_ you can chose at time step $t$.
 - a _reward_ function $R$, where $R(s, s')$ is the _reward_ you get when transitionning from _state_ $s$ to $s'$.
 
-<Image src={MDP} alt="Finite Deterministic Markov Decision Process" />
+![Finite Deterministic Markov Decision Process](/static/posts/gridworld/MDP.svg)
 
 ## What is a policy, a state value and a Q-function ?
 
@@ -232,7 +223,7 @@ def policy_improvement(V: List[List[float]], gamma=0.97) -> List[List[str]]:
 
 ### Final Algorithm
 
-<Image src={policy_iteration} alt="Policy Iteration" />
+![Policy Iteration](/static/posts/gridworld/policy_iteration.svg)
 
 We write an helper function to determine if the policy is stable:
 
@@ -273,7 +264,7 @@ This have the effect of greatly speeding up the evaluation step.
 
 ## Value Iteration
 
-<Image src={value_iteration} alt="Value Iteration" />
+![Value Iteration](/static/posts/gridworld/value_iteration.svg)
 
 In Policy Iteration, we were estimating the state-value function of the policies until reasonable convergence.
 In Value Iteration, we instantly greedify the policy between the sweeps for state-value evaluation.

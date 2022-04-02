@@ -32,3 +32,7 @@ svg#gridworld-svg {
 .math-display {
   overflow: auto;
 }
+
+img {
+  width: 100%;
+}

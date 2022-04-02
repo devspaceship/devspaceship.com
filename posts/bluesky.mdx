@@ -13,8 +13,6 @@ tags:
   - "Derivation"
 ---
 
-<!-- Images -->
-
 import Image from "next/image";
 import coulombs_law from "./coulombs_law.svg";
 import dipole from "./dipole.svg";
@@ -30,7 +28,7 @@ and blue light (high frequency) gets far more scattered in the sky, giving it it
 
 ## Coulomb's Law
 
-<Image src={coulombs_law} alt="Coulomb's Law" />
+![Coulomb's Law](/static/posts/bluesky/coulombs_law.svg)
 
 To understand how this works, we are first going to need to do some refresh.
 This image represents the Coulomb's Law defined by:
@@ -76,7 +74,7 @@ $V = k \frac{q_1}{r}$
 
 ## Electrostatic Dipole
 
-<Image src={dipole} alt="Dipole" />
+![Dipole](/static/posts/bluesky/dipole.svg)
 
 Now we are going to see what happens when we have two opposites charges affecting the field.
 Note that here, $O$ is a point with no charge in the middle of $N$ and $P$,
@@ -97,7 +95,7 @@ $$
 
 We are now going to use the fact that $r >> d$ to approximate $PM$ and $NM$.
 
-<Image src={dipole_approximation} alt="Dipole Approximation" />
+![Dipole Approximation](/static/posts/bluesky/dipole_approximation.svg)
 
 Since we are very far from the dipole we are looking at, it is as we have parallel lines between the two poles and we can make the following approximation:
 
@@ -288,7 +286,7 @@ the power is zero along the axis of the dipole and is maximal along the equator.
 We can see on the following graph the radiated power as the radius for a given angle
 where the dipole is oscillating along the top-bottom axis
 
-<Image src={dipole_radiation} alt="Dipole Radiation Graph" />
+![Dipole Radiation Graph](/static/posts/bluesky/dipole_radiation.png)
 
 So, in order to get the power radiated, we need to integrate the density over a sphere of radius $$r$$:
 
@@ -324,7 +322,7 @@ $$
 
 ## Conclusion
 
-<Image src={power_wavelength} alt="Power vs Wavelength" />
+![Power vs Wavelength](/static/posts/bluesky/power_wavelength.png)
 
 We have $P \propto \frac{1}{\lambda^4}$.
 We can see on the graph that in the visual spectrum $[400\:nm, 800\:nm]$,
