@@ -12,9 +12,6 @@ const Tesseract = (props: DisplayProps) => {
     project_tesseract(tesseract.points, params.d / 50)
   );
 
-  const mesh = useRef<THREE.Mesh>(null!);
-  const [hovered, setHover] = useState(false);
-  const [active, setActive] = useState(true);
   useFrame((state, delta) => {
     const t = state.clock.elapsedTime;
     const rotation = get_rot4((t * params.alpha) / 25, (t * params.beta) / 25);
@@ -28,16 +25,16 @@ const Tesseract = (props: DisplayProps) => {
 
   return (
     <>
-      {projected_tesseract.map((point) => {
+      {projected_tesseract.map((point, index) => {
         const [x, y, z] = point;
         return (
-          <mesh position={[z, y, x]}>
+          <mesh position={[z, y, x]} key={index}>
             <sphereGeometry args={[0.15]} />
             <meshStandardMaterial color={"#0c8bb9"} />
           </mesh>
         );
       })}
-      {tesseract.connections.map((connection) => {
+      {tesseract.connections.map((connection, index) => {
         const [x_a, y_a, z_a] = projected_tesseract[connection[0]];
         const [x_b, y_b, z_b] = projected_tesseract[connection[1]];
         const vec_a = new THREE.Vector3(z_a, y_a, x_a);
@@ -45,7 +42,7 @@ const Tesseract = (props: DisplayProps) => {
         const connection_line = new THREE.LineCurve3(vec_a, vec_b);
 
         return (
-          <mesh position={[0, 0, 0]}>
+          <mesh position={[0, 0, 0]} key={index}>
             <tubeGeometry args={[connection_line, 1, 0.1]} />
             <meshStandardMaterial color={"#1eaedb"} />
           </mesh>

@@ -30,7 +30,7 @@ const Posts: FC<PostsProps> = (props) => {
       <h1>Posts</h1>
       {posts.map((post) => {
         return (
-          <Link key={post.slug} href={`/posts/${post.slug}`}>
+          <Link key={post.slug} href={`/posts/${post.slug}`} passHref>
             <Card
               className="mt-3"
               style={{ backgroundColor: "var(--bs-dark)", cursor: "pointer" }}
