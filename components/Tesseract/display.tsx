@@ -1,7 +1,6 @@
 import { Canvas, useFrame } from "@react-three/fiber";
-import React, { FC, useMemo, useRef, useState } from "react";
+import React, { FC, useMemo, useState } from "react";
 import * as THREE from "three";
-import { matrix } from "../Gridworld/gridworld-solvers";
 import { get_tesseract, get_rot4, matmul, project_tesseract } from "./matrix";
 import type { Params } from "./types";
 
