@@ -24,8 +24,8 @@ const Home: FC = () => (
       </div>
       <h1 className={styles.title}>Science Decoder</h1>
       <p className={styles.description}>
-        Hello, my name is Thomas Saint-Gérand. I am a French developer currently
-        living in Amsterdam, The Netherlands.
+        Hi, my name is Thomas Saint-Gérand.
+        I am a machine learning engineer living in Amsterdam.
         <br />
         This website is intented to be a repository of stuff that I find cool,
         interesting, visually pleasing or all of these. I try to answer specific
