@@ -1,0 +1,69 @@
+---
+slug: elevator
+title: What if we would make an elevator through Earth?
+creation: "2022-09-27"
+updated: "2022-09-27"
+summary: Have you ever wondered what would happen if we would make a vaccum tube
+  and have some sort of elevator through Earth?
+  How long would it take to go to the other side just with gravity?
+categories: Physics
+tags:
+  - "Physics"
+  - "Math"
+  - "Modelisation"
+---
+
+# What if we would make an elevator through Earth?
+
+## Short Answer
+
+{/* TODO write */}
+
+## How does gravity work inside of Earth?
+
+Earth is more or less spherical and its density is more or less spherically symmetric.
+That's why we can model its density and gravitational field in function of the distance from the center $r$ only.
+
+Let's define:
+
+- $B(r)$ is the ball of radius $r$
+- $\partial B(r)$ is its surface so the sphere of radius $r$
+- $\vec{g(r)}$ is the gravitational field at radius $r$
+- $\rho(r)$ is the density at radius $r$
+- $M(r)$ is the mass inside a sphere of radius $r$
+- $R$ is Earth's radius
+
+Now, we can apply [Gauss's law for gravity][1] to a sphere of radius $r$ inside Earth
+and we can use the fact that the surface of a sphere of radius $r$ is $4 \pi r^2$:
+
+$$
+\begin{aligned}
+  \oiint_{\partial B(r)} \vec{g(r)} \cdot d\vec{A} & = -4 \pi GM(r) \\
+  \implies 4 \pi r^2 g(r) & = -4 \pi GM(r) \\
+  \implies g(r) & = - \frac{GM(r)}{r^2}
+\end{aligned}
+$$
+
+So now if we want to compute the gravitational field for a certain radius,
+we need to know the amount of mass contained in the sphere of this radius.
+For this, we can use the data from the [Preliminary Reference Earth Model (PREM)][2]
+
+
+
+<EarthDensity/>
+
+$$
+\begin{aligned}
+  M(r) & = \oiiint_{B(r)} \rho(r) d\vec{r} \\
+  & = \int_0^R 4 \pi r^2 \rho(r) dr
+\end{aligned}
+$$
+
+
+## Motion
+
+{/* TODO change name and write */}
+
+
+[1]: https://en.wikipedia.org/wiki/Gauss%27s_law_for_gravity
+[2]: https://en.wikipedia.org/wiki/Preliminary_reference_Earth_model

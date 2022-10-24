@@ -11,9 +11,11 @@ import rehypePrism from "@mapbox/rehype-prism";
 // MDX Components
 import Gridworld from "../../components/Gridworld";
 import Tesseract from "../../components/Tesseract";
+import EarthDensity from "../../components/Graphs/EarthDensity";
 const components = {
   Gridworld,
   Tesseract,
+  EarthDensity,
 };
 
 interface PostProps {
