@@ -1294,6 +1294,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/papaparse@npm:^5.3.5":
+  version: 5.3.5
+  resolution: "@types/papaparse@npm:5.3.5"
+  dependencies:
+    "@types/node": "*"
+  checksum: f9833662e5536836be9586b9344757d99e22c7cfd6997ab212700c3b623491e28548676e023adfa801fc7c60f3f6d1d417dbf02c5f138442ed9b020b128a7f5f
+  languageName: node
+  linkType: hard
+
 "@types/parse-json@npm:^4.0.0":
   version: 4.0.0
   resolution: "@types/parse-json@npm:4.0.0"
@@ -6388,6 +6397,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"papaparse@npm:^5.3.2":
+  version: 5.3.2
+  resolution: "papaparse@npm:5.3.2"
+  checksum: a5950ef931a42f6759a8d3823a43dd30f375b37a0ddea6ea5448c0c5024cd226819231958c49c24fbcdeab297c63fd1d630130b3439876ea0fd17d8a267738ae
+  languageName: node
+  linkType: hard
+
 "parent-module@npm:^1.0.0":
   version: 1.0.1
   resolution: "parent-module@npm:1.0.1"
@@ -7424,6 +7440,7 @@ __metadata:
     "@react-three/fiber": ^7.0.29
     "@types/lodash": ^4.14.185
     "@types/node": ^16.11.62
+    "@types/papaparse": ^5.3.5
     "@types/prismjs": ^1.26.0
     "@types/react": 17.0.50
     "@types/three": ^0.138.0
@@ -7432,6 +7449,7 @@ __metadata:
     gray-matter: ^4.0.3
     next: 12.3.1
     next-mdx-remote: ^4.1.0
+    papaparse: ^5.3.2
     prismjs: ^1.29.0
     react: ^17.0.2
     react-bootstrap: ^2.5.0
