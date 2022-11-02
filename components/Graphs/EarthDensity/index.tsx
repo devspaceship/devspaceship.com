@@ -1,53 +1,79 @@
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Papa from "papaparse";
-// import * as d3 from "d3";
-// import {select} from "d3-selection";
+import {
+  LineChart,
+  Line,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Tooltip,
+} from "recharts";
 
-// import LineChart from '../LineChart';
-
-import { LineChart, Line } from "recharts";
-const data = [
-  { value: 0 },
-  { value: 1 },
-  { value: 4 },
-  { value: 9 },
-  { value: 16 },
-  { value: 25 },
-];
+type DataRow = {
+  radius: number;
+  density: number;
+};
 
 const EarthDensity = () => {
-  const [data, setData] = useState([
-    { density: 0 },
-    { density: 1 },
-    { density: 4 },
-    { density: 9 },
-    { density: 16 },
-    { density: 25 },
-  ]);
+  const [data, setData] = useState([{ radius: 0, density: 0 }]);
 
-  const dataEffect = async () => {
+  const fetchParseData = async () => {
     const raw_res = await fetch("/static/posts/elevator/density.csv");
     const res = await raw_res.text();
     const data_object = Papa.parse(res, { header: true, dynamicTyping: true });
     const data = data_object.data.slice(0, -1);
-    setData(
-      data as SetStateAction<
-        {
-          density: number;
-        }[]
-      >
-    );
+    setData(data as DataRow[]);
   };
 
   useEffect(() => {
-    dataEffect();
+    fetchParseData();
   }, []);
+
+  const CustomTooltip = ({ payload, label, active }: any) => {
+    if (!active) {
+      return null;
+    }
+
+    const earth_layers: [number, string][] = [
+      [6350, "Mantle"],
+      [3500, "Outer Core"],
+      [1200, "Inner Core"],
+    ];
+
+    const data = payload[0].payload;
+    const radius = Math.round(data.radius / 50) * 50;
+    const density = Math.round(data.density * 100) / 100;
+
+    let earth_layer = "Crust";
+    for (const [r, part] of earth_layers) {
+      if (radius < r) {
+        earth_layer = part;
+      }
+    }
+
+    return (
+      <div>
+        <p>{earth_layer}</p>
+        <p>{`radius: ${radius}`}</p>
+        <p>{`density: ${density}`}</p>
+      </div>
+    );
+  };
 
   return (
     <LineChart width={400} height={400} data={data}>
-      <Line type="monotone" dataKey="density" stroke="#8884d8" />
+      <Line type="monotone" dataKey="density" stroke="#26c5de" />
+      <CartesianGrid stroke="#ccc" />
+      <XAxis dataKey="radius" type="number" />
+      <YAxis type="number" />
+      <Tooltip
+        content={<CustomTooltip />}
+        wrapperStyle={{ backgroundColor: "#222", padding: "8px" }}
+      />
     </LineChart>
   );
 };
 
 export default EarthDensity;
+
+// TODO Fix react hydration error
