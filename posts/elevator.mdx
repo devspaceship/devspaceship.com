@@ -46,24 +46,36 @@ $$
 
 So now if we want to compute the gravitational field for a certain radius,
 we need to know the amount of mass contained in the sphere of this radius.
-For this, we can use the data from the [Preliminary Reference Earth Model (PREM)][2]
+For this, we can use the density data from the [Preliminary Reference Earth Model (PREM)][2]
 
-
-
-<EarthDensity/>
+<EarthDensity />
 
 $$
 \begin{aligned}
   M(r) & = \oiiint_{B(r)} \rho(r) d\vec{r} \\
-  & = \int_0^R 4 \pi r^2 \rho(r) dr
+  & = \int_0^R 4 \pi r^2 \rho(r) dr \\
+  & = 4 \pi \int_0^R r^2 \rho(r) dr
 \end{aligned}
 $$
 
+To estimate this integral, we are going to consider consecutive values of $r$ and $\rho$.
+Let's call them $r_n$, $r_{n+1}$, $\rho_n$ and $\rho_{n+1}$.\
+We compute the average value of $r^2$ between $r_n$, $r_{n+1}$:
+
+$$
+\begin{aligned}
+  \overline{r^2} & = \frac{1}{r_{n+1}-r_n} \int_{r_n}^{r_{n+1}} x^2 dx \\
+  & = \frac{1}{r_{n+1}-r_n} \left[ \frac{x^3}{3} \right]_{r_n}^{r_{n+1}} \\
+  & = \frac{1}{3} \frac{r_{n+1}^3-r_n^3}{r_{n+1}-r_n}
+\end{aligned}
+$$
+
+With this value, we can now integrate between $r_n$ and $r_{n+1}$
+by adding $\overline{r^2} * \overline{\rho} * \left( r_{n+1} - r_n \right)$.
 
 ## Motion
 
 {/* TODO change name and write */}
-
 
 [1]: https://en.wikipedia.org/wiki/Gauss%27s_law_for_gravity
 [2]: https://en.wikipedia.org/wiki/Preliminary_reference_Earth_model
