@@ -48,7 +48,7 @@ So now if we want to compute the gravitational field for a certain radius,
 we need to know the amount of mass contained in the sphere of this radius.
 For this, we can use the density data from the [Preliminary Reference Earth Model (PREM)][2]
 
-<EarthDensity />
+<EarthDensity dataKey="density" />
 
 $$
 \begin{aligned}
@@ -72,6 +72,8 @@ $$
 
 With this value, we can now integrate between $r_n$ and $r_{n+1}$
 by adding $\overline{r^2} * \overline{\rho} * \left( r_{n+1} - r_n \right)$.
+
+<EarthDensity dataKey="mass" />
 
 ## Motion
 

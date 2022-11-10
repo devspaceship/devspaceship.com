@@ -12,17 +12,31 @@ import {
 type DataRow = {
   radius: number;
   density: number;
+  mass: number;
+  gravity: number;
 };
 
-const EarthDensity = () => {
-  const [data, setData] = useState([{ radius: 0, density: 0 }]);
+type EarthDensityProps = {
+  dataKey: string;
+};
+
+const EarthDensity = (props: EarthDensityProps) => {
+  const [data, setData] = useState([
+    { radius: 0, density: 0, mass: 0, gravity: 0 },
+  ]);
 
   const fetchParseData = async () => {
     const raw_res = await fetch("/static/posts/elevator/density.csv");
     const res = await raw_res.text();
     const data_object = Papa.parse(res, { header: true, dynamicTyping: true });
-    const data = data_object.data.slice(0, -1);
-    setData(data as DataRow[]);
+    const data = data_object.data.slice(0, -1) as DataRow[];
+
+    for (const row of data) {
+      row.mass = Number(row.mass);
+    }
+    // TODO remove console.log
+    console.log(data);
+    setData(data);
   };
 
   useEffect(() => {
@@ -43,6 +57,9 @@ const EarthDensity = () => {
     const data = payload[0].payload;
     const radius = Math.round(data.radius / 50) * 50;
     const density = Math.round(data.density * 100) / 100;
+    // TODO Find nice coeffs
+    const mass = Math.round(data.mass / 1e22) * 1e22;
+    const gravity = Math.round(data.gravity);
 
     let earth_layer = "Crust";
     for (const [r, part] of earth_layers) {
@@ -55,14 +72,16 @@ const EarthDensity = () => {
       <div>
         <p>{earth_layer}</p>
         <p>{`radius: ${radius}`}</p>
-        <p>{`density: ${density}`}</p>
+        {props.dataKey == "density" ? <p>{`density: ${density}`}</p> : null}
+        {props.dataKey == "mass" ? <p>{`mass: ${mass}kg`}</p> : null}
+        {props.dataKey == "gravity" ? <p>{`gravity: ${gravity}`}</p> : null}
       </div>
     );
   };
 
   return (
     <LineChart width={400} height={400} data={data}>
-      <Line type="monotone" dataKey="density" stroke="#26c5de" />
+      <Line type="monotone" dataKey={props.dataKey} stroke="#26c5de" />
       <CartesianGrid stroke="#ccc" />
       <XAxis dataKey="radius" type="number" />
       <YAxis type="number" />
