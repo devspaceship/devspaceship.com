@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import pandas as pd
+import scipy.constants
 
 PARENT_DIR = Path(__file__).parent.parent
 DATA_DIR = PARENT_DIR / "scripts" / "data"
@@ -28,6 +29,9 @@ def main():
 
         mass.append(mass[-1] + r_2_avg * rho * dr)
     df["mass"] = mass
+    # TODO Computation are off, find problem, maybe too big approximation
+    df["gravity"] = scipy.constants.G * df["mass"] / (raw_df["radius(m)"] ** 2)
+    df["gravity"].fillna(0, inplace=True)
 
     df.to_csv(STATIC_DIR / "density.csv", index=False)
 

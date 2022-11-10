@@ -71,7 +71,7 @@ const EarthDensity = (props: EarthDensityProps) => {
     return (
       <div>
         <p>{earth_layer}</p>
-        <p>{`radius: ${radius}`}</p>
+        <p>{`radius: ${radius}km`}</p>
         {props.dataKey == "density" ? <p>{`density: ${density}`}</p> : null}
         {props.dataKey == "mass" ? <p>{`mass: ${mass}kg`}</p> : null}
         {props.dataKey == "gravity" ? <p>{`gravity: ${gravity}`}</p> : null}
