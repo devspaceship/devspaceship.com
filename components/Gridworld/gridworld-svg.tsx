@@ -71,7 +71,6 @@ const GridWorldSVG = (props: GridWorldSVGProps) => {
       return;
     }
     const state = gridstate[i][j];
-    console.log(`i: ${i} - j: ${j} - mouseState: ${mouseState}`);
 
     if (state === 'T' || state === 'A') {
       if (mouseState === 'MOVING_START') {
