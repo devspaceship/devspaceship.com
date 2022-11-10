@@ -57,9 +57,8 @@ const EarthDensity = (props: EarthDensityProps) => {
     const data = payload[0].payload;
     const radius = Math.round(data.radius / 50) * 50;
     const density = Math.round(data.density * 100) / 100;
-    // TODO Find nice coeffs
     const mass = Math.round(data.mass / 1e22) * 1e22;
-    const gravity = Math.round(data.gravity);
+    const gravity = Math.round(data.gravity * 100) / 100;
 
     let earth_layer = "Crust";
     for (const [r, part] of earth_layers) {
@@ -74,7 +73,7 @@ const EarthDensity = (props: EarthDensityProps) => {
         <p>{`radius: ${radius}km`}</p>
         {props.dataKey == "density" ? <p>{`density: ${density}`}</p> : null}
         {props.dataKey == "mass" ? <p>{`mass: ${mass}kg`}</p> : null}
-        {props.dataKey == "gravity" ? <p>{`gravity: ${gravity}`}</p> : null}
+        {props.dataKey == "gravity" ? <p>{`gravity: ${gravity}m/(s^2)`}</p> : null}
       </div>
     );
   };

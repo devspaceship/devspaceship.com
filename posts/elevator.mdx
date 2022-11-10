@@ -50,6 +50,8 @@ For this, we can use the density data from the [Preliminary Reference Earth Mode
 
 <EarthDensity dataKey="density" />
 
+### Mass
+
 $$
 \begin{aligned}
   M(r) & = \oiiint_{B(r)} \rho(r) d\vec{r} \\
@@ -74,6 +76,16 @@ With this value, we can now integrate between $r_n$ and $r_{n+1}$
 by adding $\overline{r^2} * \overline{\rho} * \left( r_{n+1} - r_n \right)$.
 
 <EarthDensity dataKey="mass" />
+
+Here we take a moment to verify that our approximation is good enough.\
+The current estimate of Earth's mass by science is $(5.9722 \pm 0.0006) \cdot 10^{24}$.\
+The way I computed the integral gives me $5.9732 \cdot 10^{24}$ which is only $0.0004 \cdot 10^{24}$ away from the confidence interval.
+
+### Gravitational Field
+
+Now that finally have the mass, we can compute the gravitational field $|g(r)| = \frac{GM(r)}{r^2}$
+
+<EarthDensity dataKey="gravity" />
 
 ## Motion
 

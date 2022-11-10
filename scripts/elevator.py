@@ -1,3 +1,4 @@
+import math
 from pathlib import Path
 
 import pandas as pd
@@ -27,9 +28,8 @@ def main():
         r_2_avg = (r_1**3 - r_0**3) / (3 * dr) if dr > 0 else 0
         rho = (rho_0 + rho_1) / 2
 
-        mass.append(mass[-1] + r_2_avg * rho * dr)
+        mass.append(mass[-1] + 4 * math.pi * r_2_avg * rho * dr)
     df["mass"] = mass
-    # TODO Computation are off, find problem, maybe too big approximation
     df["gravity"] = scipy.constants.G * df["mass"] / (raw_df["radius(m)"] ** 2)
     df["gravity"].fillna(0, inplace=True)
 
