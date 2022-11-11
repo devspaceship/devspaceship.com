@@ -5,9 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "pwa-chrome",
+            "name": "Python: Current File",
+            "type": "python",
             "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
             "name": "Launch Chrome",
+            "type": "chrome",
+            "request": "launch",
             "url": "http://localhost:3000",
             "webRoot": "${workspaceFolder}"
         }
