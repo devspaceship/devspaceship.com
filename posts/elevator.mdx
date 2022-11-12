@@ -17,7 +17,7 @@ tags:
 
 ## Short Answer
 
-{/* TODO write */}
+We would end up at the other side of the Earth in around $37$ minutes.
 
 ## How does gravity work inside of Earth?
 
@@ -102,11 +102,20 @@ $$
 \end{aligned}
 $$
 
-TALK ABOUT NUMBER OF STEPS AND DELTA T
+<Motion />
 
-3 different graphs
+<Motion speed={true} />
 
-{/* TODO change name and write */}
+For making those graphs, I've integrated the motion equations every $0.8$ seconds
+for $12000$ steps. I then saved a datapoint every $20$ intervals.\
+There are some interesting stuff happening here (which was expected from the shape of the gravitational field).\
+In Earth's crust and mantle the acceleration that we feel is pretty much constant.
+Then, once we traverse the denser core, the force of gravity inverts itself.\
+We can see that from the acceleration graph, which almost looks like a square signal.
+As a result, the speed looks like the integral of a square signal: a triangle signal.
+Then, the displacement is almost the integral of a triangle signal, so a piece-wise quadratic function.
+It repeats around every $4575$ seconds, so it takes around $1$ hour and $15$ minutes to complete a full cycle.
+That's $37$ minutes to go to the other side of the Earth.
 
 [1]: https://en.wikipedia.org/wiki/Gauss%27s_law_for_gravity
 [2]: https://en.wikipedia.org/wiki/Preliminary_reference_Earth_model
