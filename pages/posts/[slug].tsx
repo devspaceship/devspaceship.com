@@ -12,10 +12,12 @@ import rehypePrism from "@mapbox/rehype-prism";
 import Gridworld from "../../components/Gridworld";
 import Tesseract from "../../components/Tesseract";
 import EarthDensity from "../../components/Graphs/EarthDensity";
+import Motion from "../../components/Graphs/Motion";
 const components = {
   Gridworld,
   Tesseract,
   EarthDensity,
+  Motion,
 };
 
 interface PostProps {

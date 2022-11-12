@@ -34,8 +34,6 @@ const EarthDensity = (props: EarthDensityProps) => {
     for (const row of data) {
       row.mass = Number(row.mass);
     }
-    // TODO remove console.log
-    console.log(data);
     setData(data);
   };
 
