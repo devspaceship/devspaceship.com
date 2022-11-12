@@ -9,8 +9,9 @@ DATA_DIR = PARENT_DIR / "scripts" / "data"
 STATIC_DIR = PARENT_DIR / "public" / "static" / "posts" / "elevator"
 
 # MOTION COMPUTATION
-T = 15_000
+T = 12_000
 DT = 0.8
+SUBSAMPLE_FREQUENCY = 20
 
 
 def load_raw_df() -> pd.DataFrame:
@@ -77,6 +78,7 @@ def main():
     df["gravity"] = scipy.constants.G * df["mass"] / (raw_df["radius(m)"] ** 2)
     df["gravity"].fillna(0, inplace=True)
     motion = integrate_motion(df)
+    motion = motion[::SUBSAMPLE_FREQUENCY]
 
     df.to_csv(STATIC_DIR / "density.csv", index=False)
     motion.to_csv(STATIC_DIR / "motion.csv", index=False)
