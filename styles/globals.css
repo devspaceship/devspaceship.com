@@ -30,3 +30,7 @@ svg#gridworld-svg {
 img {
   width: 100%;
 }
+
+.recharts-wrapper {
+  margin: auto;
+}
