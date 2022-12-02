@@ -5,7 +5,7 @@ The implementation of [my website](https://devspaceship.com) [Next.js | TypeScri
 ## Requirements
 
 - Node.js >= 18.12.1
-- Yarn >= 3.2.4
+- Yarn >= 3.3.0
 
 ## Installation
 
