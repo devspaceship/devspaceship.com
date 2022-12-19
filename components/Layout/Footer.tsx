@@ -33,7 +33,7 @@ const Footer: FC = () => (
       href="https://www.instagram.com/devspaceship/"
       Icon={InstagramIcon}
     />
-    <SocialLink href="https://twitter.com/adamspaceship" Icon={TwitterIcon} />
+    <SocialLink href="https://twitter.com/devspaceship" Icon={TwitterIcon} />
   </footer>
 );
 
