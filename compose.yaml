@@ -1,0 +1,8 @@
+services:
+  next:
+    image: next-prod
+    build:
+      context: ./
+      target: prod
+    ports:
+      - 3000:3000

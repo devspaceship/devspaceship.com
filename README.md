@@ -1,16 +1,16 @@
-# Science Decoder
+# devspaceship.com
 
-The implementation of [my website](https://devspaceship.com) [Next.js | TypeScript | MDX]
+The implementation of [my website](https://devspaceship.com)
 
-## Requirements
+## Tech Stack
 
-- Node.js >= 18.12.1
-- Yarn >= 3.3.0
+- Docker Compose
+- Next.js
+- TypeScript
+- MDX
 
-## Installation
+## Run
 
-- run `yarn` in the directory
-
-## Running
-
-- run `yarn run dev` in the directory
+```bash
+docker compose up -d
+```
