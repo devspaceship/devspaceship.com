@@ -15,9 +15,9 @@ const NavBar: FC = () => (
     <Link href="/posts" passHref>
       <SchoolIcon fontSize="large" />
     </Link>
-    <Link href="/resume" passHref>
+    {/* <Link href="/resume" passHref>
       <PersonIcon fontSize="large" />
-    </Link>
+    </Link> */}
   </nav>
 );
 
