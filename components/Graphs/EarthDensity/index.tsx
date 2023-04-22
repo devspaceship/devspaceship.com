@@ -7,6 +7,7 @@ import {
   XAxis,
   YAxis,
   Tooltip,
+  ResponsiveContainer,
 } from "recharts";
 
 type DataRow = {
@@ -71,22 +72,26 @@ const EarthDensity = (props: EarthDensityProps) => {
         <p>{`radius: ${radius}km`}</p>
         {props.dataKey == "density" ? <p>{`density: ${density}`}</p> : null}
         {props.dataKey == "mass" ? <p>{`mass: ${mass}kg`}</p> : null}
-        {props.dataKey == "gravity" ? <p>{`gravity: ${gravity}m/(s^2)`}</p> : null}
+        {props.dataKey == "gravity" ? (
+          <p>{`gravity: ${gravity}m/(s^2)`}</p>
+        ) : null}
       </div>
     );
   };
 
   return (
-    <LineChart width={400} height={400} data={data}>
-      <Line type="monotone" dataKey={props.dataKey} stroke="#26c5de" />
-      <CartesianGrid stroke="#ccc" />
-      <XAxis dataKey="radius" type="number" />
-      <YAxis type="number" />
-      <Tooltip
-        content={<CustomTooltip />}
-        wrapperStyle={{ backgroundColor: "#222", padding: "8px" }}
-      />
-    </LineChart>
+    <ResponsiveContainer width="95%" height={400}>
+      <LineChart width={400} height={400} data={data}>
+        <Line type="monotone" dataKey={props.dataKey} stroke="#26c5de" />
+        <CartesianGrid stroke="#ccc" />
+        <XAxis dataKey="radius" type="number" />
+        <YAxis type="number" />
+        <Tooltip
+          content={<CustomTooltip />}
+          wrapperStyle={{ backgroundColor: "#222", padding: "8px" }}
+        />
+      </LineChart>
+    </ResponsiveContainer>
   );
 };
 
