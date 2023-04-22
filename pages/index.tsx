@@ -1,9 +1,9 @@
-import Head from 'next/head';
-import styles from '../styles/Home.module.css';
-import profilePic from '../public/static/ppic.jpg';
+import Head from 'next/head'
+import styles from '../styles/Home.module.css'
+import profilePic from '../public/static/ppic.jpg'
 
-import { FC } from 'react';
-import Image from 'next/image';
+import { FC } from 'react'
+import Image from 'next/image'
 
 const Home: FC = () => (
   <>
@@ -22,16 +22,14 @@ const Home: FC = () => (
           width={200}
         />
       </div>
-      <h1 className={styles.title}>Science Decoder</h1>
+      <h1 className={styles.title}>Thomas Saint-Gérand</h1>
       <p className={styles.description}>
-        Hi, my name is Thomas Saint-Gérand.
-        <br />
         This website is intented to be a repository of stuff that I find cool,
         interesting, visually pleasing or all of these. I try to answer specific
         questions with detailed examples.
       </p>
     </main>
   </>
-);
+)
 
-export default Home;
+export default Home

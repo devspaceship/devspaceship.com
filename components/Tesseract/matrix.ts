@@ -1,5 +1,3 @@
-import { ThreeDRotation } from "@mui/icons-material";
-
 const flatten = (arr: any[]) => [].concat.apply([], arr);
 
 const product = (...sets: any[]) =>
