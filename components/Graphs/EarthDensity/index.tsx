@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import Papa from "papaparse";
+import { useEffect, useState } from 'react'
+import Papa from 'papaparse'
 import {
   LineChart,
   Line,
@@ -8,61 +8,61 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-} from "recharts";
+} from 'recharts'
 
 type DataRow = {
-  radius: number;
-  density: number;
-  mass: number;
-  gravity: number;
-};
+  radius: number
+  density: number
+  mass: number
+  gravity: number
+}
 
 type EarthDensityProps = {
-  dataKey: string;
-};
+  dataKey: string
+}
 
 const EarthDensity = (props: EarthDensityProps) => {
   const [data, setData] = useState([
     { radius: 0, density: 0, mass: 0, gravity: 0 },
-  ]);
+  ])
 
   const fetchParseData = async () => {
-    const raw_res = await fetch("/static/posts/elevator/density.csv");
-    const res = await raw_res.text();
-    const data_object = Papa.parse(res, { header: true, dynamicTyping: true });
-    const data = data_object.data.slice(0, -1) as DataRow[];
+    const raw_res = await fetch('/static/posts/elevator/density.csv')
+    const res = await raw_res.text()
+    const data_object = Papa.parse(res, { header: true, dynamicTyping: true })
+    const data = data_object.data.slice(0, -1) as DataRow[]
 
     for (const row of data) {
-      row.mass = Number(row.mass);
+      row.mass = Number(row.mass)
     }
-    setData(data);
-  };
+    setData(data)
+  }
 
   useEffect(() => {
-    fetchParseData();
-  }, []);
+    fetchParseData()
+  }, [])
 
   const CustomTooltip = ({ payload, label, active }: any) => {
     if (!active) {
-      return null;
+      return null
     }
 
     const earth_layers: [number, string][] = [
-      [6350, "Mantle"],
-      [3500, "Outer Core"],
-      [1200, "Inner Core"],
-    ];
+      [6350, 'Mantle'],
+      [3500, 'Outer Core'],
+      [1200, 'Inner Core'],
+    ]
 
-    const data = payload[0].payload;
-    const radius = Math.round(data.radius / 50) * 50;
-    const density = Math.round(data.density * 100) / 100;
-    const mass = Math.round(data.mass / 1e22) * 1e22;
-    const gravity = Math.round(data.gravity * 100) / 100;
+    const data = payload[0].payload
+    const radius = Math.round(data.radius / 50) * 50
+    const density = Math.round(data.density * 100) / 100
+    const mass = Math.round(data.mass / 1e22) * 1e22
+    const gravity = Math.round(data.gravity * 100) / 100
 
-    let earth_layer = "Crust";
+    let earth_layer = 'Crust'
     for (const [r, part] of earth_layers) {
       if (radius < r) {
-        earth_layer = part;
+        earth_layer = part
       }
     }
 
@@ -70,14 +70,14 @@ const EarthDensity = (props: EarthDensityProps) => {
       <div>
         <p>{earth_layer}</p>
         <p>{`radius: ${radius}km`}</p>
-        {props.dataKey == "density" ? <p>{`density: ${density}`}</p> : null}
-        {props.dataKey == "mass" ? <p>{`mass: ${mass}kg`}</p> : null}
-        {props.dataKey == "gravity" ? (
+        {props.dataKey == 'density' ? <p>{`density: ${density}`}</p> : null}
+        {props.dataKey == 'mass' ? <p>{`mass: ${mass}kg`}</p> : null}
+        {props.dataKey == 'gravity' ? (
           <p>{`gravity: ${gravity}m/(s^2)`}</p>
         ) : null}
       </div>
-    );
-  };
+    )
+  }
 
   return (
     <ResponsiveContainer width="95%" height={400}>
@@ -88,13 +88,13 @@ const EarthDensity = (props: EarthDensityProps) => {
         <YAxis type="number" />
         <Tooltip
           content={<CustomTooltip />}
-          wrapperStyle={{ backgroundColor: "#222", padding: "8px" }}
+          wrapperStyle={{ backgroundColor: '#222', padding: '8px' }}
         />
       </LineChart>
     </ResponsiveContainer>
-  );
-};
+  )
+}
 
-export default EarthDensity;
+export default EarthDensity
 
 // TODO Fix react hydration error

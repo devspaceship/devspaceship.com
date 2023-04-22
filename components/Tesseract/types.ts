@@ -1,5 +1,5 @@
 export interface Params {
-  d: number;
-  alpha: number;
-  beta: number;
+  d: number
+  alpha: number
+  beta: number
 }

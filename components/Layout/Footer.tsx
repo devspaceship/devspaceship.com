@@ -1,26 +1,26 @@
-import GitHubIcon from "@mui/icons-material/GitHub";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import TwitterIcon from "@mui/icons-material/Twitter";
+import GitHubIcon from '@mui/icons-material/GitHub'
+import LinkedInIcon from '@mui/icons-material/LinkedIn'
+import InstagramIcon from '@mui/icons-material/Instagram'
+import TwitterIcon from '@mui/icons-material/Twitter'
 
-import styles from "../../styles/Layout.module.scss";
+import styles from '../../styles/Layout.module.scss'
 
-import { OverridableComponent } from "@mui/material/OverridableComponent";
-import { SvgIconTypeMap } from "@mui/material";
-import { FC } from "react";
+import { OverridableComponent } from '@mui/material/OverridableComponent'
+import { SvgIconTypeMap } from '@mui/material'
+import { FC } from 'react'
 
 type SocialLinkProps = {
-  href: string;
-  Icon: OverridableComponent<SvgIconTypeMap<{}, "svg">> & {
-    muiName: string;
-  };
-};
+  href: string
+  Icon: OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & {
+    muiName: string
+  }
+}
 
 const SocialLink: FC<SocialLinkProps> = ({ href, Icon }) => (
   <a href={href} target="_blank" rel="noopener noreferrer">
     <Icon fontSize="large" />
   </a>
-);
+)
 
 const Footer: FC = () => (
   <footer className={styles.footer}>
@@ -35,6 +35,6 @@ const Footer: FC = () => (
     />
     <SocialLink href="https://twitter.com/devspaceship" Icon={TwitterIcon} />
   </footer>
-);
+)
 
-export default Footer;
+export default Footer
