@@ -1,12 +1,10 @@
-# devspaceship.com
-
-The implementation of [my website](https://devspaceship.com)
+# [devspaceship.com](https://devspaceship.com)
 
 ## Tech Stack
 
 - Docker Compose
-- Next.js
 - TypeScript
+- Next.js
 - MDX
 
 ## Run
