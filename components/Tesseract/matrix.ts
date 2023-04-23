@@ -1,35 +1,23 @@
-const flatten = (arr: any[]) => [].concat.apply([], arr)
+const flatten = <T>(arr: T[][]) => ([] as T[]).concat(...arr)
 
-const product = (...sets: any[]) =>
+const product = <T>(...sets: T[][]) =>
   sets.reduce(
-    (acc, set) => flatten(acc.map((x: any) => set.map((y: any) => [...x, y]))),
-    [[]],
+    (acc, set) => flatten(acc.map((x) => set.map((y) => [...x, y]))),
+    [[]] as T[][],
   )
 
-const get_vec4 = (x: number, y: number, z: number, w: number) => {
-  let vec = new Array(4)
-  for (let i = 0; i < vec.length; i++) {
-    vec[i] = new Array(1)
-  }
-  vec[0][0] = x
-  vec[1][0] = y
-  vec[2][0] = z
-  vec[3][0] = w
-  return vec
+const get_vec4 = (...coordinates: number[]): number[][] => {
+  return coordinates.map((coordinate) => [coordinate])
 }
 
 const get_points: () => number[][][] = () => {
   const size = 1
-  let tesseract = product(
+  return product(
     [-size, size],
     [-size, size],
     [-size, size],
     [-size, size],
-  )
-  tesseract = tesseract.map((x: [x: number, y: number, z: number, w: number]) =>
-    get_vec4.apply(null, x),
-  )
-  return tesseract
+  ).map((x: number[]) => get_vec4(...x))
 }
 
 const count_differences = (vector_a: number[][], vector_b: number[][]) => {
@@ -43,7 +31,7 @@ const count_differences = (vector_a: number[][], vector_b: number[][]) => {
 }
 
 const connection_exists = (connection: number[][], i: number, j: number) => {
-  for (let c of connection) {
+  for (const c of connection) {
     if (c[0] == i && c[1] == j) {
       return true
     }
@@ -51,7 +39,7 @@ const connection_exists = (connection: number[][], i: number, j: number) => {
   return false
 }
 
-const get_connections = (points: any[]) => {
+const get_connections = (points: number[][][]) => {
   const connections = []
   for (let i = 0; i < points.length; i++) {
     for (let j = 0; j < points.length; j++) {
@@ -84,7 +72,7 @@ function matmul(a: number[][], b: number[][]): number[][] {
     throw 'Dimensions do not accord.'
   }
 
-  let c = new Array(a.length)
+  const c = new Array(a.length)
   for (let i = 0; i < c.length; i++) {
     c[i] = new Array(b[0].length)
   }
@@ -103,7 +91,7 @@ function matmul(a: number[][], b: number[][]): number[][] {
 }
 
 function project_tesseract(tesseract: number[][][], d: number) {
-  let proj = new Array(tesseract.length)
+  const proj = new Array(tesseract.length)
   for (let i = 0; i < tesseract.length; i++) {
     const stereographic = d / (d - tesseract[i][3][0])
     proj[i] = [

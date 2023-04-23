@@ -42,8 +42,21 @@ const EarthDensity = (props: EarthDensityProps) => {
     fetchParseData()
   }, [])
 
-  const CustomTooltip = ({ payload, label, active }: any) => {
-    if (!active) {
+  const CustomTooltip = ({
+    payload,
+    active,
+  }: {
+    payload?: {
+      payload: {
+        radius: number
+        density: number
+        mass: number
+        gravity: number
+      }
+    }[]
+    active?: unknown
+  }) => {
+    if (!active || !payload) {
       return null
     }
 

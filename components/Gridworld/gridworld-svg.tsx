@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import GridCell from './gridcell'
-import { Action, GridState, PolicyWrapper } from './types'
+import { GridState, PolicyWrapper } from './types'
 
 interface GridWorldSVGProps {
   gridstate: GridState
@@ -44,13 +44,13 @@ const GridWorldSVG = (props: GridWorldSVGProps) => {
     setMouseState(stateToMouseState[state])
 
     if (state === 'A' || state === 'T') {
-      let newGridstate = [...gridstate]
+      const newGridstate = [...gridstate]
       newGridstate[i][j] = state === 'A' ? 'T' : 'A'
       setGridstate(newGridstate)
     }
   }
 
-  const handleMouseUp = (e: React.MouseEvent) => {
+  const handleMouseUp = () => {
     setMouseState('NONE')
   }
 
@@ -74,14 +74,14 @@ const GridWorldSVG = (props: GridWorldSVGProps) => {
 
     if (state === 'T' || state === 'A') {
       if (mouseState === 'MOVING_START') {
-        let newGridstate: GridState = [...gridstate].map((row) =>
+        const newGridstate: GridState = [...gridstate].map((row) =>
           row.map((s) => (s === 'S' ? 'A' : s)),
         )
         newGridstate[i][j] = 'S'
         setGridstate(newGridstate)
         return
       } else if (mouseState === 'MOVING_END') {
-        let newGridstate: GridState = [...gridstate].map((row) =>
+        const newGridstate: GridState = [...gridstate].map((row) =>
           row.map((s) => (s === 'E' ? 'A' : s)),
         )
         newGridstate[i][j] = 'E'
@@ -94,7 +94,7 @@ const GridWorldSVG = (props: GridWorldSVGProps) => {
       (mouseState === 'ADDING_TRAPS' && state === 'A') ||
       (mouseState === 'REMOVING_TRAPS' && state === 'T')
     ) {
-      let newGridstate = [...gridstate]
+      const newGridstate = [...gridstate]
       newGridstate[i][j] = state === 'A' ? 'T' : 'A'
       setGridstate(newGridstate)
     }

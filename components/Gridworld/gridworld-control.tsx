@@ -1,4 +1,9 @@
-import React, { ChangeEvent, ReactNode, useState } from 'react'
+import {
+  ChangeEvent,
+  MouseEventHandler,
+  TouchEventHandler,
+  useState,
+} from 'react'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
@@ -61,10 +66,23 @@ const GridWorldControl = (props: GridWorldControlProps) => {
     setSliderState({ ...sliderState, [target.id]: parseInt(target.value) })
   }
 
-  const handle_after_change = (e: any) => {
-    const value = e.target.value
+  const handle_after_change_touch: TouchEventHandler<HTMLInputElement> = (
+    event,
+  ) => {
+    const target = event.target as HTMLInputElement
+    handle_after_change(target)
+  }
 
-    switch (e.target.id) {
+  const handle_after_change_mouse: MouseEventHandler<HTMLInputElement> = (
+    event,
+  ) => {
+    const target = event.target as HTMLInputElement
+    handle_after_change(target)
+  }
+
+  const handle_after_change = (target: HTMLInputElement) => {
+    const value = target.value
+    switch (target.id) {
       case 'policy_value_iter_gamma':
         setSolver({
           ...solver,
@@ -141,8 +159,8 @@ const GridWorldControl = (props: GridWorldControlProps) => {
             value={sliderState.policy_value_iter_gamma}
             id="policy_value_iter_gamma"
             onChange={handle_change}
-            onTouchEnd={handle_after_change}
-            onMouseUp={handle_after_change}
+            onTouchEnd={handle_after_change_touch}
+            onMouseUp={handle_after_change_mouse}
           />
           <div>{sliderState.policy_value_iter_gamma / 100}</div>
         </div>
@@ -158,8 +176,8 @@ const GridWorldControl = (props: GridWorldControlProps) => {
               value={sliderState.policy_value_iter_threshold}
               id="policy_value_iter_threshold"
               onChange={handle_change}
-              onTouchEnd={handle_after_change}
-              onMouseUp={handle_after_change}
+              onTouchEnd={handle_after_change_touch}
+              onMouseUp={handle_after_change_mouse}
             />
             <div>1e{sliderState.policy_value_iter_threshold}</div>
           </div>
@@ -175,8 +193,8 @@ const GridWorldControl = (props: GridWorldControlProps) => {
               value={sliderState.value_iter_k}
               id="value_iter_k"
               onChange={handle_change}
-              onTouchEnd={handle_after_change}
-              onMouseUp={handle_after_change}
+              onTouchEnd={handle_after_change_touch}
+              onMouseUp={handle_after_change_mouse}
             />
             <div>{sliderState.value_iter_k}</div>
           </div>
@@ -191,8 +209,8 @@ const GridWorldControl = (props: GridWorldControlProps) => {
                 value={sliderState.SARSA_Q_N}
                 id="SARSA_Q_N"
                 onChange={handle_change}
-                onTouchEnd={handle_after_change}
-                onMouseUp={handle_after_change}
+                onTouchEnd={handle_after_change_touch}
+                onMouseUp={handle_after_change_mouse}
               />
               <div>{sliderState.SARSA_Q_N}</div>
             </div>
@@ -204,8 +222,8 @@ const GridWorldControl = (props: GridWorldControlProps) => {
                 value={sliderState.SARSA_Q_alpha}
                 id="SARSA_Q_alpha"
                 onChange={handle_change}
-                onTouchEnd={handle_after_change}
-                onMouseUp={handle_after_change}
+                onTouchEnd={handle_after_change_touch}
+                onMouseUp={handle_after_change_mouse}
               />
               <div>{sliderState.SARSA_Q_alpha / 100}</div>
             </div>
@@ -217,8 +235,8 @@ const GridWorldControl = (props: GridWorldControlProps) => {
                 value={sliderState.SARSA_Q_eps_0}
                 id="SARSA_Q_eps_0"
                 onChange={handle_change}
-                onTouchEnd={handle_after_change}
-                onMouseUp={handle_after_change}
+                onTouchEnd={handle_after_change_touch}
+                onMouseUp={handle_after_change_mouse}
               />
               <div>{sliderState.SARSA_Q_eps_0 / 100}</div>
             </div>
@@ -230,8 +248,8 @@ const GridWorldControl = (props: GridWorldControlProps) => {
                 value={sliderState.SARSA_Q_T}
                 id="SARSA_Q_T"
                 onChange={handle_change}
-                onTouchEnd={handle_after_change}
-                onMouseUp={handle_after_change}
+                onTouchEnd={handle_after_change_touch}
+                onMouseUp={handle_after_change_mouse}
               />
               <div>{sliderState.SARSA_Q_T}</div>
             </div>

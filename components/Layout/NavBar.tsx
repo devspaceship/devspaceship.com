@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import HomeIcon from '@mui/icons-material/Home'
 import SchoolIcon from '@mui/icons-material/School'
-import PersonIcon from '@mui/icons-material/Person'
+// import PersonIcon from '@mui/icons-material/Person'
 
 import styles from '../../styles/Layout.module.scss'
 

@@ -1,4 +1,10 @@
-import { ChangeEvent, FC, useState } from 'react'
+import {
+  ChangeEvent,
+  FC,
+  MouseEventHandler,
+  TouchEventHandler,
+  useState,
+} from 'react'
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
 import type { Params } from './types'
@@ -23,10 +29,19 @@ const Control: FC<ControlProps> = (props) => {
     setSliderState({ ...sliderState, [target.id]: parseInt(target.value) })
   }
 
-  const handle_after_change = (e: any) => {
-    const value = e.target.value
+  const handle_after_change_touch: TouchEventHandler = (e) => {
+    const target = e.target as HTMLInputElement
+    handle_after_change(target)
+  }
 
-    switch (e.target.id) {
+  const handle_after_change_mouse: MouseEventHandler = (e) => {
+    const target = e.target as HTMLInputElement
+    handle_after_change(target)
+  }
+
+  const handle_after_change = (target: HTMLInputElement) => {
+    const value = target.value
+    switch (target.id) {
       case 'slider_d':
         setParams({ ...params, d: parseInt(value) })
         break
@@ -49,8 +64,8 @@ const Control: FC<ControlProps> = (props) => {
           value={sliderState.slider_d}
           id="slider_d"
           onChange={handle_change}
-          onTouchEnd={handle_after_change}
-          onMouseUp={handle_after_change}
+          onTouchEnd={handle_after_change_touch}
+          onMouseUp={handle_after_change_mouse}
         />
         <div>{sliderState.slider_d}</div>
       </div>
@@ -62,8 +77,8 @@ const Control: FC<ControlProps> = (props) => {
           value={sliderState.slider_alpha}
           id="slider_alpha"
           onChange={handle_change}
-          onTouchEnd={handle_after_change}
-          onMouseUp={handle_after_change}
+          onTouchEnd={handle_after_change_touch}
+          onMouseUp={handle_after_change_mouse}
         />
         <div>{sliderState.slider_alpha}</div>
       </div>
@@ -75,8 +90,8 @@ const Control: FC<ControlProps> = (props) => {
           value={sliderState.slider_beta}
           id="slider_beta"
           onChange={handle_change}
-          onTouchEnd={handle_after_change}
-          onMouseUp={handle_after_change}
+          onTouchEnd={handle_after_change_touch}
+          onMouseUp={handle_after_change_mouse}
         />
         <div>{sliderState.slider_beta}</div>
       </div>

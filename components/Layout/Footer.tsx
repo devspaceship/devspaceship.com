@@ -11,7 +11,7 @@ import { FC } from 'react'
 
 type SocialLinkProps = {
   href: string
-  Icon: OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & {
+  Icon: OverridableComponent<SvgIconTypeMap<unknown, 'svg'>> & {
     muiName: string
   }
 }

@@ -1,3 +1,4 @@
+/* eslint no-constant-condition: ["error", { "checkLoops": false }] */
 import _ from 'lodash'
 import type { Action, GridState, Policy, QTable } from './types'
 
@@ -167,7 +168,7 @@ const valueIteration = (
   return policyImprovement(gridstate, V_new, gamma)
 }
 
-const random_choice = (choices: any[]) =>
+const random_choice = (choices: Action[]) =>
   choices[Math.floor(Math.random() * choices.length)]
 
 const epsilon_greedy_policy = (

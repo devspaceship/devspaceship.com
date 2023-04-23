@@ -15,7 +15,7 @@ interface GridCellProps {
 
 const PolicyArrow = (props: GridCellProps) => {
   const [visible, direction] = props.policy
-  let { rows, columns, i, j, state } = props
+  const { rows, columns, i, j, state } = props
   const width = 1.5 / columns
   const height = 1 / rows
 
@@ -63,7 +63,7 @@ const PolicyArrow = (props: GridCellProps) => {
 }
 
 const GridCell = (props: GridCellProps) => {
-  let { rows, columns, i, j, state, policy } = props
+  const { rows, columns, i, j, state, policy } = props
 
   const width = (1.5 / columns) * (1 - SPACING)
   const height = (1 / rows) * (1 - SPACING)
