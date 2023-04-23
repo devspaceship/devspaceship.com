@@ -4,7 +4,7 @@ import Head from 'next/head'
 const Posts: FC = () => (
   <>
     <Head>
-      <title>Science Decoder - Resume</title>
+      <title>Thomas Saint-Gérand - Resume</title>
       <link rel="icon" href="/favicon.ico" />
     </Head>
     <h1>Resume</h1>

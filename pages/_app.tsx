@@ -10,10 +10,10 @@ import Layout from '../components/Layout'
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => (
   <Layout>
     <Head>
-      <title>Science Decoder</title>
+      <title>Thomas Saint-Gérand</title>
       <meta charSet="utf-8" />
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      <meta property="og:title" content="Science Decoder" key="title" />
+      <meta property="og:title" content="Thomas Saint-Gérand" key="title" />
     </Head>
     <Component {...pageProps} />
   </Layout>

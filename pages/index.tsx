@@ -8,7 +8,7 @@ import Image from 'next/image'
 const Home: FC = () => (
   <>
     <Head>
-      <title>Science Decoder</title>
+      <title>Thomas Saint-Gérand</title>
       <link rel="icon" href="/favicon.ico" />
     </Head>
 

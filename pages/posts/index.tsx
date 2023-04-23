@@ -24,7 +24,7 @@ const Posts: FC<PostsProps> = (props) => {
   return (
     <>
       <Head>
-        <title>Science Decoder - Posts</title>
+        <title>Thomas Saint-Gérand - Posts</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1>Posts</h1>
