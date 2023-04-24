@@ -5,10 +5,11 @@
   justify-content: space-evenly;
   align-items: center;
 
-  box-shadow: 0px 0px 75px 0px rgba(0, 0, 0, 0.65);
+  box-shadow: 0px 0px 75px 0px rgba(0, 0, 0, 0.55);
 
   svg {
     transition: color 420ms;
+    color: white;
   }
 
   svg:hover {

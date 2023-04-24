@@ -1,39 +1,40 @@
-import GitHubIcon from '@mui/icons-material/GitHub'
-import LinkedInIcon from '@mui/icons-material/LinkedIn'
-import InstagramIcon from '@mui/icons-material/Instagram'
-import TwitterIcon from '@mui/icons-material/Twitter'
+import {
+  faGithub,
+  faInstagram,
+  faLinkedin,
+  faTwitter,
+} from '@fortawesome/free-brands-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import styles from '../../styles/Layout.module.scss'
 
-import { OverridableComponent } from '@mui/material/OverridableComponent'
-import { SvgIconTypeMap } from '@mui/material'
-import { FC } from 'react'
+import { FC, ReactNode } from 'react'
 
 type SocialLinkProps = {
   href: string
-  Icon: OverridableComponent<SvgIconTypeMap<unknown, 'svg'>> & {
-    muiName: string
-  }
+  children?: ReactNode
 }
 
-const SocialLink: FC<SocialLinkProps> = ({ href, Icon }) => (
+const SocialLink: FC<SocialLinkProps> = ({ href, children }) => (
   <a href={href} target="_blank" rel="noopener noreferrer">
-    <Icon fontSize="large" />
+    {children}
   </a>
 )
 
 const Footer: FC = () => (
   <footer className={styles.footer}>
-    <SocialLink href="https://github.com/devspaceship" Icon={GitHubIcon} />
-    <SocialLink
-      href="https://www.linkedin.com/in/devspaceship/"
-      Icon={LinkedInIcon}
-    />
-    <SocialLink
-      href="https://www.instagram.com/devspaceship/"
-      Icon={InstagramIcon}
-    />
-    <SocialLink href="https://twitter.com/devspaceship" Icon={TwitterIcon} />
+    <SocialLink href="https://github.com/devspaceship">
+      <FontAwesomeIcon icon={faGithub} size="2x" />
+    </SocialLink>
+    <SocialLink href="https://www.linkedin.com/in/devspaceship/">
+      <FontAwesomeIcon icon={faLinkedin} size="2x" />
+    </SocialLink>
+    <SocialLink href="https://www.instagram.com/devspaceship/">
+      <FontAwesomeIcon icon={faInstagram} size="2x" />
+    </SocialLink>
+    <SocialLink href="https://twitter.com/devspaceship">
+      <FontAwesomeIcon icon={faTwitter} size="2x" />
+    </SocialLink>
   </footer>
 )
 
