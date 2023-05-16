@@ -7,6 +7,12 @@
 - Next.js
 - MDX
 
+## Dev Setup
+
+```bash
+cp compose.override.example.yaml compose.override.yaml
+```
+
 ## Run
 
 ```bash
