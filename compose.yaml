@@ -1,6 +1,5 @@
 services:
   next:
-    image: next-prod
     build:
       context: ./
       target: prod

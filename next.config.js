@@ -1,15 +1,4 @@
-const remarkMath = import('remark-math')
-const rehypeKatex = import('rehype-katex')
-const rehypePrism = require('@mapbox/rehype-prism')
+/** @type {import('next').NextConfig} */
+const nextConfig = {}
 
-const withMDX = require('@next/mdx')({
-  extension: /\.mdx?$/,
-  options: {
-    remarkPlugins: [remarkMath],
-    rehypePlugins: [rehypeKatex, rehypePrism],
-  },
-})
-
-module.exports = withMDX({
-  pageExtensions: ['tsx', 'mdx'],
-})
+module.exports = nextConfig
