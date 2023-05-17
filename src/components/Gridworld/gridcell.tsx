@@ -1,27 +1,27 @@
-import React from 'react'
-import type { Action, State } from './types'
+import React from "react";
+import type { Action, State } from "./types";
 
-const SPACING = 0.08
-const ROUNDNESS = 0.22
+const SPACING = 0.08;
+const ROUNDNESS = 0.22;
 
 interface GridCellProps {
-  policy: [boolean, Action]
-  rows: number
-  columns: number
-  i: number
-  j: number
-  state: State
+  policy: [boolean, Action];
+  rows: number;
+  columns: number;
+  i: number;
+  j: number;
+  state: State;
 }
 
 const PolicyArrow = (props: GridCellProps) => {
-  const [visible, direction] = props.policy
-  const { rows, columns, i, j, state } = props
-  const width = 1.5 / columns
-  const height = 1 / rows
+  const [visible, direction] = props.policy;
+  const { rows, columns, i, j, state } = props;
+  const width = 1.5 / columns;
+  const height = 1 / rows;
 
-  const dirToRot = { N: -90, E: 0, S: 90, W: 180 }
+  const dirToRot = { N: -90, E: 0, S: 90, W: 180 };
 
-  if (visible && (state === 'S' || state === 'A')) {
+  if (visible && (state === "S" || state === "A")) {
     return (
       <g
         transform={`translate(${(j + 1 / 2) * width}, ${
@@ -56,29 +56,29 @@ const PolicyArrow = (props: GridCellProps) => {
           strokeLinecap="round"
         />
       </g>
-    )
+    );
   } else {
-    return null
+    return null;
   }
-}
+};
 
 const GridCell = (props: GridCellProps) => {
-  const { rows, columns, i, j, state, policy } = props
+  const { rows, columns, i, j, state, policy } = props;
 
-  const width = (1.5 / columns) * (1 - SPACING)
-  const height = (1 / rows) * (1 - SPACING)
-  const x = (1.5 / columns) * (j + SPACING / 2)
-  const y = (1 / rows) * (i + SPACING / 2)
-  const rx = width * ROUNDNESS
-  const ry = height * ROUNDNESS
+  const width = (1.5 / columns) * (1 - SPACING);
+  const height = (1 / rows) * (1 - SPACING);
+  const x = (1.5 / columns) * (j + SPACING / 2);
+  const y = (1 / rows) * (i + SPACING / 2);
+  const rx = width * ROUNDNESS;
+  const ry = height * ROUNDNESS;
 
-  let fill = '#999'
-  if (state === 'T') {
-    fill = '#d64b4b'
-  } else if (state === 'S') {
-    fill = '#d4b148'
-  } else if (state === 'E') {
-    fill = '#71d44a'
+  let fill = "#999";
+  if (state === "T") {
+    fill = "#d64b4b";
+  } else if (state === "S") {
+    fill = "#d4b148";
+  } else if (state === "E") {
+    fill = "#71d44a";
   }
 
   return (
@@ -101,7 +101,7 @@ const GridCell = (props: GridCellProps) => {
         state={state}
       />
     </g>
-  )
-}
+  );
+};
 
-export default GridCell
+export default GridCell;

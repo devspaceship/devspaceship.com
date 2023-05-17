@@ -1,20 +1,20 @@
 ---
 slug: tesseract
 title: Tesseract Animation Tutorial
-creation: '2019-01-29'
-updated: '2022-03-12'
+creation: "2019-01-29"
+updated: "2022-03-12"
 summary:
   Have you ever wondered how the cool rotating tesseract projections are made ?
   Here I explain what a tesseract is, what does it mean to do a rotation in four dimensions and
   how to project the tesseract in three dimensions in a stylish way.
 categories: Math
 tags:
-  - 'Tesseract'
-  - 'Animation'
-  - 'Stereographic Projection'
+  - "Tesseract"
+  - "Animation"
+  - "Stereographic Projection"
 ---
 
-import Tesseract from '../components/Tesseract'
+import Tesseract from "../components/Tesseract";
 
 # Tesseract Animation Tutorial
 
@@ -49,13 +49,13 @@ Here, $\times$ represents the cartesian product.
 [Edd Mann][1] created a very neat code snippet for doing cartesian products in JavaScript, so we are going to use it.
 
 ```javascript
-const flatten = (arr) => [].concat.apply([], arr)
+const flatten = (arr) => [].concat.apply([], arr);
 
 const product = (...sets) =>
   sets.reduce(
     (acc, set) => flatten(acc.map((x) => set.map((y) => [...x, y]))),
-    [[]],
-  )
+    [[]]
+  );
 ```
 
 Once we have our points, we need to determine which points we connect.
