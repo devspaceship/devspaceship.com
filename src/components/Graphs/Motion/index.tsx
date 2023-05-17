@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import Papa from 'papaparse'
+import { useEffect, useState } from "react";
+import Papa from "papaparse";
 import {
   LineChart,
   Line,
@@ -8,35 +8,35 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-} from 'recharts'
+} from "recharts";
 
 type DataRow = {
-  time: number
-  radius: number
-  speed: number
-  acceleration: number
-}
+  time: number;
+  radius: number;
+  speed: number;
+  acceleration: number;
+};
 
 type MotionProps = {
-  speed: boolean
-}
+  speed: boolean;
+};
 
 const EarthDensity = (props: MotionProps) => {
   const [data, setData] = useState([
     { time: 0, radius: 0, speed: 0, acceleration: 0 },
-  ])
+  ]);
 
   const fetchParseData = async () => {
-    const raw_res = await fetch('/static/posts/elevator/motion.csv')
-    const res = await raw_res.text()
-    const data_object = Papa.parse(res, { header: true, dynamicTyping: true })
-    const data = data_object.data.slice(0, -1) as DataRow[]
-    setData(data)
-  }
+    const raw_res = await fetch("/static/posts/elevator/motion.csv");
+    const res = await raw_res.text();
+    const data_object = Papa.parse(res, { header: true, dynamicTyping: true });
+    const data = data_object.data.slice(0, -1) as DataRow[];
+    setData(data);
+  };
 
   useEffect(() => {
-    fetchParseData()
-  }, [])
+    fetchParseData();
+  }, []);
 
   const CustomTooltip = ({
     payload,
@@ -44,23 +44,23 @@ const EarthDensity = (props: MotionProps) => {
   }: {
     payload?: {
       payload: {
-        radius: number
-        time: number
-        speed: number
-        acceleration: number
-      }
-    }[]
-    active?: unknown
+        radius: number;
+        time: number;
+        speed: number;
+        acceleration: number;
+      };
+    }[];
+    active?: unknown;
   }) => {
     if (!active || !payload) {
-      return null
+      return null;
     }
 
-    const data = payload[0].payload
-    const time = Math.round(data.time / 10) * 10
-    const radius = Math.round(data.radius / 50) * 50
-    const speed = Math.round(data.speed * 10) / 10
-    const acceleration = Math.round(data.acceleration * 10) / 10
+    const data = payload[0].payload;
+    const time = Math.round(data.time / 10) * 10;
+    const radius = Math.round(data.radius / 50) * 50;
+    const speed = Math.round(data.speed * 10) / 10;
+    const acceleration = Math.round(data.acceleration * 10) / 10;
 
     return (
       <div>
@@ -74,8 +74,8 @@ const EarthDensity = (props: MotionProps) => {
           <p>{`radius: ${radius}km`}</p>
         )}
       </div>
-    )
-  }
+    );
+  };
 
   return (
     <ResponsiveContainer width="95%" height={400}>
@@ -93,14 +93,14 @@ const EarthDensity = (props: MotionProps) => {
         <YAxis type="number" />
         <Tooltip
           content={<CustomTooltip />}
-          wrapperStyle={{ backgroundColor: '#222', padding: '8px' }}
+          wrapperStyle={{ backgroundColor: "#222", padding: "8px" }}
         />
       </LineChart>
     </ResponsiveContainer>
-  )
-}
+  );
+};
 
-export default EarthDensity
+export default EarthDensity;
 
 // TODO Fix react hydration error
 // TODO Refactor all the math.round

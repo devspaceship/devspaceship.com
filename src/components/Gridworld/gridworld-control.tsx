@@ -3,40 +3,40 @@ import {
   MouseEventHandler,
   TouchEventHandler,
   useState,
-} from 'react'
-import Col from 'react-bootstrap/Col'
-import Form from 'react-bootstrap/Form'
-import Row from 'react-bootstrap/Row'
+} from "react";
+import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
 
 interface Solver {
-  name: string
-  gamma: number
-  threshold: number
-  k: number
-  num_iter: number
-  alpha: number
-  eps_0: number
-  T: number
+  name: string;
+  gamma: number;
+  threshold: number;
+  k: number;
+  num_iter: number;
+  alpha: number;
+  eps_0: number;
+  T: number;
 }
 
 // TODO Use function of previous value in setter
 // TODO Or switch to useReducer
 interface GridWorldControlProps {
-  solver: Solver
-  setSolver: (solver: Solver) => void
-  solve: () => void
+  solver: Solver;
+  setSolver: (solver: Solver) => void;
+  solve: () => void;
 }
 
 const GridWorldControl = (props: GridWorldControlProps) => {
-  const { solver, setSolver, solve } = props
+  const { solver, setSolver, solve } = props;
 
   interface SolverRadioProps {
-    name: string
-    label: string
+    name: string;
+    label: string;
   }
 
   const SolverRadio = (props: SolverRadioProps) => {
-    const { name, label } = props
+    const { name, label } = props;
 
     return (
       <Form.Check
@@ -48,8 +48,8 @@ const GridWorldControl = (props: GridWorldControlProps) => {
         checked={solver.name === name}
         onChange={(e) => setSolver({ ...solver, name: e.target.value })}
       />
-    )
-  }
+    );
+  };
 
   const [sliderState, setSliderState] = useState({
     policy_value_iter_gamma: 97,
@@ -59,80 +59,80 @@ const GridWorldControl = (props: GridWorldControlProps) => {
     SARSA_Q_alpha: 3,
     SARSA_Q_eps_0: 100,
     SARSA_Q_T: 350,
-  })
+  });
 
   const handle_change = (e: ChangeEvent) => {
-    const target = e.target as HTMLInputElement
-    setSliderState({ ...sliderState, [target.id]: parseInt(target.value) })
-  }
+    const target = e.target as HTMLInputElement;
+    setSliderState({ ...sliderState, [target.id]: parseInt(target.value) });
+  };
 
   const handle_after_change_touch: TouchEventHandler<HTMLInputElement> = (
-    event,
+    event
   ) => {
-    const target = event.target as HTMLInputElement
-    handle_after_change(target)
-  }
+    const target = event.target as HTMLInputElement;
+    handle_after_change(target);
+  };
 
   const handle_after_change_mouse: MouseEventHandler<HTMLInputElement> = (
-    event,
+    event
   ) => {
-    const target = event.target as HTMLInputElement
-    handle_after_change(target)
-  }
+    const target = event.target as HTMLInputElement;
+    handle_after_change(target);
+  };
 
   const handle_after_change = (target: HTMLInputElement) => {
-    const value = target.value
+    const value = target.value;
     switch (target.id) {
-      case 'policy_value_iter_gamma':
+      case "policy_value_iter_gamma":
         setSolver({
           ...solver,
           gamma: parseFloat(value) / 100,
-        })
-        break
-      case 'policy_value_iter_threshold':
+        });
+        break;
+      case "policy_value_iter_threshold":
         setSolver({
           ...solver,
           threshold: 10 ** parseInt(value),
-        })
-        break
-      case 'value_iter_k':
+        });
+        break;
+      case "value_iter_k":
         setSolver({
           ...solver,
           k: parseInt(value),
-        })
-        break
-      case 'SARSA_Q_N':
+        });
+        break;
+      case "SARSA_Q_N":
         setSolver({
           ...solver,
           num_iter: parseInt(value),
-        })
-        break
-      case 'SARSA_Q_alpha':
+        });
+        break;
+      case "SARSA_Q_alpha":
         setSolver({
           ...solver,
           alpha: parseInt(value) / 100,
-        })
-        break
-      case 'SARSA_Q_eps_0':
+        });
+        break;
+      case "SARSA_Q_eps_0":
         setSolver({
           ...solver,
           eps_0: parseInt(value) / 100,
-        })
-        break
-      case 'SARSA_Q_T':
+        });
+        break;
+      case "SARSA_Q_T":
         setSolver({
           ...solver,
           T: parseInt(value),
-        })
-        break
+        });
+        break;
     }
-  }
+  };
 
   return (
     <form
       onSubmit={(e) => {
-        e.preventDefault()
-        solve()
+        e.preventDefault();
+        solve();
       }}
     >
       <Row className="mt-3 mb-4">
@@ -164,8 +164,8 @@ const GridWorldControl = (props: GridWorldControlProps) => {
           />
           <div>{sliderState.policy_value_iter_gamma / 100}</div>
         </div>
-        {solver.name === 'policy-iteration' ||
-        solver.name === 'value-iteration' ? (
+        {solver.name === "policy-iteration" ||
+        solver.name === "value-iteration" ? (
           <div>
             <Form.Label htmlFor="policy_value_iter_threshold">
               Threshold
@@ -182,7 +182,7 @@ const GridWorldControl = (props: GridWorldControlProps) => {
             <div>1e{sliderState.policy_value_iter_threshold}</div>
           </div>
         ) : null}
-        {solver.name === 'value-iteration' ? (
+        {solver.name === "value-iteration" ? (
           <div>
             <Form.Label htmlFor="value_iter_k">
               Evaluations between improvements
@@ -199,7 +199,7 @@ const GridWorldControl = (props: GridWorldControlProps) => {
             <div>{sliderState.value_iter_k}</div>
           </div>
         ) : null}
-        {solver.name === 'sarsa' || solver.name === 'q-learning' ? (
+        {solver.name === "sarsa" || solver.name === "q-learning" ? (
           <>
             <div>
               <Form.Label htmlFor="SARSA_Q_N">Number of iterations</Form.Label>
@@ -258,9 +258,9 @@ const GridWorldControl = (props: GridWorldControlProps) => {
       </Row>
       <input type="submit" value="Solve" aria-label="Solve" />
     </form>
-  )
-}
+  );
+};
 
-export default GridWorldControl
+export default GridWorldControl;
 
 // TODO Refactor form range into component

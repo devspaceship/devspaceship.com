@@ -1,9 +1,9 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
-import profilePic from '../public/static/ppic.jpg'
+import Head from "next/head";
+import styles from "../styles/Home.module.css";
+import profilePic from "../public/static/ppic.jpg";
 
-import { FC } from 'react'
-import Image from 'next/image'
+import { FC } from "react";
+import Image from "next/image";
 
 const Home: FC = () => (
   <>
@@ -30,6 +30,6 @@ const Home: FC = () => (
       </p>
     </main>
   </>
-)
+);
 
-export default Home
+export default Home;

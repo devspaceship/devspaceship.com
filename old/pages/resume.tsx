@@ -1,5 +1,5 @@
-import { FC } from 'react'
-import Head from 'next/head'
+import { FC } from "react";
+import Head from "next/head";
 
 const Posts: FC = () => (
   <>
@@ -10,6 +10,6 @@ const Posts: FC = () => (
     <h1>Resume</h1>
     <p>Under construction</p>
   </>
-)
+);
 
-export default Posts
+export default Posts;
