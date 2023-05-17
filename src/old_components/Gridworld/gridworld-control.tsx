@@ -135,7 +135,7 @@ const GridWorldControl = (props: GridWorldControlProps) => {
         solve();
       }}
     >
-      <Row className="mt-3 mb-4">
+      <Row className="mb-4 mt-3">
         <Col sm>
           <SolverRadio name="policy-iteration" label="Policy Iteration" />
         </Col>
