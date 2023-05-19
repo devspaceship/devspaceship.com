@@ -1,9 +1,17 @@
+import ProfilePicture from "components/ProfilePicture";
+
 export default function Home() {
   return (
-    <main className="container mx-auto flex min-h-screen flex-col items-center justify-between">
-      <h1 className="mt-8 text-xl text-primary-300 sm:text-2xl md:text-3xl">
+    <main className="container mx-auto flex min-h-screen flex-col items-center justify-evenly text-center">
+      <ProfilePicture />
+      <h1 className="text-2xl text-primary-300 sm:text-3xl md:text-4xl lg:text-5xl">
         Thomas Saint-Gérand
       </h1>
+      <p className="px-3">
+        This website is intented to be a repository of stuff that I find cool,
+        interesting, visually pleasing or all of these. I try to answer specific
+        questions with detailed examples.
+      </p>
     </main>
 
     //  <a
