@@ -1,9 +1,10 @@
-import "./globals.css";
+import { Metadata } from "next";
 import { Inter } from "next/font/google";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Thomas Saint-Gérand",
   description: "A website about science and nerdy stuff",
 };
@@ -14,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="bg-gray-900 text-white">
       <body className={inter.className}>{children}</body>
     </html>
   );

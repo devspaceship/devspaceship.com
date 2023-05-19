@@ -9,15 +9,15 @@
 } */
 
 /* @media (prefers-color-scheme: dark) { */
-:root {
+/* :root {
   --background-start: #202020;
   --background-end: #151515;
   --foreground: #fff;
-}
+} */
 /* } */
 
-body {
+/* body {
   color: var(--foreground);
   background: linear-gradient(to bottom, transparent, var(--background-end))
     var(--background-start);
-}
+} */
