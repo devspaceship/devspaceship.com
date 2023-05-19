@@ -1,8 +1,9 @@
 export default function Home() {
   return (
-    // <main className="flex min-h-screen flex-col items-center justify-between p-24">
-    <main className="container flex min-h-screen flex-col items-center justify-around">
-      <h1>Hello Everyone</h1>
+    <main className="container mx-auto flex min-h-screen flex-col items-center justify-between">
+      <h1 className="mt-8 text-xl text-primary-300 sm:text-2xl md:text-3xl">
+        Thomas Saint-Gérand
+      </h1>
     </main>
 
     //  <a
@@ -21,6 +22,5 @@ export default function Home() {
     //     Explore the Next.js 13 playground.
     //   </p>
     // </a>
-    // </main>
   );
 }
