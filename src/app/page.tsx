@@ -3,8 +3,8 @@ import SocialLinks from "@/components/SocialLinks";
 
 export default function Home() {
   return (
-    <main className="container mx-auto flex min-h-screen flex-col items-center justify-start space-y-28 text-center">
-      <div className="mt-32">
+    <main className="container mx-auto flex h-full flex-col items-center justify-start space-y-12 text-center">
+      <div className="mt-12">
         <ProfilePicture />
       </div>
       <h1 className="text-2xl font-semibold text-primary-300 sm:text-3xl md:text-4xl lg:text-5xl">
@@ -15,7 +15,7 @@ export default function Home() {
         interesting, visually pleasing or all of these. I try to answer specific
         questions with detailed examples.
       </p>
-      <footer className="flex w-full justify-center space-x-6">
+      <footer className="flex w-full justify-center space-x-6 pb-12">
         <SocialLinks />
       </footer>
     </main>
