@@ -8,10 +8,11 @@ config.autoAddCss = false;
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { FC } from "react";
-import Layout from "../components/Layout";
+// import Layout from "../components/Layout";
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => (
-  <Layout>
+  // <Layout>
+  <>
     <Head>
       <title>Thomas Saint-Gérand</title>
       <meta charSet="utf-8" />
@@ -19,7 +20,8 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => (
       <meta property="og:title" content="Thomas Saint-Gérand" key="title" />
     </Head>
     <Component {...pageProps} />
-  </Layout>
+  </>
+  // </Layout>
 );
 
 export default MyApp;
