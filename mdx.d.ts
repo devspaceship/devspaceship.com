@@ -4,8 +4,8 @@ declare module "*.mdx" {
   interface PostMetadata {
     slug: string;
     title: string;
-    creation: Date;
-    updated: Date;
+    creation: string;
+    updated: string;
     summary: string;
     categories: string[];
     tags: string[];
