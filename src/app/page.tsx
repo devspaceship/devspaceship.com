@@ -1,15 +1,14 @@
 import ProfilePicture from "@/components/ProfilePicture";
 import SocialLinks from "@/components/SocialLinks";
+import Title from "@/components/Title";
 
 export default function Home() {
   return (
-    <main className="container mx-auto flex h-full flex-col items-center justify-start space-y-12 text-center">
+    <>
       <div className="mt-12">
         <ProfilePicture />
       </div>
-      <h1 className="text-2xl font-semibold text-primary-300 sm:text-3xl md:text-4xl lg:text-5xl">
-        Thomas Saint-Gérand
-      </h1>
+      <Title size={2}>Thomas Saint-Gérand</Title>
       <p className="px-3">
         This website is intented to be a repository of stuff that I find cool,
         interesting, visually pleasing or all of these. I try to answer specific
@@ -18,6 +17,6 @@ export default function Home() {
       <footer className="flex w-full justify-center space-x-6 pb-12">
         <SocialLinks />
       </footer>
-    </main>
+    </>
   );
 }

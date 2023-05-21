@@ -22,7 +22,9 @@ export default function RootLayout({
     <html lang="en" className="bg-background-900 text-white">
       <body className={inter.className}>
         <NavBar />
-        {children}
+        <main className="container mx-auto flex h-full flex-col items-center justify-start space-y-12 text-center">
+          {children}
+        </main>
       </body>
     </html>
   );
