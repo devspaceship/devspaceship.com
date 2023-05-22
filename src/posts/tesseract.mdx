@@ -34,10 +34,12 @@ but what we can do is project it in our 3D world in a way that show its importan
 For our projection using the p5.js library, we are going to define the tesseract of size $2s$ by its points:
 
 $$
-line = \{-s, s\}\\
-square = \{(-s, -s), (-s, s), (s, -s), (s, s)\} = \{-s, s\} \times \{-s, s\} = \{-s, s\}^2\\
-cube = \{-s, s\} \times \{-s, s\} \times \{-s, s\} = \{-s, s\}^3\\
-tesseract = \{-s, s\}^4
+\begin{aligned}
+line &= \{-s, s\}\\
+square &= \{(-s, -s), (-s, s), (s, -s), (s, s)\} = \{-s, s\} \times \{-s, s\} = \{-s, s\}^2\\
+cube &= \{-s, s\} \times \{-s, s\} \times \{-s, s\} = \{-s, s\}^3\\
+tesseract &= \{-s, s\}^4
+\end{aligned}
 $$
 
 Here, $\times$ represents the cartesian product.
@@ -63,9 +65,11 @@ if it is 1 then, it means the 2 points are connected.
 We are going to use the following projection:
 
 $$
-\pi : \mathbb{R}^4 \rightarrow \mathbb{R}^3\\
-(x, y, z, w) \rightarrow \frac{(x, y, z)}{\lambda(w)}\\
-\lambda(w) = \frac{d}{d - w} \text{ with } d > \max(w)
+\begin{aligned}
+\pi : \mathbb{R}^4 &\rightarrow \mathbb{R}^3\\
+(x, y, z, w) &\rightarrow \frac{(x, y, z)}{\lambda(w)}\\
+\lambda(w) = \frac{d}{d - w} &\text{ with } d > \max(w)
+\end{aligned}
 $$
 
 This is actually a [stereographic projection][2]
@@ -85,18 +89,21 @@ This group is called the special orthogonal group of rank n : $SO(n) = \{M : M^T
 Here is the matrix we are going to use:
 
 $$
+\begin{aligned}
 R(\alpha, \beta, t) =
 \begin{pmatrix}
 R_{\alpha t} & 0_2 \\
 0_2 & R_{\beta t}
 \end{pmatrix}
+\end{aligned}
 $$
 
 Using the already known results for 2D rotations we can verify that $$ R \in SO(4) $$ given
 that $R*{\alpha t} \in SO(2)$ and $R*{\beta t} \in SO(2)$:
 
 $$
-R^T =
+\begin{aligned}
+R^T &=
 \begin{pmatrix}
 R_{\alpha t}^T & 0_2 \\
 0_2 & R_{\beta t}^T
@@ -105,7 +112,7 @@ R_{\alpha t}^T & 0_2 \\
 R_{-\alpha t} & 0_2 \\
 0_2 & R_{-\beta t}
 \end{pmatrix}\\
-\text{So, } RR^T = R^TR =
+\text{So, } RR^T &= R^TR =
 \begin{pmatrix}
 R_{0} & 0_2 \\
 0_2 & R_{0}
@@ -114,6 +121,7 @@ R_{0} & 0_2 \\
 I_2 & 0_2 \\
 0_2 & I_2
 \end{pmatrix}
+\end{aligned}
 $$
 
 Also, $|R| = |R*{\alpha t}||R*{\beta t}| = 1$ <br/> $\alpha$ and $\beta$ represent,
