@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    typedRoutes: true,
-    mdxRs: false,
+    // typedRoutes: true,
+    // mdxRs: true,
   },
   reactStrictMode: true,
 };
