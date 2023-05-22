@@ -7,3 +7,5 @@ export interface PostMetadata {
   categories: string[];
   tags: string[];
 }
+
+export type MDXComponent = (props: unknown) => JSX.Element;

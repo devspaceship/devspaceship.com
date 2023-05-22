@@ -1,3 +1,4 @@
+"use client";
 import Display from "./display";
 import Control from "./control";
 import { useState } from "react";
