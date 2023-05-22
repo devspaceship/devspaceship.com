@@ -7,14 +7,15 @@ const nextConfig = {
   reactStrictMode: true,
 };
 
+import nextMdx from "@next/mdx";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
-import nextMdx from "@next/mdx";
+import rehypeHighlight from "rehype-highlight";
 
 const withMDX = nextMdx({
   options: {
     remarkPlugins: [remarkMath],
-    rehypePlugins: [rehypeKatex],
+    rehypePlugins: [rehypeKatex, rehypeHighlight],
   },
 });
 

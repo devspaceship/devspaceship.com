@@ -14,7 +14,7 @@ const Posts = async () => {
   return (
     <div>
       <div className="mt-6">
-        <h1 className="text-3xl font-semibold text-primary-300 sm:text-4xl md:text-5xl lg:text-6xl">
+        <h1 className="text-3xl font-semibold sm:text-4xl md:text-5xl lg:text-6xl">
           Posts
         </h1>
       </div>

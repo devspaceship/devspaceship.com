@@ -7,7 +7,7 @@ export default function Home() {
       <div className="mt-12">
         <ProfilePicture />
       </div>
-      <h1 className="text-2xl font-semibold text-primary-300 sm:text-3xl md:text-4xl lg:text-5xl">
+      <h1 className="text-2xl font-semibold sm:text-3xl md:text-4xl lg:text-5xl">
         Thomas Saint-Gérand
       </h1>
       <p className="px-3">
