@@ -1,8 +1,8 @@
 import Link from "next/link";
 
-import { FC } from "react";
+import { faFileLines, faHouse } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGraduationCap, faHouse } from "@fortawesome/free-solid-svg-icons";
+import { FC } from "react";
 
 const NavBar: FC = () => (
   <nav className=" bg-background-950 py-6">
@@ -11,7 +11,7 @@ const NavBar: FC = () => (
         <FontAwesomeIcon icon={faHouse} size="2x" />
       </Link>
       <Link href="/posts" className="hover:text-primary-300">
-        <FontAwesomeIcon icon={faGraduationCap} size="2x" />
+        <FontAwesomeIcon icon={faFileLines} size="2x" />
       </Link>
     </div>
   </nav>
