@@ -4,6 +4,7 @@ const colors = require("tailwindcss/colors");
 module.exports = {
   content: [
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/old_components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
@@ -17,5 +18,5 @@ module.exports = {
       tertiary: colors.amber,
     },
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [require("@tailwindcss/typography"), require("@tailwindcss/forms")],
 };
