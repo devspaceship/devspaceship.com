@@ -1,7 +1,9 @@
+"use client";
 import { useState } from "react";
 
 const GridWorld = () => {
-  const [likes, setLikes] = useState(0);
-  return <>{likes}</>;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [number, setNumber] = useState(42);
+  return <>{number}</>;
 };
 export default GridWorld;
