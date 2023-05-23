@@ -5,8 +5,6 @@ import {
   TouchEventHandler,
   useState,
 } from "react";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
 import type { Params } from "./types";
 
 // TODO Use function of previous value in setter
@@ -55,10 +53,13 @@ const Control: FC<ControlProps> = (props) => {
   };
 
   return (
-    <Row md={2} lg={3} className="justify-content-evenly">
+    <div className="flex flex-row justify-evenly">
       <div>
-        <Form.Label htmlFor="slider_d">d</Form.Label>
-        <Form.Range
+        <label className="mr-3" htmlFor="slider_d">
+          d
+        </label>
+        <input
+          type="range"
           min="200"
           max="800"
           value={sliderState.slider_d}
@@ -70,8 +71,11 @@ const Control: FC<ControlProps> = (props) => {
         <div>{sliderState.slider_d}</div>
       </div>
       <div>
-        <Form.Label htmlFor="slider_alpha">α</Form.Label>
-        <Form.Range
+        <label className="mr-3" htmlFor="slider_alpha">
+          α
+        </label>
+        <input
+          type="range"
           min="1"
           max="15"
           value={sliderState.slider_alpha}
@@ -83,8 +87,11 @@ const Control: FC<ControlProps> = (props) => {
         <div>{sliderState.slider_alpha}</div>
       </div>
       <div>
-        <Form.Label htmlFor="slider_beta">β</Form.Label>
-        <Form.Range
+        <label className="mr-3" htmlFor="slider_beta">
+          β
+        </label>
+        <input
+          type="range"
           min="1"
           max="15"
           value={sliderState.slider_beta}
@@ -95,7 +102,7 @@ const Control: FC<ControlProps> = (props) => {
         />
         <div>{sliderState.slider_beta}</div>
       </div>
-    </Row>
+    </div>
   );
 };
 

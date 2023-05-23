@@ -102,14 +102,14 @@ const GridWorldSVG = (props: GridWorldSVGProps) => {
 
   return (
     <svg
-      width="60vw"
-      height="40vw"
+      width="100%"
       viewBox="0 0 1.5 1"
       id="gridworld-svg"
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onMouseOut={handleMouseOut}
       onMouseMove={handleMouseMove}
+      className="mx-auto"
     >
       {props.gridstate.map((row, i) =>
         row.map((state, j) => (

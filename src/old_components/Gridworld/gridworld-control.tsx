@@ -4,9 +4,6 @@ import {
   TouchEventHandler,
   useState,
 } from "react";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
 
 interface Solver {
   name: string;
@@ -39,15 +36,19 @@ const GridWorldControl = (props: GridWorldControlProps) => {
     const { name, label } = props;
 
     return (
-      <Form.Check
-        type="radio"
-        name="solver"
-        id={name}
-        value={name}
-        label={label}
-        checked={solver.name === name}
-        onChange={(e) => setSolver({ ...solver, name: e.target.value })}
-      />
+      <>
+        <label htmlFor={name} className="pr-3">
+          {label}
+        </label>
+        <input
+          type="radio"
+          name="solver"
+          id={name}
+          value={name}
+          checked={solver.name === name}
+          onChange={(e) => setSolver({ ...solver, name: e.target.value })}
+        />
+      </>
     );
   };
 
@@ -135,25 +136,29 @@ const GridWorldControl = (props: GridWorldControlProps) => {
         solve();
       }}
     >
-      <Row className="mb-4 mt-3">
-        <Col sm>
-          <SolverRadio name="policy-iteration" label="Policy Iteration" />
-        </Col>
-        <Col sm>
-          <SolverRadio name="value-iteration" label="Value Iteration" />
-        </Col>
-        <Col sm>
-          <SolverRadio name="sarsa" label="SARSA" />
-        </Col>
-        <Col sm>
-          <SolverRadio name="q-learning" label="Q-Learning" />
-        </Col>
-      </Row>
-
-      <Row md={2} lg={3} className="justify-content-evenly">
+      <div className="mb-4 mt-3 flex flex-row justify-evenly">
         <div>
-          <Form.Label htmlFor="policy_value_iter_gamma">Gamma</Form.Label>
-          <Form.Range
+          <SolverRadio name="policy-iteration" label="Policy Iteration" />
+        </div>
+        <div>
+          <SolverRadio name="value-iteration" label="Value Iteration" />
+        </div>
+        <div>
+          <SolverRadio name="sarsa" label="SARSA" />
+        </div>
+        <div>
+          <SolverRadio name="q-learning" label="Q-Learning" />
+        </div>
+      </div>
+
+      {/* <div md={2} lg={3} className="justify-content-evenly flex flex-row"> */}
+      <div className="flex flex-row justify-evenly">
+        <div>
+          <label className="mr-3" htmlFor="policy_value_iter_gamma">
+            Gamma
+          </label>
+          <input
+            type="range"
             min="0"
             max="99"
             value={sliderState.policy_value_iter_gamma}
@@ -167,10 +172,11 @@ const GridWorldControl = (props: GridWorldControlProps) => {
         {solver.name === "policy-iteration" ||
         solver.name === "value-iteration" ? (
           <div>
-            <Form.Label htmlFor="policy_value_iter_threshold">
+            <label className="mr-3" htmlFor="policy_value_iter_threshold">
               Threshold
-            </Form.Label>
-            <Form.Range
+            </label>
+            <input
+              type="range"
               min="-8"
               max="-2"
               value={sliderState.policy_value_iter_threshold}
@@ -184,10 +190,11 @@ const GridWorldControl = (props: GridWorldControlProps) => {
         ) : null}
         {solver.name === "value-iteration" ? (
           <div>
-            <Form.Label htmlFor="value_iter_k">
+            <label className="mr-3" htmlFor="value_iter_k">
               Evaluations between improvements
-            </Form.Label>
-            <Form.Range
+            </label>
+            <input
+              type="range"
               min="1"
               max="20"
               value={sliderState.value_iter_k}
@@ -202,8 +209,11 @@ const GridWorldControl = (props: GridWorldControlProps) => {
         {solver.name === "sarsa" || solver.name === "q-learning" ? (
           <>
             <div>
-              <Form.Label htmlFor="SARSA_Q_N">Number of iterations</Form.Label>
-              <Form.Range
+              <label className="mr-3" htmlFor="SARSA_Q_N">
+                Number of iterations
+              </label>
+              <input
+                type="range"
                 min="4000"
                 max="10000"
                 value={sliderState.SARSA_Q_N}
@@ -215,8 +225,11 @@ const GridWorldControl = (props: GridWorldControlProps) => {
               <div>{sliderState.SARSA_Q_N}</div>
             </div>
             <div>
-              <Form.Label htmlFor="SARSA_Q_alpha">Learning Rate</Form.Label>
-              <Form.Range
+              <label className="mr-3" htmlFor="SARSA_Q_alpha">
+                Learning Rate
+              </label>
+              <input
+                type="range"
                 min="1"
                 max="15"
                 value={sliderState.SARSA_Q_alpha}
@@ -228,8 +241,11 @@ const GridWorldControl = (props: GridWorldControlProps) => {
               <div>{sliderState.SARSA_Q_alpha / 100}</div>
             </div>
             <div>
-              <Form.Label htmlFor="SARSA_Q_eps_0">Epsilon 0</Form.Label>
-              <Form.Range
+              <label className="mr-3" htmlFor="SARSA_Q_eps_0">
+                Epsilon 0
+              </label>
+              <input
+                type="range"
                 min="0"
                 max="100"
                 value={sliderState.SARSA_Q_eps_0}
@@ -241,8 +257,11 @@ const GridWorldControl = (props: GridWorldControlProps) => {
               <div>{sliderState.SARSA_Q_eps_0 / 100}</div>
             </div>
             <div>
-              <Form.Label htmlFor="SARSA_Q_T">Exploration Period</Form.Label>
-              <Form.Range
+              <label className="mr-3" htmlFor="SARSA_Q_T">
+                Exploration Period
+              </label>
+              <input
+                type="range"
                 min="1"
                 max="1000"
                 value={sliderState.SARSA_Q_T}
@@ -255,8 +274,10 @@ const GridWorldControl = (props: GridWorldControlProps) => {
             </div>
           </>
         ) : null}
-      </Row>
-      <input type="submit" value="Solve" aria-label="Solve" />
+      </div>
+      <span className="text-bold rounded-full bg-primary-300 px-4 py-2 text-background-950">
+        <input type="submit" value="Solve" aria-label="Solve" />
+      </span>
     </form>
   );
 };
