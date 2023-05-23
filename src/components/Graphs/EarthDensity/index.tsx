@@ -1,5 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const EarthDensity = ({ dataKey }: { dataKey: string }) => {
-  console.log(dataKey);
   return <></>;
 };
 

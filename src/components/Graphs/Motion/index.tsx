@@ -1,5 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Motion = ({ speed }: { speed: boolean }) => {
-  console.log(speed);
   return <></>;
 };
 
