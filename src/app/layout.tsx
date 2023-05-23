@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="bg-background-900 text-white">
+    <html lang="en" className="bg-background-900 text-white antialiased">
       <body className={inter.className}>
         <NavBar />
         <main className="container mx-auto flex h-full flex-col items-center justify-start space-y-12 text-center">

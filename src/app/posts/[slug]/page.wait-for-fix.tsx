@@ -9,11 +9,7 @@ const Post = async ({ params }: { params: { slug: string } }) => {
   const { default: MDXPost } = (await import(`@/posts/${slug}.mdx`)) as {
     default: MDXComponent;
   };
-  return (
-    <article className="container prose prose-invert mx-auto p-3 prose-headings:text-primary-300">
-      <MDXPost />
-    </article>
-  );
+  return <MDXPost />;
 };
 
 export default Post;
