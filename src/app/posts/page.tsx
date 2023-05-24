@@ -22,7 +22,7 @@ const Posts = async () => {
         return (
           <Link
             key={meta.slug}
-            href={`/post/${meta.slug}`}
+            href={`/posts/${meta.slug}`}
             aria-label={meta.title}
           >
             <div className="m-4 rounded-2xl bg-background-950 p-3">
