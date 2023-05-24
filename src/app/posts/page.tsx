@@ -1,6 +1,12 @@
 import published_posts from "@/posts/published";
 import { PostMetadata } from "@/posts/types";
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Posts",
+  description: "Posts about nerdy stuff",
+};
 
 const Posts = async () => {
   const metas = await Promise.all(

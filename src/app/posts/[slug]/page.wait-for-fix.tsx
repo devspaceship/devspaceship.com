@@ -17,3 +17,5 @@ export default Post;
 export const generateStaticParams = () => {
   return published_posts.map((slug) => ({ slug }));
 };
+
+// Implement dynamic metadata after next js fix
