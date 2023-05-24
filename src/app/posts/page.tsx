@@ -5,7 +5,6 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Posts",
-  description: "Posts about nerdy stuff",
 };
 
 const Posts = async () => {
