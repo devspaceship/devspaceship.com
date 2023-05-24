@@ -8,14 +8,21 @@ const nextConfig = {
 };
 
 import nextMdx from "@next/mdx";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
+import rehypeAutolink from "rehype-autolink-headings";
 import rehypeHighlight from "rehype-highlight";
+import rehypeKatex from "rehype-katex";
+import rehypeSlug from "rehype-slug";
+import remarkMath from "remark-math";
 
 const withMDX = nextMdx({
   options: {
     remarkPlugins: [remarkMath],
-    rehypePlugins: [rehypeKatex, rehypeHighlight],
+    rehypePlugins: [
+      rehypeSlug,
+      [rehypeAutolink, { behavior: "wrap" }],
+      rehypeKatex,
+      rehypeHighlight,
+    ],
   },
 });
 

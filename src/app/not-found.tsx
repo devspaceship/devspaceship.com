@@ -1,5 +1,3 @@
-import { Metadata } from "next";
-
 const NotFound = () => {
   return (
     <>

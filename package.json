@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start -p 4200",
     "lint": "next lint",
+    "lint:fix": "next lint --fix",
     "format": "npx prettier --write ."
   },
   "dependencies": {
@@ -37,8 +38,10 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "recharts": "^2.6.2",
+    "rehype-autolink-headings": "^6.1.1",
     "rehype-highlight": "^6.0.0",
     "rehype-katex": "^6.0.3",
+    "rehype-slug": "^5.1.0",
     "remark-math": "^5.1.1",
     "sharp": "^0.32.1",
     "tailwindcss": "^3.3.2",
