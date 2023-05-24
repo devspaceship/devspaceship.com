@@ -8,10 +8,35 @@ import Script from "next/script";
 config.autoAddCss = false;
 
 const inter = Inter({ subsets: ["latin"] });
+const thomas = "Thomas Saint-Gérand";
+const description = "A website about science and nerdy stuff";
+const url = new URL("https://devspaceship.com");
 
 export const metadata: Metadata = {
-  title: "Thomas Saint-Gérand",
-  description: "A website about science and nerdy stuff",
+  title: thomas,
+  description,
+  generator: "Next.js",
+  referrer: "origin-when-cross-origin",
+  keywords: ["Devspaceship", thomas, "Science", "Coding", "Blog"],
+  authors: [{ name: thomas }],
+  colorScheme: "dark",
+  creator: thomas,
+  publisher: thomas,
+  metadataBase: url,
+  openGraph: {
+    title: thomas,
+    description,
+    url,
+    siteName: thomas,
+    locale: "en-US",
+    type: "website",
+  },
+  twitter: {
+    title: thomas,
+    description,
+    creator: "@devspaceship",
+  },
+  category: "science",
 };
 
 export default function RootLayout({
