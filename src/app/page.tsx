@@ -1,7 +1,7 @@
 import ProfilePicture from "@/components/ProfilePicture";
 import SocialLinks from "@/components/SocialLinks";
 
-export default function Home() {
+const Home = () => {
   return (
     <>
       <div className="mt-12">
@@ -20,4 +20,6 @@ export default function Home() {
       </footer>
     </>
   );
-}
+};
+
+export default Home;
