@@ -1,9 +1,14 @@
 "use client";
-import { useState } from "react";
 
-const GridWorld = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [number, setNumber] = useState(42);
-  return <>{number}</>;
+import GridworldControl from "./gridworld-control";
+import GridworldSVG from "./gridworld-svg";
+
+const Gridworld = () => {
+  return (
+    <>
+      <GridworldSVG />
+      <GridworldControl />
+    </>
+  );
 };
-export default GridWorld;
+export default Gridworld;
