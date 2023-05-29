@@ -1,24 +1,4 @@
-import { INITIAL_GRID } from "./config";
-import {
-  GridworldAction,
-  GridworldActionType,
-  GridworldState,
-  SolverType,
-} from "./types";
-
-export const initialState: GridworldState = {
-  config: {
-    solver: SolverType.POLICY_ITERATION,
-    discountRate: 0.97,
-    threshold: 1e-5,
-    evaluationsBeforeImprovement: 7,
-    iterations: 10_000,
-    alpha: 0.03,
-    initialExplorationCoefficient: 1,
-    explorationPeriod: 350,
-  },
-  grid: INITIAL_GRID,
-};
+import { GridworldAction, GridworldActionType, GridworldState } from "./types";
 
 export const reducer = (
   state: GridworldState,
@@ -33,6 +13,12 @@ export const reducer = (
           solver: action.solver,
         },
       };
+    case GridworldActionType.SET_CONFIG:
+      return {
+        ...state,
+        config: action.config,
+      };
+    default:
+      throw new Error("Invalid Gridworld reducer action type");
   }
-  return state;
 };

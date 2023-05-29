@@ -1,5 +1,4 @@
-import { CellType } from "./types";
-
+import { CellType, SolverType, GridworldState } from "./types";
 export const WIDTH = 12;
 export const HEIGHT = 8;
 export const CELL_PADDING = 0.03;
@@ -27,5 +26,18 @@ export const CELL_TYPE_CLASSES = {
   [CellType.EMPTY]: "fill-background-950",
   [CellType.WALL]: "fill-primary-300",
   [CellType.START]: "fill-secondary-500",
-  [CellType.END]: "fill-tertiary-300",
+  [CellType.END]: "fill-tertiary-500",
+};
+export const INITIAL_STATE: GridworldState = {
+  config: {
+    solver: SolverType.POLICY_ITERATION,
+    discountRate: 0.97,
+    logThreshold: 1e-5,
+    evaluationsBeforeImprovement: 7,
+    iterations: 10_000,
+    learningRate: 0.03,
+    initialExplorationCoefficient: 1,
+    explorationPeriod: 350,
+  },
+  grid: INITIAL_GRID,
 };

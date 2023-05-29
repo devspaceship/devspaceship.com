@@ -1,8 +1,9 @@
 import { createContext, useReducer } from "react";
-import { initialState, reducer } from "./reducer";
+import { reducer } from "./reducer";
 import { GridworldAction } from "./types";
+import { INITIAL_STATE } from "./config";
 
-export const GridworldStateContext = createContext(initialState);
+export const GridworldStateContext = createContext(INITIAL_STATE);
 export const GridworldDispatchContext = createContext(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
   (action: GridworldAction) => {}
@@ -13,7 +14,7 @@ const GridworldContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
 
   return (
     <GridworldStateContext.Provider value={state}>
