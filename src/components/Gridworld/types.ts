@@ -39,3 +39,7 @@ export interface GridworldState {
   config: GridworldConfig;
   grid: CellState[][];
 }
+
+export interface GridworldAction {
+  type: string;
+}
