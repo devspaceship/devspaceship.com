@@ -4,7 +4,6 @@ export const WIDTH = 12;
 export const HEIGHT = 8;
 export const CELL_PADDING = 0.03;
 export const CORNER_ROUNDING = "25%";
-
 const gridMapping: Record<number, CellType> = {
   0: CellType.EMPTY,
   1: CellType.WALL,
@@ -24,3 +23,9 @@ const initialGrid = [
 export const INITIAL_GRID = initialGrid.map((row) =>
   row.map((cell) => ({ type: gridMapping[cell] }))
 );
+export const CELL_TYPE_CLASSES = {
+  [CellType.EMPTY]: "fill-background-950",
+  [CellType.WALL]: "fill-primary-300",
+  [CellType.START]: "fill-secondary-500",
+  [CellType.END]: "fill-tertiary-300",
+};
