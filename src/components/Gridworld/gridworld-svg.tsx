@@ -11,7 +11,7 @@ const getPositions = () => {
   return positions;
 };
 
-const GridworldSVG = () => {
+const GridworldRenderer = () => {
   return (
     <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} className="mx-auto max-h-[80vh]">
       {getPositions().map(([row, column]) => (
@@ -29,4 +29,4 @@ const GridworldSVG = () => {
     </svg>
   );
 };
-export default GridworldSVG;
+export default GridworldRenderer;
