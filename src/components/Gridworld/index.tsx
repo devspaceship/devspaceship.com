@@ -1,12 +1,12 @@
 "use client";
 
 import GridworldControl from "./gridworld-control";
-import GridworldSVG from "./gridworld-svg";
+import GridworldRenderer from "./gridworld-svg";
 
 const Gridworld = () => {
   return (
     <>
-      <GridworldSVG />
+      <GridworldRenderer />
       <GridworldControl />
     </>
   );
