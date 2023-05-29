@@ -9,7 +9,7 @@ export const GridworldDispatchContext = createContext(
   }
 );
 
-const GridWorldContextProvider = ({
+const GridworldContextProvider = ({
   children,
 }: {
   children: React.ReactNode;
@@ -25,4 +25,4 @@ const GridWorldContextProvider = ({
   );
 };
 
-export default GridWorldContextProvider;
+export default GridworldContextProvider;

@@ -1,4 +1,4 @@
-import GridWorldMDX, { meta } from "@/posts/gridworld.mdx";
+import GridworldMDX, { meta } from "@/posts/gridworld.mdx";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -13,8 +13,8 @@ export const metadata: Metadata = {
   },
 };
 
-const GridWorldPage = () => {
-  return <GridWorldMDX />;
+const GridworldPage = () => {
+  return <GridworldMDX />;
 };
 
-export default GridWorldPage;
+export default GridworldPage;

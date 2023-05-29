@@ -7,10 +7,10 @@ import {
   SARSA_Q,
   valueIteration,
 } from "./gridworld-solvers";
-import GridWorldSVG from "./gridworld-svg";
+import GridworldSVG from "./gridworld-svg";
 import { GridState, PolicyWrapper } from "./types";
 
-const GridWorld = () => {
+const Gridworld = () => {
   const [gridstate, setGridstate] = useState<GridState>([
     ["A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A"],
     ["A", "A", "A", "A", "A", "A", "T", "T", "T", "A", "A", "A"],
@@ -72,7 +72,7 @@ const GridWorld = () => {
 
   return (
     <div>
-      <GridWorldSVG
+      <GridworldSVG
         gridstate={gridstate}
         setGridstate={setGridstate}
         policy={policy}
@@ -82,6 +82,6 @@ const GridWorld = () => {
   );
 };
 
-export default GridWorld;
+export default Gridworld;
 
 // TODO Make Gridworld touch compatible
