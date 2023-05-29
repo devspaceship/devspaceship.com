@@ -1,8 +1,8 @@
 export enum SolverType {
-  PolicyIteration,
-  ValueIteration,
+  POLICY_ITERATION,
+  VALUE_ITERATION,
   SARSA,
-  QLearning,
+  Q_LEARNING,
 }
 
 interface GridworldConfig {
@@ -40,6 +40,19 @@ export interface GridworldState {
   grid: CellState[][];
 }
 
-export interface GridworldAction {
-  type: string;
+export enum GridworldActionType {
+  SET_SOLVER,
+  SET_GRID,
 }
+
+interface SetSolverAction {
+  type: GridworldActionType.SET_SOLVER;
+  solver: SolverType;
+}
+
+interface SetGridAction {
+  type: GridworldActionType.SET_GRID;
+  grid: CellState[][];
+}
+
+export type GridworldAction = SetSolverAction | SetGridAction;
