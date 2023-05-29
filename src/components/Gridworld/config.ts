@@ -34,7 +34,7 @@ export const INITIAL_STATE: GridworldState = {
     discountRate: 0.97,
     logThreshold: 1e-5,
     evaluationsBeforeImprovement: 7,
-    iterations: 10_000,
+    episodes: 10_000,
     learningRate: 0.03,
     initialExplorationCoefficient: 1,
     explorationPeriod: 350,

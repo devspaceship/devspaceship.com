@@ -10,7 +10,7 @@ export interface GridworldConfig {
   discountRate: number;
   logThreshold: number;
   evaluationsBeforeImprovement: number;
-  iterations: number;
+  episodes: number;
   learningRate: number;
   initialExplorationCoefficient: number;
   explorationPeriod: number;

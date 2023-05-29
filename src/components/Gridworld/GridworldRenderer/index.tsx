@@ -1,4 +1,4 @@
-import { HEIGHT, WIDTH } from "./config";
+import { HEIGHT, WIDTH } from "../config";
 import GridworldCell from "./GridworldCell";
 
 const positions: [number, number][] = [];
@@ -26,4 +26,5 @@ const GridworldRenderer = () => {
     </svg>
   );
 };
+
 export default GridworldRenderer;
