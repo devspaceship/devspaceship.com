@@ -1,20 +1,17 @@
 import { HEIGHT, WIDTH } from "./config";
 import GridworldCell from "./GridworldCell";
 
-const getPositions = () => {
-  const positions = [];
-  for (let row = 0; row < HEIGHT; row++) {
-    for (let column = 0; column < WIDTH; column++) {
-      positions.push([row, column]);
-    }
+const positions: [number, number][] = [];
+for (let row = 0; row < HEIGHT; row++) {
+  for (let column = 0; column < WIDTH; column++) {
+    positions.push([row, column]);
   }
-  return positions;
-};
+}
 
 const GridworldRenderer = () => {
   return (
     <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} className="mx-auto max-h-[80vh]">
-      {getPositions().map(([row, column]) => (
+      {positions.map(([row, column]) => (
         <svg
           key={`${row}:${column}`}
           viewBox="0 0 1 1"

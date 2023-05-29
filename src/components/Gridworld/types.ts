@@ -5,13 +5,13 @@ export enum SolverType {
   Q_LEARNING,
 }
 
-interface GridworldConfig {
+export interface GridworldConfig {
   solver: SolverType;
   discountRate: number;
-  threshold: number;
+  logThreshold: number;
   evaluationsBeforeImprovement: number;
   iterations: number;
-  alpha: number;
+  learningRate: number;
   initialExplorationCoefficient: number;
   explorationPeriod: number;
 }
@@ -42,6 +42,7 @@ export interface GridworldState {
 
 export enum GridworldActionType {
   SET_SOLVER,
+  SET_CONFIG,
   SET_GRID,
 }
 
@@ -50,9 +51,14 @@ interface SetSolverAction {
   solver: SolverType;
 }
 
+interface SetConfigAction {
+  type: GridworldActionType.SET_CONFIG;
+  config: GridworldConfig;
+}
+
 interface SetGridAction {
   type: GridworldActionType.SET_GRID;
   grid: CellState[][];
 }
 
-export type GridworldAction = SetSolverAction | SetGridAction;
+export type GridworldAction = SetSolverAction | SetConfigAction | SetGridAction;
