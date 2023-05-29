@@ -1,4 +1,5 @@
-import { GridworldAction, GridworldActionType, GridworldState } from "./types";
+import { GridworldState } from "./types";
+import { GridworldAction, GridworldActionType } from "./actions";
 
 export const reducer = (
   state: GridworldState,
@@ -17,6 +18,28 @@ export const reducer = (
       return {
         ...state,
         config: action.config,
+      };
+    case GridworldActionType.START_SOLVING:
+      return {
+        ...state,
+        solverState: {
+          ...state.solverState,
+          running: true,
+          step: 0,
+          intervalId: action.intervalId,
+        },
+      };
+    case GridworldActionType.SOLVE_STEP:
+      console.log("Solving step");
+      return state;
+    case GridworldActionType.STOP_SOLVING:
+      return {
+        ...state,
+        solverState: {
+          ...state.solverState,
+          running: false,
+          intervalId: undefined,
+        },
       };
     default:
       throw new Error("Invalid Gridworld reducer action type");

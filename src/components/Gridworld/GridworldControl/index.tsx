@@ -1,14 +1,38 @@
-import { useContext } from "react";
+import { use, useContext, useEffect } from "react";
+import {
+  GridworldDispatchContext,
+  GridworldStateContext,
+} from "../GridworldContextProvider";
+import { GridworldActionType } from "../actions";
 import { SolverType } from "../types";
-import { GridworldStateContext } from "../GridworldContextProvider";
-import SolverRadio from "./SolverRadio";
 import ConfigRange from "./ConfigRange";
+import SolverRadio from "./SolverRadio";
+import { FPS } from "../config";
 
 const GridworldControl = () => {
   const state = useContext(GridworldStateContext);
+  const dispatch = useContext(GridworldDispatchContext);
+
+  const handleToggleSolve = () => {
+    if (state.solverState.running) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      console.log(`clearing interval ${state.solverState.intervalId!}`);
+      clearInterval(state.solverState.intervalId);
+      dispatch({ type: GridworldActionType.STOP_SOLVING });
+      return;
+    }
+    const intervalId = setInterval(() => {
+      dispatch({ type: GridworldActionType.SOLVE_STEP });
+    }, 1000 / FPS) as unknown as number;
+    console.log(`setting interval ${intervalId}`);
+    dispatch({ type: GridworldActionType.START_SOLVING, intervalId });
+  };
+
+  // useEffect(() => {}, [state.solverState.running]);
+
   return (
     <>
-      <div>
+      <div className="mt-4">
         <SolverRadio
           id="policy-iteration"
           label="Policy Iteration"
@@ -26,7 +50,7 @@ const GridworldControl = () => {
           solverType={SolverType.Q_LEARNING}
         />
       </div>
-      <div>
+      <div className="mt-4">
         {[SolverType.POLICY_ITERATION, SolverType.VALUE_ITERATION].includes(
           state.config.solver
         ) && (
@@ -95,6 +119,12 @@ const GridworldControl = () => {
           </>
         )}
       </div>
+      <button
+        className="mt-4 rounded-full bg-primary-300 px-3 py-1 text-xl text-background-950"
+        onClick={handleToggleSolve}
+      >
+        {state.solverState.running ? "Stop" : "Solve"}
+      </button>
     </>
   );
 };

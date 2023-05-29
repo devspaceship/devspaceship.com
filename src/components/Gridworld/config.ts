@@ -3,6 +3,7 @@ export const WIDTH = 12;
 export const HEIGHT = 8;
 export const CELL_PADDING = 0.03;
 export const CORNER_ROUNDING = "25%";
+export const FPS = 1;
 const gridMapping: Record<number, CellType> = {
   0: CellType.EMPTY,
   1: CellType.WALL,
@@ -40,4 +41,8 @@ export const INITIAL_STATE: GridworldState = {
     explorationPeriod: 350,
   },
   grid: INITIAL_GRID,
+  solverState: {
+    running: false,
+    step: 0,
+  },
 };
