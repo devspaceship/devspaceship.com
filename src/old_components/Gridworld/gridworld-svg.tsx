@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import GridCell from "./gridcell";
 import { GridState, PolicyWrapper } from "./types";
 
-interface GridWorldSVGProps {
+interface GridworldSVGProps {
   gridstate: GridState;
   setGridstate: (gridstate: GridState) => void;
   policy: PolicyWrapper;
 }
 
-const GridWorldSVG = (props: GridWorldSVGProps) => {
+const GridworldSVG = (props: GridworldSVGProps) => {
   const { gridstate, setGridstate, policy } = props;
   // ['NONE', 'MOVING_START', 'MOVING_END', 'ADDING_TRAPS', 'REMOVING_TRAPS']
   const [mouseState, setMouseState] = useState("NONE");
@@ -128,4 +128,4 @@ const GridWorldSVG = (props: GridWorldSVGProps) => {
   );
 };
 
-export default GridWorldSVG;
+export default GridworldSVG;

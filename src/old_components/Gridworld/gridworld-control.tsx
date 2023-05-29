@@ -18,13 +18,13 @@ interface Solver {
 
 // TODO Use function of previous value in setter
 // TODO Or switch to useReducer
-interface GridWorldControlProps {
+interface GridworldControlProps {
   solver: Solver;
   setSolver: (solver: Solver) => void;
   solve: () => void;
 }
 
-const GridWorldControl = (props: GridWorldControlProps) => {
+const GridworldControl = (props: GridworldControlProps) => {
   const { solver, setSolver, solve } = props;
 
   interface SolverRadioProps {
@@ -282,6 +282,6 @@ const GridWorldControl = (props: GridWorldControlProps) => {
   );
 };
 
-export default GridWorldControl;
+export default GridworldControl;
 
 // TODO Refactor form range into component

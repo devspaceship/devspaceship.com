@@ -1,15 +1,15 @@
 "use client";
 
-import GridWorldContextProvider from "./context";
-import GridworldControl from "./gridworld-control";
-import GridworldRenderer from "./gridworld-svg";
+import GridworldContextProvider from "./GridworldContextProvider";
+import GridworldControl from "./GridworldControl";
+import GridworldRenderer from "./GridworldRenderer";
 
 const Gridworld = () => {
   return (
-    <GridWorldContextProvider>
+    <GridworldContextProvider>
       <GridworldRenderer />
       <GridworldControl />
-    </GridWorldContextProvider>
+    </GridworldContextProvider>
   );
 };
 export default Gridworld;

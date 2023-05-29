@@ -1,5 +1,5 @@
 import { HEIGHT, WIDTH } from "./config";
-import GridworldCell from "./gridworld-cell";
+import GridworldCell from "./GridworldCell";
 
 const getPositions = () => {
   const positions = [];
