@@ -1,5 +1,5 @@
 import { INITIAL_GRID } from "./config";
-import { GridworldState, SolverType } from "./types";
+import { GridworldAction, GridworldState, SolverType } from "./types";
 
 export const initialState: GridworldState = {
   config: {
@@ -18,7 +18,7 @@ export const initialState: GridworldState = {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const reducer = (
   state: GridworldState,
-  action: { type: string }
+  action: GridworldAction
 ): GridworldState => {
   return state;
 };
