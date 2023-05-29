@@ -1,9 +1,10 @@
 import { ChangeEvent, useContext } from "react";
-import { GridworldActionType, GridworldConfig } from "../types";
+import { GridworldConfig } from "../types";
 import {
   GridworldDispatchContext,
   GridworldStateContext,
 } from "../GridworldContextProvider";
+import { GridworldActionType } from "../actions";
 
 const ConfigRange = ({
   id,
@@ -25,7 +26,6 @@ const ConfigRange = ({
   const configKey = id.replace(/-(\w)/g, (_, letter: string) =>
     letter.toUpperCase()
   );
-  console.log("ConfigRange", id, label, configKey, min, max, step);
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = integer
       ? parseInt(event.target.value)

@@ -1,9 +1,10 @@
 import { useContext, ChangeEvent } from "react";
-import { GridworldActionType, SolverType } from "../types";
+import { SolverType } from "../types";
 import {
   GridworldDispatchContext,
   GridworldStateContext,
 } from "../GridworldContextProvider";
+import { GridworldActionType } from "../actions";
 
 const SolverRadio = ({
   id,
@@ -17,7 +18,7 @@ const SolverRadio = ({
   const state = useContext(GridworldStateContext);
   const checked = solverType === state.config.solver;
   const dispatch = useContext(GridworldDispatchContext);
-  const handleChangeSolver = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     dispatch({
       type: GridworldActionType.SET_SOLVER,
       solver: parseInt(event.target.value) as SolverType,
@@ -32,7 +33,7 @@ const SolverRadio = ({
         value={solverType}
         checked={checked}
         aria-checked={checked}
-        onChange={handleChangeSolver}
+        onChange={handleChange}
       />
       <label htmlFor={id} className="ml-2 mr-4">
         {label}

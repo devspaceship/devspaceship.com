@@ -23,42 +23,26 @@ export enum CellType {
   END,
 }
 
-enum GridDirection {
+export enum GridDirection {
   UP,
   RIGHT,
   DOWN,
   LEFT,
 }
 
-interface CellState {
+export interface CellState {
   type: CellType;
   direction?: GridDirection;
+}
+
+export interface SolverState {
+  running: boolean;
+  step: number;
+  intervalId?: number;
 }
 
 export interface GridworldState {
   config: GridworldConfig;
   grid: CellState[][];
+  solverState: SolverState;
 }
-
-export enum GridworldActionType {
-  SET_SOLVER,
-  SET_CONFIG,
-  SET_GRID,
-}
-
-interface SetSolverAction {
-  type: GridworldActionType.SET_SOLVER;
-  solver: SolverType;
-}
-
-interface SetConfigAction {
-  type: GridworldActionType.SET_CONFIG;
-  config: GridworldConfig;
-}
-
-interface SetGridAction {
-  type: GridworldActionType.SET_GRID;
-  grid: CellState[][];
-}
-
-export type GridworldAction = SetSolverAction | SetConfigAction | SetGridAction;
