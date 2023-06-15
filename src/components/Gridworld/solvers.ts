@@ -22,7 +22,7 @@ const policyEvaluation = (state: GridworldState): void => {
   }
 };
 
-const policyImprovement = (state: GridworldState): void => {
+const policyImprovement = (state: GridworldState): boolean => {
   let isPolicyStable = true;
   state.grid.forEach((row, rowIndex) => {
     row.forEach((cell, columnIndex) => {
@@ -55,20 +55,28 @@ const policyImprovement = (state: GridworldState): void => {
       }
     });
   });
+  return isPolicyStable;
 };
 
-const policyIteration = (state: GridworldState): void => {
+const policyIteration = (state: GridworldState): boolean => {
   policyEvaluation(state);
-  policyImprovement(state);
+  return policyImprovement(state);
 };
 
 const solveStep = (state: GridworldState): GridworldState => {
   const nextState = structuredClone(state);
+  let isPolicyStable = false;
   switch (state.config.solver) {
     case SolverType.POLICY_ITERATION:
-      policyIteration(nextState);
+      isPolicyStable = policyIteration(nextState);
       break;
   }
+  if (isPolicyStable) {
+    clearInterval(nextState.solverState.intervalId);
+    nextState.solverState.intervalId = undefined;
+    nextState.solverState.running = false;
+  }
+
   return nextState;
 };
 export default solveStep;

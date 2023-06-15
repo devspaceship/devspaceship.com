@@ -34,6 +34,7 @@ export const reducer = (
     case GridworldActionType.SOLVE_STEP:
       return solveStep(state);
     case GridworldActionType.STOP_SOLVING:
+      clearInterval(state.solverState.intervalId);
       return {
         ...state,
         solverState: {
