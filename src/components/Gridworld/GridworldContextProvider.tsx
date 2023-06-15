@@ -1,7 +1,7 @@
 import { createContext, useReducer } from "react";
 import { reducer } from "./reducer";
-import { GridworldAction } from "./types";
 import { INITIAL_STATE } from "./config";
+import { GridworldAction } from "./actions";
 
 export const GridworldStateContext = createContext(INITIAL_STATE);
 export const GridworldDispatchContext = createContext(

@@ -1,4 +1,4 @@
-import { use, useContext, useEffect } from "react";
+import { useContext } from "react";
 import {
   GridworldDispatchContext,
   GridworldStateContext,
@@ -27,8 +27,6 @@ const GridworldControl = () => {
     console.log(`setting interval ${intervalId}`);
     dispatch({ type: GridworldActionType.START_SOLVING, intervalId });
   };
-
-  // useEffect(() => {}, [state.solverState.running]);
 
   return (
     <>
