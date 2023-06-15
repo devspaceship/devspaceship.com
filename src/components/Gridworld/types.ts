@@ -17,31 +17,37 @@ export interface GridworldConfig {
 }
 
 export enum CellType {
-  START,
-  EMPTY,
-  WALL,
-  END,
+  START = "START",
+  EMPTY = "EMPTY",
+  WALL = "WALL",
+  END = "END",
 }
 
-export enum GridDirection {
-  UP,
-  RIGHT,
-  DOWN,
-  LEFT,
+export enum CellPolicy {
+  UP = "UP",
+  RIGHT = "RIGHT",
+  DOWN = "DOWN",
+  LEFT = "LEFT",
 }
 
 export interface CellState {
   type: CellType;
-  direction?: GridDirection;
+  policy: CellPolicy;
+  stateValue: number;
 }
 
 export interface SolverState {
   running: boolean;
   step: number;
   intervalId?: number;
+  memoizedTransitions: Map<
+    [row: number, column: number, policy: CellPolicy],
+    [newRow: number, newColumn: number, reward: number]
+  >;
 }
 
 export interface GridworldState {
+  policyVisible: boolean;
   config: GridworldConfig;
   grid: CellState[][];
   solverState: SolverState;

@@ -1,5 +1,6 @@
 import { GridworldState } from "./types";
 import { GridworldAction, GridworldActionType } from "./actions";
+import solveStep from "./solvers";
 
 export const reducer = (
   state: GridworldState,
@@ -28,10 +29,10 @@ export const reducer = (
           step: 0,
           intervalId: action.intervalId,
         },
+        policyVisible: true,
       };
     case GridworldActionType.SOLVE_STEP:
-      console.log("Solving step");
-      return state;
+      return solveStep(state);
     case GridworldActionType.STOP_SOLVING:
       return {
         ...state,
