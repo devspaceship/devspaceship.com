@@ -15,16 +15,12 @@ const GridworldControl = () => {
 
   const handleToggleSolve = () => {
     if (state.solverState.running) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      console.log(`clearing interval ${state.solverState.intervalId!}`);
-      clearInterval(state.solverState.intervalId);
       dispatch({ type: GridworldActionType.STOP_SOLVING });
       return;
     }
     const intervalId = setInterval(() => {
       dispatch({ type: GridworldActionType.SOLVE_STEP });
     }, 1000 / FPS) as unknown as number;
-    console.log(`setting interval ${intervalId}`);
     dispatch({ type: GridworldActionType.START_SOLVING, intervalId });
   };
 
