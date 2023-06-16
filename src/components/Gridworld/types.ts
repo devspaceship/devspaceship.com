@@ -40,10 +40,6 @@ export interface SolverState {
   running: boolean;
   step: number;
   intervalId?: number;
-  memoizedTransitions: Map<
-    [row: number, column: number, policy: CellPolicy],
-    [newRow: number, newColumn: number, reward: number]
-  >;
 }
 
 export interface GridworldState {

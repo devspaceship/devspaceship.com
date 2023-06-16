@@ -48,7 +48,6 @@ export const INITIAL_STATE: GridworldState = {
   solverState: {
     running: false,
     step: 0,
-    memoizedTransitions: new Map(),
   },
   policyVisible: false,
 };
