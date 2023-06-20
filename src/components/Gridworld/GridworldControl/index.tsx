@@ -62,7 +62,8 @@ const GridworldControl = () => {
               min={-8}
               max={-3}
               step="any"
-              integer
+              isInteger
+              isLog
             />
           </>
         )}
@@ -73,7 +74,7 @@ const GridworldControl = () => {
             min={1}
             max={10}
             step={1}
-            integer
+            isInteger
           />
         )}
         {[SolverType.SARSA, SolverType.Q_LEARNING].includes(
@@ -86,7 +87,7 @@ const GridworldControl = () => {
               min={1}
               max={100_000}
               step={1}
-              integer
+              isInteger
             />
             <ConfigRange
               id="learning-rate"
@@ -108,7 +109,7 @@ const GridworldControl = () => {
               min={0}
               max={1000}
               step={1}
-              integer
+              isInteger
             />
           </>
         )}
