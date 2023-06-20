@@ -12,14 +12,16 @@ const ConfigRange = ({
   min,
   max,
   step,
-  integer = false,
+  isInteger = false,
+  isLog = false,
 }: {
   id: string;
   label: string;
   min: number;
   max: number;
   step: number | "any";
-  integer?: boolean;
+  isInteger?: boolean;
+  isLog?: boolean;
 }) => {
   const state = useContext(GridworldStateContext);
   const dispatch = useContext(GridworldDispatchContext);
@@ -27,7 +29,7 @@ const ConfigRange = ({
     letter.toUpperCase()
   );
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = integer
+    const value = isInteger
       ? parseInt(event.target.value)
       : parseFloat(event.target.value);
     dispatch({
@@ -38,9 +40,12 @@ const ConfigRange = ({
       },
     });
   };
+  const value = state.config[configKey as keyof GridworldConfig];
   return (
-    <>
-      <label htmlFor={id}>{label}</label>
+    <div className="my-3">
+      <div>
+        <label htmlFor={id}>{label}</label>
+      </div>
       <input
         type="range"
         id={id}
@@ -48,11 +53,12 @@ const ConfigRange = ({
         min={min}
         max={max}
         step={step}
-        value={state.config[configKey as keyof GridworldConfig]}
+        value={value}
         onChange={handleChange}
         className="ml-2 mr-4"
       />
-    </>
+      <div>{isLog ? `10^${value}` : value}</div>
+    </div>
   );
 };
 
