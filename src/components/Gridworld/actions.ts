@@ -1,4 +1,4 @@
-import { SolverType, GridworldConfig, CellState, CellType } from "./types";
+import { SolverType, GridworldConfig, CellState } from "./types";
 
 export enum GridworldActionType {
   SET_SOLVER,
@@ -38,7 +38,6 @@ interface SolveAction {
 
 interface StartDrawingAction {
   type: GridworldActionType.START_DRAWING;
-  cellType: CellType;
   row: number;
   column: number;
 }

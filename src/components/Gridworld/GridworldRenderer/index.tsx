@@ -1,12 +1,8 @@
-import {
-  GridworldDispatchContext,
-  GridworldStateContext,
-} from "../GridworldContextProvider";
+import { MouseEvent, useContext } from "react";
+import { GridworldDispatchContext } from "../GridworldContextProvider";
+import { GridworldActionType } from "../actions";
 import { HEIGHT, WIDTH } from "../config";
 import GridworldCell from "./GridworldCell";
-import { MouseEvent, useContext } from "react";
-import { CellType } from "../types";
-import { GridworldActionType } from "../actions";
 
 const positions: [number, number][] = [];
 for (let row = 0; row < HEIGHT; row++) {
@@ -24,33 +20,40 @@ const mouseEventToGridPosition = (event: MouseEvent<SVGElement>) => {
 };
 
 const GridworldRenderer = () => {
-  const state = useContext(GridworldStateContext);
   const dispatch = useContext(GridworldDispatchContext);
 
-  const typeToDrawingType = {
-    [CellType.WALL]: CellType.EMPTY,
-    [CellType.EMPTY]: CellType.WALL,
-    [CellType.START]: CellType.START,
-    [CellType.END]: CellType.END,
-  };
-
-  const handleMouseDown = (event: MouseEvent<SVGElement>) => {
+  const handleMouseEvent = (event: MouseEvent<SVGElement>) => {
     const [row, column] = mouseEventToGridPosition(event);
-    const cell_state = state.grid[row][column];
-    const drawingType = typeToDrawingType[cell_state.type];
-    dispatch({
-      type: GridworldActionType.START_DRAWING,
-      cellType: drawingType,
-      row,
-      column,
-    });
+    switch (event.type) {
+      case "mousedown":
+        dispatch({
+          type: GridworldActionType.START_DRAWING,
+          row,
+          column,
+        });
+        break;
+      case "mousemove":
+        dispatch({
+          type: GridworldActionType.DRAW,
+          row,
+          column,
+        });
+        break;
+      case "mouseup":
+        dispatch({
+          type: GridworldActionType.STOP_DRAWING,
+        });
+        break;
+    }
   };
 
   return (
     <svg
       viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
       className="mx-auto max-h-[80vh]"
-      onMouseDown={handleMouseDown}
+      onMouseDown={handleMouseEvent}
+      onMouseMove={handleMouseEvent}
+      onMouseUp={handleMouseEvent}
     >
       {positions.map(([row, column]) => (
         <svg
