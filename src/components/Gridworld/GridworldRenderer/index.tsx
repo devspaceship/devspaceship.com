@@ -40,6 +40,7 @@ const GridworldRenderer = () => {
         });
         break;
       case "mouseup":
+      case "mouseleave":
         dispatch({
           type: GridworldActionType.STOP_DRAWING,
         });
@@ -54,6 +55,7 @@ const GridworldRenderer = () => {
       onMouseDown={handleMouseEvent}
       onMouseMove={handleMouseEvent}
       onMouseUp={handleMouseEvent}
+      onMouseLeave={handleMouseEvent}
     >
       {positions.map(([row, column]) => (
         <svg
