@@ -43,6 +43,21 @@ export const reducer = (
           intervalId: undefined,
         },
       };
+    case GridworldActionType.START_DRAWING:
+      return {
+        ...state,
+        grid: state.grid.map((row, rowIndex) => {
+          return row.map((cell, columnIndex) => {
+            return rowIndex === action.row && columnIndex === action.column
+              ? { ...cell, type: action.cellType }
+              : cell;
+          });
+        }),
+        drawingState: {
+          drawing: true,
+          cellType: action.cellType,
+        },
+      };
     default:
       throw new Error("Invalid Gridworld reducer action type");
   }
