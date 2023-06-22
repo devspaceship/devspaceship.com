@@ -42,9 +42,15 @@ export interface SolverState {
   intervalId?: number;
 }
 
+export interface DrawingState {
+  drawing: boolean;
+  cellType: CellType;
+}
+
 export interface GridworldState {
   policyVisible: boolean;
   config: GridworldConfig;
   grid: CellState[][];
   solverState: SolverState;
+  drawingState: DrawingState;
 }

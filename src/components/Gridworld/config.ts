@@ -50,4 +50,8 @@ export const INITIAL_STATE: GridworldState = {
     step: 0,
   },
   policyVisible: false,
+  drawingState: {
+    drawing: false,
+    cellType: CellType.WALL,
+  },
 };
