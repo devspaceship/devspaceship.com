@@ -1,8 +1,9 @@
 import { transition } from "./mdp";
 import { CellPolicy, GridworldState, SolverType } from "./types";
 
-const policyEvaluation = (state: GridworldState): void => {
+const policyEvaluation = (state: GridworldState, early_stop = false): void => {
   let delta = 1;
+  let iteration = 0;
   while (delta > Math.pow(10, state.config.logThreshold)) {
     delta = 0;
     state.grid.forEach((row, rowIndex) => {
@@ -19,6 +20,10 @@ const policyEvaluation = (state: GridworldState): void => {
         state.grid[rowIndex][columnIndex].stateValue = nextStateValue;
       });
     });
+    iteration++;
+    if (early_stop && iteration > state.config.evaluationsBeforeImprovement) {
+      break;
+    }
   }
 };
 
@@ -63,12 +68,20 @@ const policyIteration = (state: GridworldState): boolean => {
   return policyImprovement(state);
 };
 
+const valueIteration = (state: GridworldState): boolean => {
+  policyEvaluation(state);
+  return policyImprovement(state);
+};
+
 const solveStep = (state: GridworldState): GridworldState => {
   const nextState = structuredClone(state);
   let isPolicyStable = false;
   switch (state.config.solver) {
     case SolverType.POLICY_ITERATION:
       isPolicyStable = policyIteration(nextState);
+      break;
+    case SolverType.VALUE_ITERATION:
+      isPolicyStable = valueIteration(nextState);
       break;
   }
   if (isPolicyStable) {
