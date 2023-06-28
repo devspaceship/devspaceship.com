@@ -23,6 +23,13 @@ export enum CellType {
   END = "END",
 }
 
+export const cellTypes = [
+  CellType.START,
+  CellType.EMPTY,
+  CellType.WALL,
+  CellType.END,
+];
+
 export enum CellPolicy {
   UP = "UP",
   RIGHT = "RIGHT",
@@ -30,10 +37,18 @@ export enum CellPolicy {
   LEFT = "LEFT",
 }
 
+export const cellPolicies = [
+  CellPolicy.UP,
+  CellPolicy.RIGHT,
+  CellPolicy.DOWN,
+  CellPolicy.LEFT,
+];
+
 export interface CellState {
   type: CellType;
   policy: CellPolicy;
   stateValue: number;
+  stateActionValue: Record<CellPolicy, number>;
 }
 
 export interface SolverState {

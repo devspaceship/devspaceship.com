@@ -1,5 +1,11 @@
 import { transition } from "./mdp";
-import { CellPolicy, GridworldState, SolverType } from "./types";
+import {
+  CellPolicy,
+  CellType,
+  GridworldState,
+  SolverType,
+  cellPolicies,
+} from "./types";
 
 const policyEvaluation = (state: GridworldState, early_stop = false): void => {
   let delta = 1;
@@ -33,13 +39,7 @@ const policyImprovement = (state: GridworldState): boolean => {
     row.forEach((cell, columnIndex) => {
       let bestPolicy = CellPolicy.UP;
       let bestValue = -Infinity;
-      const policies = [
-        CellPolicy.UP,
-        CellPolicy.RIGHT,
-        CellPolicy.DOWN,
-        CellPolicy.LEFT,
-      ];
-      for (const policy of policies) {
+      for (const policy of cellPolicies) {
         const [newRow, newColumn, reward] = transition(
           state,
           rowIndex,
@@ -73,6 +73,69 @@ const valueIteration = (state: GridworldState): boolean => {
   return policyImprovement(state);
 };
 
+const chooseEpisodeStart = (state: GridworldState): [number, number] => {
+  const validStarts: [number, number][] = [];
+  state.grid.forEach((row, rowIndex) => {
+    row.forEach((cell, columnIndex) => {
+      if ([CellType.EMPTY, CellType.START].includes(cell.type)) {
+        validStarts.push([rowIndex, columnIndex]);
+      }
+    });
+  });
+  return validStarts[Math.floor(Math.random() * validStarts.length)];
+};
+
+const epsilonGreedy = (state: GridworldState): number => {
+  return (
+    state.config.initialExplorationCoefficient /
+    (1 + state.solverState.step / state.config.explorationPeriod)
+  );
+};
+
+const chooseAction = (
+  state: GridworldState,
+  row: number,
+  column: number
+): CellPolicy => {
+  const epsilon = epsilonGreedy(state);
+  return Math.random() < epsilon
+    ? cellPolicies[Math.floor(Math.random() * cellPolicies.length)]
+    : state.grid[row][column].policy;
+};
+
+const Sarsa = (state: GridworldState): void => {
+  state.solverState.step++;
+  let [row, column] = chooseEpisodeStart(state);
+  let action = chooseAction(state, row, column);
+  let episode_step = 0;
+  while (state.grid[row][column].type !== CellType.END && episode_step < 1000) {
+    const [newRow, newColumn, reward] = transition(state, row, column, action);
+    const newAction = chooseAction(state, newRow, newColumn);
+    const QSA = state.grid[row][column].stateActionValue[action];
+    const QSPAP = state.grid[newRow][newColumn].stateActionValue[newAction];
+    state.grid[row][column].stateActionValue[action] =
+      QSA +
+      state.config.learningRate *
+        (reward + state.config.discountRate * QSPAP - QSA);
+    state.grid[row][column].policy = cellPolicies.reduce(
+      (bestPolicy, policy) =>
+        state.grid[row][column].stateActionValue[policy] >
+        state.grid[row][column].stateActionValue[bestPolicy]
+          ? policy
+          : bestPolicy,
+      CellPolicy.UP
+    );
+    row = newRow;
+    column = newColumn;
+    action = newAction;
+    episode_step++;
+  }
+};
+
+const QLearning = (state: GridworldState): void => {
+  state.solverState.step++;
+};
+
 const solveStep = (state: GridworldState): GridworldState => {
   const nextState = structuredClone(state);
   let isPolicyStable = false;
@@ -83,8 +146,14 @@ const solveStep = (state: GridworldState): GridworldState => {
     case SolverType.VALUE_ITERATION:
       isPolicyStable = valueIteration(nextState);
       break;
+    case SolverType.SARSA:
+      Sarsa(nextState);
+      break;
+    case SolverType.Q_LEARNING:
+      QLearning(nextState);
+      break;
   }
-  if (isPolicyStable) {
+  if (isPolicyStable || nextState.solverState.step > state.config.episodes) {
     clearInterval(nextState.solverState.intervalId);
     nextState.solverState.intervalId = undefined;
     nextState.solverState.running = false;
