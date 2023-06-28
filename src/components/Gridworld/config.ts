@@ -7,18 +7,17 @@ export const FPS = 15;
 const gridMapping: Record<number, CellType> = {
   0: CellType.EMPTY,
   1: CellType.WALL,
-  2: CellType.START,
-  3: CellType.END,
+  2: CellType.END,
 };
 const initialGrid = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
-  [0, 0, 1, 1, 0, 1, 0, 2, 1, 0, 0, 0],
+  [0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0],
   [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
   [0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
   [0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
 ];
 export const INITIAL_GRID = initialGrid.map((row) =>
   row.map((cell) => ({
@@ -36,7 +35,6 @@ export const INITIAL_GRID = initialGrid.map((row) =>
 export const CELL_TYPE_CLASSES = {
   [CellType.EMPTY]: "fill-background-950",
   [CellType.WALL]: "fill-primary-300",
-  [CellType.START]: "fill-secondary-500",
   [CellType.END]: "fill-tertiary-500",
 };
 export const INITIAL_STATE: GridworldState = {

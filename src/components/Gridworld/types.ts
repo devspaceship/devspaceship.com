@@ -17,18 +17,12 @@ export interface GridworldConfig {
 }
 
 export enum CellType {
-  START = "START",
   EMPTY = "EMPTY",
   WALL = "WALL",
   END = "END",
 }
 
-export const cellTypes = [
-  CellType.START,
-  CellType.EMPTY,
-  CellType.WALL,
-  CellType.END,
-];
+export const cellTypes = [CellType.EMPTY, CellType.WALL, CellType.END];
 
 export enum CellPolicy {
   UP = "UP",
