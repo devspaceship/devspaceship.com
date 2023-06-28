@@ -10,7 +10,6 @@ const getDrawingType = (
   const typeToDrawingType = {
     [CellType.WALL]: CellType.EMPTY,
     [CellType.EMPTY]: CellType.WALL,
-    [CellType.START]: CellType.START,
     [CellType.END]: CellType.END,
   };
   const cell_state = state.grid[row][column];
@@ -97,17 +96,13 @@ export const reducer = (
             if (
               rowIndex === action.row &&
               columnIndex === action.column &&
-              ![CellType.START, CellType.END].includes(cell.type)
+              cell.type !== CellType.END
             ) {
               return {
                 ...cell,
                 type: state.drawingState.cellType,
               };
-            } else if (
-              [CellType.START, CellType.END].includes(
-                state.drawingState.cellType
-              )
-            ) {
+            } else if (state.drawingState.cellType === CellType.END) {
               if (action.row === rowIndex && action.column === columnIndex) {
                 return {
                   ...cell,

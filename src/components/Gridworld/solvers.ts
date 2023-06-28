@@ -77,12 +77,14 @@ const chooseEpisodeStart = (state: GridworldState): [number, number] => {
   const validStarts: [number, number][] = [];
   state.grid.forEach((row, rowIndex) => {
     row.forEach((cell, columnIndex) => {
-      if ([CellType.EMPTY, CellType.START].includes(cell.type)) {
+      if (cell.type === CellType.EMPTY) {
         validStarts.push([rowIndex, columnIndex]);
       }
     });
   });
-  return validStarts[Math.floor(Math.random() * validStarts.length)];
+  return validStarts.length === 0
+    ? [-1, -1]
+    : validStarts[Math.floor(Math.random() * validStarts.length)];
 };
 
 const epsilonGreedy = (state: GridworldState): number => {
@@ -106,6 +108,9 @@ const chooseAction = (
 const Sarsa = (state: GridworldState): void => {
   state.solverState.step++;
   let [row, column] = chooseEpisodeStart(state);
+  if (row === -1 && column === -1) {
+    return;
+  }
   let action = chooseAction(state, row, column);
   let episode_step = 0;
   while (state.grid[row][column].type !== CellType.END && episode_step < 1000) {
@@ -135,6 +140,9 @@ const Sarsa = (state: GridworldState): void => {
 const QLearning = (state: GridworldState): void => {
   state.solverState.step++;
   let [row, column] = chooseEpisodeStart(state);
+  if (row === -1 && column === -1) {
+    return;
+  }
   let episode_step = 0;
   while (state.grid[row][column].type !== CellType.END && episode_step < 1000) {
     const action = chooseAction(state, row, column);
