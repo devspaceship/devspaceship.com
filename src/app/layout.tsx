@@ -57,23 +57,12 @@ export default function RootLayout({
         />
         <Script id="google-analytics" strategy="afterInteractive">
           {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){window.dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', 'G-VJTBJP5KDG');
-        `}
-        </Script>
-        <Script id="ezoicid">
-          {`
-          var ezoicid = 471333;
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){window.dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-VJTBJP5KDG');
           `}
         </Script>
-        <Script src="//go.ezoic.net/ezoic/ezoic.js" />
-        <Script
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1385446005933239"
-          crossOrigin="anonymous"
-        />
       </body>
     </html>
   );
