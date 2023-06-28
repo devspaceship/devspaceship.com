@@ -65,6 +65,9 @@ export const reducer = (
         },
       };
     case GridworldActionType.START_DRAWING:
+      if (state.solverState.intervalId !== undefined) {
+        clearInterval(state.solverState.intervalId);
+      }
       // eslint-disable-next-line no-case-declarations
       const drawingType = getDrawingType(state, action.row, action.column);
       return {
@@ -83,6 +86,11 @@ export const reducer = (
         drawingState: {
           drawing: true,
           cellType: drawingType,
+        },
+        solverState: {
+          ...state.solverState,
+          running: false,
+          intervalId: undefined,
         },
       };
     case GridworldActionType.DRAW:
