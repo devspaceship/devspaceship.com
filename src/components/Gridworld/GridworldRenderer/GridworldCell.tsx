@@ -8,8 +8,7 @@ const GridworldCell = ({ row, column }: { row: number; column: number }) => {
   const state = useContext(GridworldStateContext);
   const cell = state.grid[row][column];
   const isCellPolicyVisible =
-    state.policyVisible &&
-    (cell.type === CellType.EMPTY || cell.type === CellType.START);
+    state.policyVisible && cell.type === CellType.EMPTY;
   return (
     <>
       <rect
