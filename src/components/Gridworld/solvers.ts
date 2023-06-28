@@ -134,6 +134,32 @@ const Sarsa = (state: GridworldState): void => {
 
 const QLearning = (state: GridworldState): void => {
   state.solverState.step++;
+  let [row, column] = chooseEpisodeStart(state);
+  let episode_step = 0;
+  while (state.grid[row][column].type !== CellType.END && episode_step < 1000) {
+    const action = chooseAction(state, row, column);
+    const [newRow, newColumn, reward] = transition(state, row, column, action);
+    const QSA = state.grid[row][column].stateActionValue[action];
+    const QSPAmax = cellPolicies.reduce((maxQ, policy) => {
+      const QSPAP = state.grid[newRow][newColumn].stateActionValue[policy];
+      return QSPAP > maxQ ? QSPAP : maxQ;
+    }, -Infinity);
+    state.grid[row][column].stateActionValue[action] =
+      QSA +
+      state.config.learningRate *
+        (reward + state.config.discountRate * QSPAmax - QSA);
+    state.grid[row][column].policy = cellPolicies.reduce(
+      (bestPolicy, policy) =>
+        state.grid[row][column].stateActionValue[policy] >
+        state.grid[row][column].stateActionValue[bestPolicy]
+          ? policy
+          : bestPolicy,
+      CellPolicy.UP
+    );
+    row = newRow;
+    column = newColumn;
+    episode_step++;
+  }
 };
 
 const solveStep = (state: GridworldState): GridworldState => {
