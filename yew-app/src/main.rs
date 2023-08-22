@@ -1,4 +1,7 @@
+use crate::components::social_link::SocialLink;
 use yew::prelude::*;
+
+mod components;
 
 #[function_component]
 fn App() -> Html {
@@ -15,7 +18,20 @@ fn App() -> Html {
         <div class={classes!("bg-background-900", "text-white", "antialiased")}>
             <button {onclick}>{ "+1" }</button>
             <p>{ *counter }</p>
-            <i class="fa-solid fa-house"></i>
+            <div>
+                <SocialLink href="https://github.com/devspaceship" aria_label="Github">
+                    <i class="fa-brands fa-github"></i>
+                </SocialLink>
+                <SocialLink href="https://www.linkedin.com/in/devspaceship/" aria_label="LinkedIn">
+                    <i class="fa-brands fa-linkedin"></i>
+                </SocialLink>
+                <SocialLink href="https://www.instagram.com/devspaceship/" aria_label="Instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                </SocialLink>
+                <SocialLink href="https://twitter.com/devspaceship" aria_label="Twitter">
+                    <i class="fa-brands fa-twitter"></i>
+                </SocialLink>
+            </div>
         </div>
     }
 }
