@@ -41,6 +41,12 @@ export const reducer = (
           row.map((cell) => ({
             ...cell,
             stateValue: 0,
+            stateActionValue: {
+              [CellPolicy.UP]: 0,
+              [CellPolicy.DOWN]: 0,
+              [CellPolicy.LEFT]: 0,
+              [CellPolicy.RIGHT]: 0,
+            },
             policy: CellPolicy.UP,
           }))
         ),
