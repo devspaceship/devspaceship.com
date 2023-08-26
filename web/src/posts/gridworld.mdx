@@ -5,7 +5,7 @@ export const meta = {
   updated: "2022-03-12",
   summary: `An easy introduction to Markov Decision Processes and Reinforcement Learning by the mean of a gridworld environement
     where you can play with different parameters of solving algorithms and modify the map to see the effects.
-    We see what are state-value function and policies and we look into four solvers.`,
+    We'll see what are state-value function and policies and we look into four solvers.`,
   categories: ["Artificial Intelligence"],
   tags: ["Reinforcement Learning", "Markov Decision Process", "Gridworld"],
 };
@@ -18,24 +18,23 @@ import Gridworld from "@/components/Gridworld";
 
 ## What is a gridworld ?
 
-Even though the name seems self-explanatory, I am still going to give some precisions.
 This gridworld is 8 lines x 12 columns.
 It represent an _environment_ in which our _agent_ is going to take _actions_.
-The orange cell on the up left corner is the starting point of our _agent_.
-The green one placed on the bottom right is the goal _state_, where we want to go.
-You can move the starting and ending point by draging them.
-Traps have been placed and are represented by red cells.
-You can place others by clicking or initiating a drag on an empty cell.
-Similarly, you can remove traps by clicking or initiating a drag on a trap cell.
+The orange cell placed on the bottom right is the goal _state_, where we want to go.
+You can move the ending point by draging it.
+Walls have been placed and are represented by blue cells.
+You can place other ones by clicking or initiating a drag on an empty cell.
+Similarly, you can remove walls by clicking or initiating a drag on a wall cell.
 
-We start at the first time step on the starting point $s_0$.
-At each time step, we chose a possible action $a_t$.
-Here we can go down or right but not up or left because there is a wall.
+![Finite Deterministic Markov Decision Process](/static/posts/gridworld/markov_decision_process.jpg)
+
+We start at the first time step on the starting point $s_0$, with an initial reward $r_0$ being 0.
+At each time step $t$, we chose a possible action $a_t$.
 Let's say that we chosed to go down $a_0 = down$.
-If there is a trap, we get a 'reward' of $-100$ and the game ends $r_0 = -100$.
-If there is nothing, we get a reward of $-1$, $r_0 = -1$, and if we got to the end, we get a reward of $+100$ and the game ends $r_0 = 100$.
+If there is a wall, we get a 'reward' of $-100$ and the game ends $r_1 = -100$.
+If there is nothing, we get a reward of $-1$, $r_1 = -1$, and if we got to the end, we get a reward of $+100$ and the game ends $r_1 = 100$.
 Note that we can define a terminal _state_ as a _state_ where every action takes you to the same _state_ with a reward of $0$.
-The goal is to finish the game with the maximum (discounted) reward possible $R = \sum_{t=0}^{+\infty} \gamma^t r_t$.
+The goal is to finish the game with the maximum (discounted) reward possible $R = \sum_{t=1}^{+\infty} \gamma^t r_t$.
 That is why we give a negative reward when transitionning to a cell where there is nothing.
 This tells us that the shortest path to the end is going to be better than making 3 times the tour of the map before going to the goal _state_.
 
@@ -46,8 +45,6 @@ In a deterministic **MDP**, you have:
 - a set of _states_ $S$, where $S_t$ is the subset of _states_ you can access at time step $t$.
 - a set of _actions_ $A$, where $A_t$ is the subset of _actions_ you can chose at time step $t$.
 - a _reward_ function $R$, where $R(s, s')$ is the _reward_ you get when transitionning from _state_ $s$ to $s'$.
-
-![Finite Deterministic Markov Decision Process](/static/posts/gridworld/MDP.svg)
 
 ## What is a policy, a state value and a Q-function ?
 
