@@ -28,13 +28,13 @@ Similarly, you can remove walls by clicking or initiating a drag on a wall cell.
 
 ![Finite Deterministic Markov Decision Process](/static/posts/gridworld/markov_decision_process.jpg)
 
-We start at the first time step on the starting point $s_0$, with an initial reward $r_0$ being 0.
+We start at the first time step on the starting point $s_0$, with an initial reward $r_0$ being $0$.
 At each time step $t$, we chose a possible action $a_t$.
 Let's say that we chosed to go down $a_0 = down$.
-If there is a wall, we get a 'reward' of $-100$ and the game ends $r_1 = -100$.
-If there is nothing, we get a reward of $-1$, $r_1 = -1$, and if we got to the end, we get a reward of $+100$ and the game ends $r_1 = 100$.
+If there is a wall, we get a 'reward' of $r_1 = -100$.
+If there is nothing, we get a reward of $r_1 = -1$, and if we got to the end, we get a reward of $+100$ and the game ends $r_1 = 100$.
 Note that we can define a terminal _state_ as a _state_ where every action takes you to the same _state_ with a reward of $0$.
-The goal is to finish the game with the maximum (discounted) reward possible $R = \sum_{t=1}^{+\infty} \gamma^t r_t$.
+The goal is to finish the game with the maximum (discounted) reward possible $\sum_{t=0}^{+\infty} \gamma^t r_{t+1}$.
 That is why we give a negative reward when transitionning to a cell where there is nothing.
 This tells us that the shortest path to the end is going to be better than making 3 times the tour of the map before going to the goal _state_.
 
@@ -44,7 +44,10 @@ In a deterministic **MDP**, you have:
 
 - a set of _states_ $S$, where $S_t$ is the subset of _states_ you can access at time step $t$.
 - a set of _actions_ $A$, where $A_t$ is the subset of _actions_ you can chose at time step $t$.
-- a _reward_ function $R$, where $R(s, s')$ is the _reward_ you get when transitionning from _state_ $s$ to $s'$.
+- a _reward_ function $R: S \times S \rightarrow \mathbb{R}$, where $R(s, s')$ is the _reward_ you get when transitionning from _state_ $s$ to $s'$.
+
+Note that I sometimes use the $R$ function as a function defined like this instead $R: S \times A \rightarrow \mathbb{R}$ 
+where $R(s,a)$ is the reward you get from transitioning from $s$ to the state you end up in by following $a$.
 
 ## What is a policy, a state value and a Q-function ?
 
@@ -56,8 +59,8 @@ We can now define what are a state-value and a Q-value (also called action-value
 
 $$
 \begin{aligned}
-  V^{\pi}(s_t) &= \mathbb{E}_{\pi} \left[\sum_{i = t}^{+ \infty} \gamma^{i-t} r_i \mid s_t \right] \\
-  Q^{\pi}(s_t, a_t) &= \mathbb{E}_{\pi} \left[\sum_{i = t}^{+ \infty} \gamma^{i-t} r_i \mid s_t, a_t \right]
+  V^{\pi}(s_t) &= \mathbb{E}_{\pi} \left[\sum_{i = t}^{+ \infty} \gamma^{i-t} r_{i+1} \mid s_t \right] \\
+  Q^{\pi}(s_t, a_t) &= \mathbb{E}_{\pi} \left[\sum_{i = t}^{+ \infty} \gamma^{i-t} r_{i+1} \mid s_t, a_t \right]
 \end{aligned}
 $$
 
@@ -79,13 +82,14 @@ as well as the optimal Q-value function $Q^* = Q^{\pi^*} = \max_{\pi} Q^{\pi}$. 
 ## Let's solve it !
 
 The next remarks are going to be central for solving the problem,
-they are the [Bellman Equations][2] of a deterministic _MDP_ (with deterministic policy).
+they are the [Bellman Equations][2] of a deterministic _MDP_ (with deterministic policy).\
+Note that here $s: S \times A \rightarrow S$ is a function that takes a state and action and returns a state since we are in the deterministic case.\
 
 $$
 \begin{aligned}
-  V^{\pi}(s_t) &= \sum_{i = t}^{+ \infty} \gamma^{i-t} r_i\\
-  &= r_t + \sum_{i = t+1}^{+ \infty} \gamma^{i-t} r_i\\
-  &= r_t + \gamma \sum_{i = t+1}^{+ \infty} \gamma^{i-(t+1)} r_i\\
+  V^{\pi}(s_t) &= \sum_{i = t}^{+ \infty} \gamma^{i-t} r_{i+1}\\
+  &= r_{t+1} + \sum_{i = t+1}^{+ \infty} \gamma^{i-t} r_{i+1}\\
+  &= r_{t+1} + \gamma \sum_{i = t+1}^{+ \infty} \gamma^{i-(t+1)} r_{i+1}\\
   &= R(s_t, s(s_t, \pi(s_t))) + \gamma V^{\pi}(s(s_t, \pi(s_t)))
 \end{aligned}
 $$
@@ -94,8 +98,8 @@ By the same reasoning we obtain the equation for the action-value function:
 
 $$
 \begin{aligned}
-  Q^{\pi}(s_t, a_t) &= \sum_{i = t}^{+ \infty} \gamma^{i-t} r_i \mid a_t\\
-  &= r_t + \gamma \sum_{i = t+1}^{+ \infty} \gamma^{i-(t+1)} r_i\\
+  Q^{\pi}(s_t, a_t) &= \sum_{i = t}^{+ \infty} \gamma^{i-t} r_{i+1} \mid a_t\\
+  &= r_{t+1} + \gamma \sum_{i = t+1}^{+ \infty} \gamma^{i-(t+1)} r_{i+1}\\
   &= R(s_t, s(s_t, a_t)) + \gamma V^{\pi}(s(s_t, a_t))
 \end{aligned}
 $$
