@@ -16,8 +16,6 @@ fn App() -> Html {
 
     html! {
         <div class={classes!("bg-background-900", "text-white", "antialiased")}>
-            <button {onclick}>{ "+1" }</button>
-            <p>{ *counter }</p>
             <div>
                 <SocialLink href="https://github.com/devspaceship" aria_label="Github">
                     <i class="fa-brands fa-github"></i>
