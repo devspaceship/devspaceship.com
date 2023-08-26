@@ -1,7 +1,8 @@
 services:
-  next:
+  web:
     build:
-      context: ./
+      context: ./web/
       target: prod
     ports:
-      - 3000:3000
+      - 4200:4200
+    

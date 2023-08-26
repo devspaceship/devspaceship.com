@@ -1,10 +1,6 @@
 services:
-  next:
+  web:
     build:
       target: dev
     volumes:
-      - ./:/app/
-      - next-node-modules:/app/node_modules/
-
-volumes:
-  next-node-modules:
+      - ./web/:/app/
