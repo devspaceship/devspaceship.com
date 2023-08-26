@@ -1,6 +1,7 @@
 .next/
 .vscode/
 node_modules/
+target/
 compose.override.yaml
 .DS_Store
 .env
