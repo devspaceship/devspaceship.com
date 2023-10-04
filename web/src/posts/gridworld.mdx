@@ -31,8 +31,7 @@ Similarly, you can remove walls by clicking or initiating a drag on a wall cell.
 We start at the first time step on the starting point $s_0$, with an initial reward $r_0$ being $0$.
 At each time step $t$, we chose a possible action $a_t$.
 Let's say that we chosed to go down $a_0 = down$.
-If there is a wall, we get a 'reward' of $r_1 = -100$.
-If there is nothing, we get a reward of $r_1 = -1$, and if we got to the end, we get a reward of $+100$ and the game ends $r_1 = 100$.
+If there is nothing or a wall, we get a 'reward' of $r_1 = -1$. And if we got to the end, we get a reward of $r_1 = +100$ and the game ends.
 Note that we can define a terminal _state_ as a _state_ where every action takes you to the same _state_ with a reward of $0$.
 The goal is to finish the game with the maximum (discounted) reward possible $\sum_{t=0}^{+\infty} \gamma^t r_{t+1}$.
 That is why we give a negative reward when transitionning to a cell where there is nothing.
@@ -141,7 +140,7 @@ $$
 
 We can then have two arrays, one for the old values and one for the new values calculated from the old ones.
 We can also do it in-place with one array, replacing values as we go through $S$.
-Although the latter is usually faster to converge it is anisotropic in the sense that
+Although the latter is usually faster to converge, it is anisotropic in the sense that
 the order in which we are going to do the updates is going to matter.
 In this example, we are going to use the two array version.
 Here, 'N' is the number of rows, 'M' the number of columns and
@@ -176,7 +175,7 @@ def policy_evaluation(policy: List[List[str]], gamma=0.97, threshold=1e-5, V_ini
     for i in range(N):
       for j in range(M):
         i_, j_, r = transition(i, j, policy[i][j])
-        V_new[i][j] = r + gamma*V_old[i_][j_]
+        V_new[i][j] = r + gamma * V_old[i_][j_]
 
         delta = max(delta, abs(V_new[i][j] - V_old[i][j]))
 

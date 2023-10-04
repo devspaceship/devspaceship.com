@@ -7,7 +7,6 @@ COPY ./package-lock.json ./
 RUN npm install -g npm@9.6.5 && \
     npm install
 
-EXPOSE 3000
 CMD [ "npm", "run", "dev" ]
 
 # Production

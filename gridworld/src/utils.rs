@@ -76,30 +76,35 @@ pub fn policy_evaluation(
     state_value
 }
 
-/// Returns the policy that maximizes the discounted reward for a given state value
+/// Improves the policy for a given state value and returns a boolean to see if policy is stable
 pub fn policy_improvement(
+    policy: &mut PolicyGrid,
     grid: &CellGrid,
     state_value: &StateValueGrid,
     gamma: Option<f64>,
-) -> PolicyGrid{
+) -> bool {
     let gamma = gamma.unwrap_or(0.97);
-    let mut policy = matrix(grid.len(), grid[0].len(), Policy::Up);
+    let mut is_stable = true;
+    // let mut policy = matrix(grid.len(), grid[0].len(), Policy::Up);
     for i in 0..grid.len() {
         for j in 0..grid[i].len() {
             let mut max_reward = -1.0;
-            let mut max_policy = Policy::Up;
+            let mut max_cell_policy = Policy::Up;
             for cell_policy in policy_directions() {
                 let (i_, j_, reward) = transition(&grid, i, j, &cell_policy);
                 let new_reward = reward as f64 + gamma * state_value[i_][j_];
                 if new_reward > max_reward {
                     max_reward = new_reward;
-                    max_policy = cell_policy;
+                    max_cell_policy = cell_policy;
                 }
             }
-            policy[i][j] = max_policy;
+            if (*policy)[i][j] != max_cell_policy {
+                is_stable = false;
+            }
+            (*policy)[i][j] = max_cell_policy;
         }
     }
-    policy
+    is_stable
 }
 
 #[cfg(test)]
@@ -118,7 +123,14 @@ mod tests {
     }
 
     fn get_optimal_policy() -> PolicyGrid {
-        vec![vec![Policy::Right, Policy::Down], vec![Policy::Right, Policy::Right]]
+        vec![
+            vec![Policy::Right, Policy::Down],
+            vec![Policy::Up, Policy::Up],
+        ]
+    }
+
+    fn get_no_gamma_state_value() -> StateValueGrid {
+        vec![vec![-1.0, 100.0], vec![-1.0, 0.0]]
     }
 
     #[test]
@@ -154,12 +166,19 @@ mod tests {
     }
 
     #[test]
-    fn test_policy_evaluation_and_improvement() {
+    fn test_policy_evaluation() {
         let grid = get_test_grid();
         let policy = get_optimal_policy();
-        let state_value = policy_evaluation(&grid, &policy, None, None);
-        let policy = policy_improvement(&grid, &state_value, None);
-        assert_eq!(policy[0][0], Policy::Right);
-        assert_eq!(policy[0][1], Policy::Down);
+        let state_value = policy_evaluation(&grid, &policy, None, Some(0.0));
+        assert_eq!(state_value, get_no_gamma_state_value());
+    }
+
+    #[test]
+    fn test_policy_improvement() {
+        let grid = get_test_grid();
+        let state_value = get_no_gamma_state_value();
+        let mut policy = get_optimal_policy();
+        let is_stable = policy_improvement(&mut policy, &grid, &state_value, None);
+        assert_eq!(is_stable, true);
     }
 }

@@ -5,4 +5,3 @@ services:
       target: prod
     ports:
       - 4200:4200
-    
