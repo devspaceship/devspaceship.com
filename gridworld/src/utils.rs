@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use crate::types::{ActionValue, Cell, CellGrid, Grid, Policy, PolicyGrid, StateValueGrid};
+use crate::types::{ActionValue, Cell, Grid, Policy};
 
 pub fn policy_directions() -> Vec<Policy> {
     vec![Policy::Up, Policy::Down, Policy::Left, Policy::Right]
@@ -13,6 +13,10 @@ pub fn new_action_value() -> ActionValue {
     }
     map
 }
+
+// pub fn new_action_value_grid(n: usize, m: usize) -> Grid<ActionValue> {
+//     vec![vec![new_action_value(); m]; n]
+// }
 
 /// Takes n, m and value and returns a matrix of n rows and m columns filled with value
 pub fn matrix<T: Clone>(n: usize, m: usize, value: T) -> Grid<T> {
@@ -49,11 +53,11 @@ pub fn transition(grid: &Grid<Cell>, i: usize, j: usize, action: &Policy) -> (us
 
 /// Evaluates the policy for a given state and returns the state value
 pub fn policy_evaluation(
-    grid: &CellGrid,
-    policy: &PolicyGrid,
-    state_value: Option<&StateValueGrid>,
+    grid: &Grid<Cell>,
+    policy: &Grid<Policy>,
+    state_value: Option<&Grid<f64>>,
     gamma: Option<f64>,
-) -> StateValueGrid {
+) -> Grid<f64> {
     let mut state_value = match state_value {
         Some(state_value) => state_value.clone(),
         None => matrix(grid.len(), grid[0].len(), 0.0),
@@ -78,9 +82,9 @@ pub fn policy_evaluation(
 
 /// Improves the policy for a given state value and returns a boolean to see if policy is stable
 pub fn policy_improvement(
-    policy: &mut PolicyGrid,
-    grid: &CellGrid,
-    state_value: &StateValueGrid,
+    policy: &mut Grid<Policy>,
+    grid: &Grid<Cell>,
+    state_value: &Grid<f64>,
     gamma: Option<f64>,
 ) -> bool {
     let gamma = gamma.unwrap_or(0.97);
@@ -110,27 +114,13 @@ pub fn policy_improvement(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::test_utils::{get_no_gamma_state_value, get_optimal_policy, get_test_grid};
 
     #[test]
     fn test_matrix() {
         let mut m = matrix(2, 3, 0);
         m[0][0] = 1;
         assert_eq!(m, vec![vec![1, 0, 0], vec![0, 0, 0]]);
-    }
-
-    fn get_test_grid() -> Grid<Cell> {
-        vec![vec![Cell::Air, Cell::Air], vec![Cell::Wall, Cell::End]]
-    }
-
-    fn get_optimal_policy() -> PolicyGrid {
-        vec![
-            vec![Policy::Right, Policy::Down],
-            vec![Policy::Up, Policy::Up],
-        ]
-    }
-
-    fn get_no_gamma_state_value() -> StateValueGrid {
-        vec![vec![-1.0, 100.0], vec![-1.0, 0.0]]
     }
 
     #[test]
