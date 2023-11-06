@@ -57,13 +57,20 @@ pub fn policy_evaluation(
     policy: &Grid<Policy>,
     state_value: Option<&Grid<f64>>,
     gamma: Option<f64>,
+    iter_before_improvement: Option<u32>,
 ) -> Grid<f64> {
     let mut state_value = match state_value {
         Some(state_value) => state_value.clone(),
         None => matrix(grid.len(), grid[0].len(), 0.0),
     };
     let gamma = gamma.unwrap_or(0.97);
+    let early_stop = match iter_before_improvement {
+        Some(_) => true,
+        None => false,
+    };
+    let mut iter = 0;
     loop {
+        iter += 1;
         let mut delta: f64 = 0.0;
         for i in 0..grid.len() {
             for j in 0..grid[i].len() {
@@ -73,7 +80,7 @@ pub fn policy_evaluation(
                 state_value[i][j] = new_state_value;
             }
         }
-        if delta < 1e-5 {
+        if delta < 1e-5 || (early_stop && iter == iter_before_improvement.unwrap()) {
             break;
         }
     }
@@ -159,7 +166,7 @@ mod tests {
     fn test_policy_evaluation() {
         let grid = get_test_grid();
         let policy = get_optimal_policy();
-        let state_value = policy_evaluation(&grid, &policy, None, Some(0.0));
+        let state_value = policy_evaluation(&grid, &policy, None, Some(0.0), None);
         assert_eq!(state_value, get_no_gamma_state_value());
     }
 
