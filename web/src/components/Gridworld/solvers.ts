@@ -69,7 +69,7 @@ const policyIteration = (state: GridworldState): boolean => {
 };
 
 const valueIteration = (state: GridworldState): boolean => {
-  policyEvaluation(state);
+  policyEvaluation(state, true);
   return policyImprovement(state);
 };
 
