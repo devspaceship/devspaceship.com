@@ -128,8 +128,7 @@ pub fn policy_improvement(
 
 pub fn choose_random_state(grid: &Grid<Cell>) -> (usize, usize) {
     let mut rng = rand::thread_rng();
-    let n = grid.len();
-    let m = grid[0].len();
+    let (n, m) = get_grid_size(&grid);
     let mut i = rng.gen_range(0..n);
     let mut j = rng.gen_range(0..m);
     while grid[i][j] == Cell::Wall || grid[i][j] == Cell::End {
@@ -171,6 +170,10 @@ pub fn epsilon_greedy(
     } else {
         greedy(action_value)
     }
+}
+
+pub fn get_grid_size(grid: &Grid<Cell>) -> (usize, usize) {
+    (grid.len(), grid[0].len())
 }
 
 #[cfg(test)]
