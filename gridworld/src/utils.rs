@@ -1,16 +1,16 @@
 use std::collections::HashMap;
 
-use rand::Rng;
+use rand::{seq::SliceRandom, Rng};
 
 use crate::types::{ActionValue, Cell, Grid, Policy};
 
-pub fn policy_directions() -> Vec<Policy> {
+pub fn get_policy_directions() -> Vec<Policy> {
     vec![Policy::Up, Policy::Down, Policy::Left, Policy::Right]
 }
 
 pub fn new_action_value() -> ActionValue {
     let mut map = HashMap::new();
-    for direction in policy_directions() {
+    for direction in get_policy_directions() {
         map.insert(direction, 0.0);
     }
     map
@@ -109,7 +109,7 @@ pub fn policy_improvement(
         for j in 0..grid[i].len() {
             let mut max_reward = -1.0;
             let mut max_cell_policy = Policy::Up;
-            for cell_policy in policy_directions() {
+            for cell_policy in get_policy_directions() {
                 let (i_, j_, reward) = transition(&grid, i, j, &cell_policy);
                 let new_reward = reward as f64 + gamma * state_value[i_][j_];
                 if new_reward > max_reward {
@@ -137,6 +137,40 @@ pub fn choose_random_state(grid: &Grid<Cell>) -> (usize, usize) {
         j = rng.gen_range(0..m);
     }
     (i, j)
+}
+
+fn choose_random_action() -> Policy {
+    let mut rng = rand::thread_rng();
+    let mut actions = get_policy_directions();
+    actions.shuffle(&mut rng);
+    actions[0]
+}
+
+fn greedy(action_value: &ActionValue) -> Policy {
+    let mut max_reward = -999.9;
+    let mut max_policy = Policy::Up;
+    for (policy, reward) in action_value {
+        if *reward > max_reward {
+            max_reward = *reward;
+            max_policy = *policy;
+        }
+    }
+    max_policy
+}
+
+pub fn epsilon_greedy(
+    action_value: &ActionValue,
+    epsilon_0: f64,
+    t: u32,
+    exploration_period: u32,
+) -> Policy {
+    let mut rng = rand::thread_rng();
+    let epsilon = epsilon_0 / (1.0 + (t / exploration_period) as f64);
+    if rng.gen::<f64>() < epsilon {
+        choose_random_action()
+    } else {
+        greedy(action_value)
+    }
 }
 
 #[cfg(test)]
