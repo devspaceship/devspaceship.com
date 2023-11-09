@@ -1,5 +1,7 @@
 use std::collections::HashMap;
 
+use rand::Rng;
+
 use crate::types::{ActionValue, Cell, Grid, Policy};
 
 pub fn policy_directions() -> Vec<Policy> {
@@ -14,9 +16,15 @@ pub fn new_action_value() -> ActionValue {
     map
 }
 
-// pub fn new_action_value_grid(n: usize, m: usize) -> Grid<ActionValue> {
-//     vec![vec![new_action_value(); m]; n]
-// }
+pub fn new_action_value_grid(n: usize, m: usize) -> Grid<ActionValue> {
+    let mut grid = matrix(n, m, new_action_value());
+    for i in 0..n {
+        for j in 0..m {
+            grid[i][j] = new_action_value();
+        }
+    }
+    grid
+}
 
 /// Takes n, m and value and returns a matrix of n rows and m columns filled with value
 pub fn matrix<T: Clone>(n: usize, m: usize, value: T) -> Grid<T> {
@@ -118,6 +126,19 @@ pub fn policy_improvement(
     is_stable
 }
 
+pub fn choose_random_state(grid: &Grid<Cell>) -> (usize, usize) {
+    let mut rng = rand::thread_rng();
+    let n = grid.len();
+    let m = grid[0].len();
+    let mut i = rng.gen_range(0..n);
+    let mut j = rng.gen_range(0..m);
+    while grid[i][j] == Cell::Wall || grid[i][j] == Cell::End {
+        i = rng.gen_range(0..n);
+        j = rng.gen_range(0..m);
+    }
+    (i, j)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -177,5 +198,12 @@ mod tests {
         let mut policy = get_optimal_policy();
         let is_stable = policy_improvement(&mut policy, &grid, &state_value, None);
         assert_eq!(is_stable, true);
+    }
+
+    #[test]
+    fn test_choose_random_state() {
+        let grid = get_test_grid();
+        let (i, j) = choose_random_state(&grid);
+        assert!(grid[i][j] == Cell::Air);
     }
 }
