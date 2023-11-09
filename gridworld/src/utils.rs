@@ -176,6 +176,16 @@ pub fn get_grid_size(grid: &Grid<Cell>) -> (usize, usize) {
     (grid.len(), grid[0].len())
 }
 
+pub fn max_action_value(action_value: &ActionValue) -> f64 {
+    let mut max_reward = -999.9;
+    for (_, reward) in action_value {
+        if *reward > max_reward {
+            max_reward = *reward;
+        }
+    }
+    max_reward
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

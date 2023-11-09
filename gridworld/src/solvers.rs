@@ -2,8 +2,8 @@ use crate::{
     config::MAX_NUM_STEPS,
     types::{Cell, Grid, Policy},
     utils::{
-        choose_random_state, epsilon_greedy, get_grid_size, matrix, new_action_value_grid,
-        policy_evaluation, policy_improvement, transition,
+        choose_random_state, epsilon_greedy, get_grid_size, matrix, max_action_value,
+        new_action_value_grid, policy_evaluation, policy_improvement, transition,
     },
 };
 
@@ -30,13 +30,14 @@ pub fn policy_value_iteration(
 }
 
 #[allow(dead_code)]
-fn sarsa(
+fn sarsa_q_learning(
     grid: Grid<Cell>,
     num_episodes: u32,
     alpha: f64,
     gamma: f64,
     epsilon_0: f64,
     exploration_period: u32,
+    q_learning: bool,
 ) {
     let (n, m) = get_grid_size(&grid);
     let mut t = 0;
@@ -52,18 +53,17 @@ fn sarsa(
             let (next_i, next_j, reward) = transition(&grid, i, j, &action);
             let next_action_value = &action_value_grid[next_i][next_j];
             let next_action = epsilon_greedy(next_action_value, epsilon_0, t, exploration_period);
+            let q_value = if q_learning {
+                max_action_value(&action_value_grid[next_i][next_j])
+            } else {
+                *action_value_grid[next_i][next_j].get(&next_action).unwrap()
+            };
             *action_value_grid[i][j].get_mut(&action).unwrap() += alpha
-                * (reward as f64
-                    + gamma * action_value_grid[next_i][next_j].get(&next_action).unwrap()
-                    - action_value_grid[i][j].get(&action).unwrap());
+                * (reward as f64 + gamma * q_value - action_value_grid[i][j].get(&action).unwrap());
             (i, j, action) = (next_i, next_j, next_action);
         }
     }
 }
-
-// fn q_learning() {
-//     unimplemented!()
-// }
 
 #[cfg(test)]
 mod tests {
@@ -83,16 +83,4 @@ mod tests {
         let (_state_value_grid, policy_grid) = policy_value_iteration(test_grid, None, Some(5));
         assert!(get_optimal_policy() == policy_grid);
     }
-
-    // #[test]
-    // fn test_sarsa() {
-    //     // Test sarsa function here
-    //     assert_eq!(2 + 2, 4);
-    // }
-
-    // #[test]
-    // fn test_q_learning() {
-    //     // Test q_learning function here
-    //     assert_eq!(2 + 2, 4);
-    // }
 }
