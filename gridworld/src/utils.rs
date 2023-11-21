@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, vec};
 
 use rand::{seq::SliceRandom, Rng};
 
@@ -81,7 +81,7 @@ pub fn policy_evaluation(
         iter += 1;
         let mut delta: f64 = 0.0;
         for i in 0..grid.len() {
-            for j in 0..grid[i].len() {
+            for j in 0..grid[0].len() {
                 let (i_, j_, reward) = transition(&grid, i, j, &policy[i][j]);
                 let new_state_value = reward as f64 + gamma * state_value[i_][j_];
                 delta = delta.max((new_state_value - state_value[i][j]).abs());
@@ -106,7 +106,7 @@ pub fn policy_improvement(
     let mut is_stable = true;
     // let mut policy = matrix(grid.len(), grid[0].len(), Policy::Up);
     for i in 0..grid.len() {
-        for j in 0..grid[i].len() {
+        for j in 0..grid[0].len() {
             let mut max_reward = -1.0;
             let mut max_cell_policy = Policy::Up;
             for cell_policy in get_policy_directions() {
@@ -127,15 +127,22 @@ pub fn policy_improvement(
 }
 
 pub fn choose_random_state(grid: &Grid<Cell>) -> (usize, usize) {
-    let mut rng = rand::thread_rng();
-    let (n, m) = get_grid_size(&grid);
-    let mut i = rng.gen_range(0..n);
-    let mut j = rng.gen_range(0..m);
-    while grid[i][j] == Cell::Wall || grid[i][j] == Cell::End {
-        i = rng.gen_range(0..n);
-        j = rng.gen_range(0..m);
+    let mut valid_states = vec![];
+    for i in 0..grid.len() {
+        for j in 0..grid[0].len() {
+            if grid[i][j] == Cell::Air {
+                valid_states.push((i, j));
+            }
+        }
     }
-    (i, j)
+
+    if valid_states.len() == 0 {
+        panic!("No valid states found");
+    }
+
+    let mut rng = rand::thread_rng();
+    let random_index = rng.gen_range(0..valid_states.len());
+    valid_states[random_index]
 }
 
 fn choose_random_action() -> Policy {
