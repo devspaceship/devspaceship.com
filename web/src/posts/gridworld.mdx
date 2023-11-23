@@ -118,10 +118,38 @@ $$
 Q^*(s_t, a_t) = R(s_t, s(s_t, a_t)) + \gamma \max_{a_{t+1}} Q^*(s(s_t, a_t), a_{t+1})
 $$
 
+## Code preliminaries
+
+Those code examples are going to be written in Rust. We start by defining the following types:
+
+```rust
+#[derive(Debug, PartialEq)]
+pub enum Cell {
+    Air,
+    Wall,
+    End,
+}
+
+#[derive(Eq, Hash, PartialEq, Debug, Clone, Copy)]
+pub enum Policy {
+    Up,
+    Down,
+    Left,
+    Right,
+}
+
+pub type Grid<T> = Vec<Vec<T>>;
+pub type ActionValue = HashMap<Policy, f64>;
+```
+
+I also wrote some helper functions to make the code more readable from which you can find all the functions [here][5].
+Also, note that given the similarity between the implementations of Policy Iteration and Value Iteration and those of SARSA and Q-Learning,
+I will have their implementations in 2 shared functions.
+
 ## Policy Iteration
 
 The first method we are going to use is called Policy Iteration.
-We initialize the state-value function with a random one or we can also initialize it at 0 for every state.
+We initialize the state-value function with a random one or we can also initialize it at $0$ for every state.
 We, then, derive a better policy from this state-value.
 We calculate the new state-value and again a new better policy,
 and so on until the policy is stable.
@@ -129,8 +157,6 @@ and so on until the policy is stable.
 ### Policy Evaluation
 
 We first need a method in order to estimate the state-value function of a policy.
-We could solve the $\mid S \mid$ equations with $\mid S \mid$ unknowns,
-but we are instead going to use a simpler and less computationally expensive way.
 This technique is called _Policy Evaluation_.
 For this, we want to use the Bellman equation as an update rule for our state-value estimation:
 
@@ -143,47 +169,48 @@ We can also do it in-place with one array, replacing values as we go through $S$
 Although the latter is usually faster to converge, it is anisotropic in the sense that
 the order in which we are going to do the updates is going to matter.
 In this example, we are going to use the two array version.
-Here, 'N' is the number of rows, 'M' the number of columns and
-'transition' is a function that gives the next _state_ and the _reward_ given the current _state_ and _action_.
-Finally, threshold is a small value that will determine when we stop the iterations.
 
-Let's also introduce a helper function `matrix` that takes a number of rows `n`, of columns `m` and a value `value`
-and returns a matrix of `n` rows, `m` columns filled with `value`:
-
-```python
-def matrix(n, m, value):
-  return [[value]*m for _ in range(n)]
+```rust
+/// Evaluates the policy for a given state and optional initial state value grid
+/// Returns a new state value grid
+pub fn policy_evaluation(
+    cell_grid: &Grid<Cell>,
+    policy_grid: &Grid<Policy>,
+    gamma: Option<f64>,
+    iter_before_improvement: Option<u32>,
+    state_value_grid: Option<&Grid<f64>>,
+) -> Grid<f64> {
+    let (n, m) = get_grid_size(&cell_grid);
+    let mut state_value = match state_value_grid {
+        Some(state_value) => state_value.clone(),
+        None => matrix(n, m, 0.0),
+    };
+    let gamma = gamma.unwrap_or(DEFAULT_GAMMA);
+    let early_stop = match iter_before_improvement {
+        Some(_) => true,
+        None => false,
+    };
+    let mut iteration = 0;
+    loop {
+        iteration += 1;
+        let mut delta: f64 = 0.0;
+        for i in 0..n {
+            for j in 0..m {
+                let (i_, j_, reward) = transition(&cell_grid, i, j, &policy_grid[i][j]);
+                let new_state_value = reward as f64 + gamma * state_value[i_][j_];
+                delta = delta.max((new_state_value - state_value[i][j]).abs());
+                state_value[i][j] = new_state_value;
+            }
+        }
+        if delta < 1e-5 || (early_stop && iteration == iter_before_improvement.unwrap()) {
+            break;
+        }
+    }
+    state_value
+}
 ```
 
-```python
-def policy_evaluation(policy: List[List[str]], gamma=0.97, threshold=1e-5, V_init=None) -> List[List[float]]:
-  """
-  policy: 2D array where each state in the grid is assigned an action
-  threshold: This controls the precision of the convergence
-             to the ground-truth optimal state-value function
-  """
-  if not is_instance(V_init, None):
-    V_old = copy.deepcopy(V_init)
-    V_new = copy.deepcopy(V_init)
-  else:
-    V_old = matrix(N, M, 0)
-    V_new = matrix(N, M, 0)
-
-  while True:
-    delta = 0
-
-    for i in range(N):
-      for j in range(M):
-        i_, j_, r = transition(i, j, policy[i][j])
-        V_new[i][j] = r + gamma * V_old[i_][j_]
-
-        delta = max(delta, abs(V_new[i][j] - V_old[i][j]))
-
-    if delta < threshold:
-      return V_new
-
-    V_old = copy.deepcopy(V_new)
-```
+The `transition` function is a helper function that returns the next _state_ and the reward given a _state_ and an _action_. And the reason we have an early stop implemented in this function is that we are going to use it in the next solver: Value Iteration.
 
 ### Policy Improvement
 
@@ -194,119 +221,88 @@ $$
 \pi'(s) = \text{argmax}_a [r(s, s(s, a)) + \gamma V(s(s, a))]
 $$
 
-```python
-def policy_improvement(V: List[List[float]], gamma=0.97) -> List[List[str]]:
-  """
-  V: state-value function
-  """
-  policy = matrix(N, M, None)
-
-  for i in range(N):
-    for j in range(M):
-      best = float("-inf")
-      best_action = ''
-
-      for action in ['N', 'E', 'S', 'W']:
-        i_, j_, r = transition(i, j, action)
-        reward = r + gamma * V[i_][j_]
-        if reward > best:
-          best = reward
-          best_action = action
-
-      policy[i][j] = best_action
-
-  return policy
+```rust
+/// Improves the policy in place for a given state value grid
+/// Returns a boolean to see if policy is stable
+pub fn policy_improvement(
+    policy: &mut Grid<Policy>,
+    cell_grid: &Grid<Cell>,
+    state_value_grid: &Grid<f64>,
+    gamma: Option<f64>,
+) -> bool {
+    let (n, m) = get_grid_size(state_value_grid);
+    let gamma = gamma.unwrap_or(DEFAULT_GAMMA);
+    let mut is_stable = true;
+    for i in 0..n {
+        for j in 0..m {
+            let mut max_reward = -1.0;
+            let mut max_cell_policy = Policy::Up;
+            for cell_policy in get_policy_directions() {
+                let (i_, j_, r) = transition(&cell_grid, i, j, &cell_policy);
+                let reward = r as f64 + gamma * state_value_grid[i_][j_];
+                if reward > max_reward {
+                    max_reward = reward;
+                    max_cell_policy = cell_policy;
+                }
+            }
+            if (*policy)[i][j] != max_cell_policy {
+                is_stable = false;
+            }
+            (*policy)[i][j] = max_cell_policy;
+        }
+    }
+    is_stable
+}
 ```
 
 ### Final Algorithm
 
 ![Policy Iteration](/static/posts/gridworld/policy_iteration.svg)
 
-We write an helper function to determine if the policy is stable:
-
-```python
-def is_stable(p1: List[List[str]], p2: List[List[str]]) -> bool:
-  """
-  p1, p2: policies to compare
-  """
-  for i in range(N):
-    for j in range(M):
-      if p1[i][j] != p2[i][j]:
-        return False
-
-  return True
-```
-
-We can now write the full algorithm:
-
-```python
-def policy_iteration(gamma=0.97, threshold=1e-5) -> List[List[str]]:
-  V = matrix(N, M, 0)
-  pi = matrix(N, M, 'N')
-
-  while True:
-    V = policy_evaluation(pi, gamma, threshold, V)
-    new_pi = policy_improvement(V, gamma)
-
-    if is_stable(pi, new_pi):
-      break
-
-    pi = new_pi
-
-  return new_pi
-```
-
-We can remark that we use the previous state-value function for evaluating the next one.
-This have the effect of greatly speeding up the evaluation step.
-
 ## Value Iteration
-
-![Value Iteration](/static/posts/gridworld/value_iteration.svg)
 
 In Policy Iteration, we were estimating the state-value function of the policies until reasonable convergence.
 In Value Iteration, we instantly greedify the policy between the sweeps for state-value evaluation.
-It discards the need for actually computing the policy between each evaluation.
+It discards the need for actually computing the policy between each evaluation as it just computes the greedy one on the fly at the moment of choosing an action.
+In general, a variant of that algorithm is used where we do a few steps of evaluation between two policy improvement steps.
+In this case, the code will be the said variant.
 
-```python
-def value_iteration(threshold: float=1e-5) -> list[list]:
-  V_old = matrix(N, M, 0)
-  V_new = matrix(N, M, 0)
+![Value Iteration](/static/posts/gridworld/value_iteration.svg)
 
-  while True:
-    delta = 0
 
-    for i in range(N):
-      for j in range(M):
-        best = float("-inf")
-
-        for a in range(4):
-          i_, j_, r = transition(i, j, a)
-
-          v = r + gamma*V_old[i_][j_]
-          if v > best:
-            best = v
-
-        V_new[i][j] = best
-        delta = max(delta, abs(V_new[i][j] - V_old[i][j]))
-
-    if delta < threshold:
-      break
-
-    V_old = copy.deepcopy(V_new)
-
-  return policy_improvement(V_new)
+```rust
+pub fn policy_value_iteration(
+    cell_grid: Grid<Cell>,
+    gamma: Option<f64>,
+    iter_before_improvement: Option<u32>,
+) -> (Grid<f64>, Grid<Policy>) {
+    let (n, m) = get_grid_size(&cell_grid);
+    let mut is_stable = false;
+    let mut state_value_grid = matrix(n, m, 0.0);
+    let mut policy_grid = matrix(n, m, Policy::Up);
+    while !is_stable {
+        state_value_grid = policy_evaluation(
+            &cell_grid,
+            &policy_grid,
+            gamma,
+            iter_before_improvement,
+            Some(&state_value_grid),
+        );
+        is_stable = policy_improvement(&mut policy_grid, &cell_grid, &state_value_grid, gamma);
+    }
+    (state_value_grid, policy_grid)
+}
 ```
 
-In practice, we usually don't use this algorithm in this form:
-a few steps of classical evaluation are put in between two _Value Iteration_ steps.
-If Value Iteration can be seen as one step of evaluation followed by one policy improvement,
-this version of the algorithm can be seen as $k$ steps of evaluation followed by an improvement one.
+In this shared implementation we now see why we have the `iter_before_improvement` parameter.
+It is used to do a few steps of evaluation before improving the policy in the case of Value Iteration.
+If it is set to None, we evaluate until convergence so the Policy Iteration algorithm is used.
 
 ## SARSA
 
-With SARSA and Q-Learning we are going to be estimating Q instead of V and derive the optimal policy from it.
+With SARSA and $Q$-Learning we are going to be estimating $Q$ instead of $V$ and derive the optimal policy from it.
 Another difference with these methods is that we are going to be simulating episodes
-through the gridworld in order to estimate the Q-function instead of sweeping through the _state_ space $S$.
+through the gridworld in order to estimate the $Q$-function instead of sweeping through the _state_ space $S$.
 SARSA stands for State-Action-Reward-State-Action because we are going to look one action forward following the policy to estimate $Q(s,a)$.
 In fact we are not always going to follow the policy because it can be biased if it has not tried certain actions.
 To ensure that we explore the state-action space we need to take a random action once in a while and to start at a random valid position on the grid.
@@ -314,96 +310,98 @@ Since we don't need to explore as much as in the beginning episodes after episod
 This probability of chosing a random action in a given _state_ is represented by $\varepsilon$
 which decreases in $\frac{1}{t}$ where $t$ represent the epsiode.
 
-```python
-def choose_action(pi, i, j, eps_0, T, t):
-  eps = eps_0/(1+(t/T))
-
-  return randint(0, 3) if random() < eps else pi[i][j]
+```rust
+pub fn epsilon_greedy(
+    action_value: &ActionValue,
+    epsilon_0: f64,
+    t: u32,
+    exploration_period: u32,
+) -> Policy {
+    let mut rng = rand::thread_rng();
+    let epsilon = epsilon_0 / (1.0 + (t / exploration_period + 1) as f64);
+    if rng.gen::<f64>() < epsilon {
+        choose_random_action()
+    } else {
+        greedy(action_value)
+    }
+}
 ```
 
-Here we use $\varepsilon = \frac{\varepsilon_0}{1+t/T}$. $\varepsilon_0$ is $\varepsilon$ at time-step $t=0$ and $T$
-represents the decreasing period. Choosing a random action with probability $\varepsilon$ and the greedy action otherwise
+Here we use $\varepsilon = \frac{\varepsilon_0}{1+t/T}$.
+$\varepsilon_0$ is $\varepsilon$ at time-step $t=0$ and $T$ represents the decreasing period.
+Writing it this way also prevents from dividing by $0$ if $t=0$.
+I also added $1$ to the exploration period because we don't want to divide by $0$ in the first episode.
+Choosing a random action with probability $\varepsilon$ and the greedy action otherwise
 is called an $\varepsilon$-greedy policy.
-
-```python
-def SARSA(num_iter: int, alpha:float, gamma: float, eps_0: float, T: int) -> list[list]:
-  """
-  num_iter  :   Number of simulation episodes
-  alpha     :   Update rate of our algorithm
-  gamma     :   Discount rate
-  """
-  Q = [[[0]*4 for _ in range(M)] for _ in range(N)]
-  pi = [[randint(0, 3) for _ in range(M)] for _ in range(N)]
-
-  for t in range(num_iter):
-    i, j = valid_random_init()
-    a = choose_action(pi, i, j, eps_0, T, t)
-
-    while True:
-      i_, j_, r = transition(i, j, a)
-      a_ = choose_action(pi, i_, j_, eps_0, T, t)
-
-      Q[i][j][a] = (1 - alpha)*Q[i][j][a] + alpha*(r + gamma*Q[i_][j_][a_])
-
-      i, j, a = i_, j_, a_
-      if is_terminal(i, j):
-        break
-
-    pi = Q_to_policy(Q)
-
-  return pi
-```
-
-Remark that we do not completely update $Q(s,a)$ to $r + \gamma*Q(s', a')$,
-we make a step in that direction of proportion $\alpha$, this parameter is the
-learning rate of our algorithm.
 
 ## Q-Learning
 
 Q-Learning is basically the same as SARSA, it only differs in its update rule:
 instead of choosing a second action following the $\varepsilon$-greedy policy,
-we choose the best _action_ available in _state_ $s'$: $\max_{a'} Q(s', a')$ which is,
-in fact, the state-value of $s'$: $V(s')$ for the greedy policy.
+we choose the best _action_ available in _state_ $s'$: $\argmax_{a'} a' \rightarrow Q(s', a')$
 
-```python
-def Q_Learning(num_iter: int, alpha:float, gamma: float, eps_0: float, T: int) -> list[list]:
-  """
-  num_iter  :   Number of simulation episodes
-  alpha     :   Update rate of our algorithm
-  gamma     :   Discount rate
-  """
-  Q = [[[0]*4 for _ in range(M)] for _ in range(N)]
-  pi = [[randint(0, 3) for _ in range(M)] for _ in range(N)]
+```rust
+pub fn sarsa_q_learning(
+    cell_grid: Grid<Cell>,
+    q_learning: bool,
+    num_episodes: Option<u32>,
+    alpha: Option<f64>,
+    gamma: Option<f64>,
+    epsilon_0: Option<f64>,
+    exploration_period: Option<u32>,
+) -> Grid<ActionValue> {
+    // Default values
+    let num_episodes = num_episodes.unwrap_or(DEFAULT_NUM_EPISODES);
+    let alpha = alpha.unwrap_or(DEFAULT_ALPHA);
+    let gamma = gamma.unwrap_or(DEFAULT_GAMMA);
+    let epsilon_0 = epsilon_0.unwrap_or(DEFAULT_EPSILON_0);
+    let exploration_period = exploration_period.unwrap_or(DEFAULT_EXPLORATION_PERIOD);
 
-  for t in range(num_iter):
-    i, j = valid_random_init()
-    a = choose_action(pi, i, j, eps_0, T, t)
+    let (n, m) = get_grid_size(&cell_grid);
+    let mut action_value_grid = new_action_value_grid(n, m);
 
-    while True:
-      i_, j_, r = transition(i, j, a)
-      a_ = choose_action(pi, i_, j_, eps_0, T, t)
+    for episode in 0..num_episodes {
+        let mut step = 0;
+        let (mut i, mut j) = choose_random_state(&cell_grid);
+        let action_value = &action_value_grid[i][j];
+        let mut action = epsilon_greedy(action_value, epsilon_0, episode, exploration_period);
 
-      Q[i][j][a] = (1 - alpha)*Q[i][j][a] + alpha*(r + gamma*max(old_Q[i_][j_]))
+        while &cell_grid[i][j] != &Cell::End && step < MAX_NUM_STEPS {
+            step += 1;
+            let (i_, j_, reward) = transition(&cell_grid, i, j, &action);
+            let next_action_value = &action_value_grid[i_][j_];
+            let next_action =
+                epsilon_greedy(next_action_value, epsilon_0, episode, exploration_period);
+            let q_value = if q_learning {
+                max_action_value(&action_value_grid[i_][j_])
+            } else {
+                *action_value_grid[i_][j_].get(&next_action).unwrap()
+            };
+            if let Some(action_value) = action_value_grid[i][j].get_mut(&action) {
+                *action_value += alpha * (reward as f64 + gamma * q_value - *action_value);
+            }
+            (i, j, action) = (i_, j_, next_action);
+        }
+    }
 
-      i, j, a = i_, j_, a_
-      if is_terminal(i, j):
-        break
-
-    pi = Q_to_policy(Q)
-
-  return pi
+    action_value_grid
+}
 ```
+
+Remark that we do not completely update $Q(s,a)$ to the new computed value.
+We make a step in that direction of proportion $\alpha$, this parameter is the
+learning rate of our algorithm. It is used to make the algorithm more stable.
 
 ## Final Note
 
-The code presented here is halfway between Python and pseudo-code as it does not define some functions.
 If you want to see the actual code used here (TypeScript React), look [here][3].
 Also, a lot of simplifications have been done in order to explain more directly
 the different concepts. Finally, we only looked at the case of deterministic MDP with known model.
 To have a better view of **Reinforcement Learning**, I recommend this [excellent book][4] about it
-written by Sutton & Barto.
+written by Sutton & Barto, the visual representations from this article are actually taken from that book.
 
 [1]: https://en.wikipedia.org/wiki/Markov_decision_process
 [2]: https://en.wikipedia.org/wiki/Bellman_equation
-[3]: https://github.com/devspaceship/science-decoder/tree/master/components/gridworld
+[3]: https://github.com/devspaceship/devspaceship.com/tree/main/web/src/components/Gridworld
 [4]: http://incompleteideas.net/book/bookdraft2017nov5.pdf
+[5]: https://github.com/devspaceship/devspaceship.com/blob/main/gridworld/src/utils.rs

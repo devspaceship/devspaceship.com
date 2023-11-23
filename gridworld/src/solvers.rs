@@ -50,11 +50,13 @@ pub fn sarsa_q_learning(
 
     let (n, m) = get_grid_size(&cell_grid);
     let mut action_value_grid = new_action_value_grid(n, m);
-    for episode in 1..=num_episodes {
-        let mut step = 0;
+
+    for episode in 0..num_episodes {
         let (mut i, mut j) = choose_random_state(&cell_grid);
         let action_value = &action_value_grid[i][j];
         let mut action = epsilon_greedy(action_value, epsilon_0, episode, exploration_period);
+        let mut step = 0;
+
         while &cell_grid[i][j] != &Cell::End && step < MAX_NUM_STEPS {
             step += 1;
             let (i_, j_, reward) = transition(&cell_grid, i, j, &action);
@@ -66,11 +68,13 @@ pub fn sarsa_q_learning(
             } else {
                 *action_value_grid[i_][j_].get(&next_action).unwrap()
             };
-            *action_value_grid[i][j].get_mut(&action).unwrap() += alpha
-                * (reward as f64 + gamma * q_value - action_value_grid[i][j].get(&action).unwrap());
+            if let Some(action_value) = action_value_grid[i][j].get_mut(&action) {
+                *action_value += alpha * (reward as f64 + gamma * q_value - *action_value);
+            }
             (i, j, action) = (i_, j_, next_action);
         }
     }
+
     action_value_grid
 }
 
