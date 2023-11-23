@@ -85,7 +85,7 @@ const GridworldControl = () => {
               id="episodes"
               label="Episodes"
               min={1}
-              max={10_000}
+              max={500}
               step={1}
               isInteger
             />
@@ -107,7 +107,7 @@ const GridworldControl = () => {
               id="exploration-period"
               label="Exploration Period"
               min={0}
-              max={1000}
+              max={500}
               step={1}
               isInteger
             />
