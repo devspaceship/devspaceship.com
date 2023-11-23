@@ -1,4 +1,4 @@
-import { MAX_NUM_STEPS } from "./config";
+import { LOG_THRESHOLD, MAX_NUM_STEPS } from "./config";
 import { transition } from "./mdp";
 import {
   CellPolicy,
@@ -11,7 +11,7 @@ import {
 const policyEvaluation = (state: GridworldState, early_stop = false): void => {
   let delta = 1;
   let iteration = 0;
-  while (delta > Math.pow(10, state.config.logThreshold)) {
+  while (delta > Math.pow(10, LOG_THRESHOLD)) {
     delta = 0;
     state.grid.forEach((row, i) => {
       row.forEach((cell, j) => {
