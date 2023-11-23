@@ -43,10 +43,10 @@ export const INITIAL_STATE: GridworldState = {
     discountRate: 0.97,
     logThreshold: -5,
     evaluationsBeforeImprovement: 7,
-    episodes: 10_000,
-    learningRate: 0.03,
+    episodes: 500,
+    learningRate: 0.3,
     initialExplorationCoefficient: 1,
-    explorationPeriod: 350,
+    explorationPeriod: 300,
   },
   grid: INITIAL_GRID,
   solverState: {
