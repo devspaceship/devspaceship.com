@@ -8,30 +8,32 @@ use crate::{
 };
 
 pub fn policy_value_iteration(
-    grid: Grid<Cell>,
+    cell_grid: Grid<Cell>,
     gamma: Option<f64>,
     iter_before_improvement: Option<u32>,
 ) -> (Grid<f64>, Grid<Policy>) {
-    let (n, m) = get_grid_size(&grid);
+    let (n, m) = get_grid_size(&cell_grid);
     let mut is_stable = false;
     let mut state_value_grid = matrix(n, m, 0.0);
     let mut policy_grid = matrix(n, m, Policy::Up);
     while !is_stable {
         state_value_grid = policy_evaluation(
-            &grid,
+            &cell_grid,
             &policy_grid,
-            Some(&state_value_grid),
             gamma,
             iter_before_improvement,
+            Some(&state_value_grid),
         );
-        is_stable = policy_improvement(&mut policy_grid, &grid, &state_value_grid, gamma);
+        is_stable = policy_improvement(&mut policy_grid, &cell_grid, &state_value_grid, gamma);
     }
     (state_value_grid, policy_grid)
 }
 
-#[allow(dead_code)]
+// TODO optional num_episodes alhpa gamma epsilon exploration period
+// TODO test this and remove dead code line
+// #[allow(dead_code)]
 fn sarsa_q_learning(
-    grid: Grid<Cell>,
+    cell_grid: Grid<Cell>,
     num_episodes: u32,
     alpha: f64,
     gamma: f64,
@@ -39,28 +41,27 @@ fn sarsa_q_learning(
     exploration_period: u32,
     q_learning: bool,
 ) {
-    let (n, m) = get_grid_size(&grid);
-    let mut t = 0;
+    let (n, m) = get_grid_size(&cell_grid);
     let mut action_value_grid = new_action_value_grid(n, m);
-    for _ in 0..num_episodes {
-        t += 1;
+    for episode in 1..=num_episodes {
         let mut step = 0;
-        let (mut i, mut j) = choose_random_state(&grid);
+        let (mut i, mut j) = choose_random_state(&cell_grid);
         let action_value = &action_value_grid[i][j];
-        let mut action = epsilon_greedy(action_value, epsilon_0, t, exploration_period);
-        while &grid[i][j] != &Cell::End && step < MAX_NUM_STEPS {
+        let mut action = epsilon_greedy(action_value, epsilon_0, episode, exploration_period);
+        while &cell_grid[i][j] != &Cell::End && step < MAX_NUM_STEPS {
             step += 1;
-            let (next_i, next_j, reward) = transition(&grid, i, j, &action);
-            let next_action_value = &action_value_grid[next_i][next_j];
-            let next_action = epsilon_greedy(next_action_value, epsilon_0, t, exploration_period);
+            let (i_, j_, reward) = transition(&cell_grid, i, j, &action);
+            let next_action_value = &action_value_grid[i_][j_];
+            let next_action =
+                epsilon_greedy(next_action_value, epsilon_0, episode, exploration_period);
             let q_value = if q_learning {
-                max_action_value(&action_value_grid[next_i][next_j])
+                max_action_value(&action_value_grid[i_][j_])
             } else {
-                *action_value_grid[next_i][next_j].get(&next_action).unwrap()
+                *action_value_grid[i_][j_].get(&next_action).unwrap()
             };
             *action_value_grid[i][j].get_mut(&action).unwrap() += alpha
                 * (reward as f64 + gamma * q_value - action_value_grid[i][j].get(&action).unwrap());
-            (i, j, action) = (next_i, next_j, next_action);
+            (i, j, action) = (i_, j_, next_action);
         }
     }
 }

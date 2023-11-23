@@ -36,8 +36,13 @@ pub fn matrix<T: Clone>(n: usize, m: usize, value: T) -> Grid<T> {
 }
 
 /// Returns the next state and reward given the current state and action
-pub fn transition(grid: &Grid<Cell>, i: usize, j: usize, action: &Policy) -> (usize, usize, i32) {
-    let cell = &grid[i][j];
+pub fn transition(
+    cell_grid: &Grid<Cell>,
+    i: usize,
+    j: usize,
+    action: &Policy,
+) -> (usize, usize, i32) {
+    let cell = &cell_grid[i][j];
     // Edge cases
     if (*cell) == Cell::End {
         return (i, j, 0);
@@ -53,14 +58,14 @@ pub fn transition(grid: &Grid<Cell>, i: usize, j: usize, action: &Policy) -> (us
         Policy::Right => (i_i32, j_i32 + 1),
     };
     // Check out of bounds
-    let (n, m) = get_grid_size(&grid);
+    let (n, m) = get_grid_size(&cell_grid);
     let (n, m) = (n as i32, m as i32);
     if i_ < 0 || i_ >= n || j_ < 0 || j_ >= m {
         return (i, j, -1);
     }
     // Result
     let (i_, j_) = (i_ as usize, j_ as usize);
-    let cell_ = &grid[i_][j_];
+    let cell_ = &cell_grid[i_][j_];
     match cell_ {
         Cell::End => (i_, j_, 100),
         Cell::Wall => (i, j, -1),
@@ -71,13 +76,13 @@ pub fn transition(grid: &Grid<Cell>, i: usize, j: usize, action: &Policy) -> (us
 /// Evaluates the policy for a given state and optional initial state value grid
 /// Returns a new state value grid
 pub fn policy_evaluation(
-    state_grid: &Grid<Cell>,
+    cell_grid: &Grid<Cell>,
     policy_grid: &Grid<Policy>,
     gamma: Option<f64>,
     iter_before_improvement: Option<u32>,
     state_value_grid: Option<&Grid<f64>>,
 ) -> Grid<f64> {
-    let (n, m) = get_grid_size(&state_grid);
+    let (n, m) = get_grid_size(&cell_grid);
     let mut state_value = match state_value_grid {
         Some(state_value) => state_value.clone(),
         None => matrix(n, m, 0.0),
@@ -93,7 +98,7 @@ pub fn policy_evaluation(
         let mut delta: f64 = 0.0;
         for i in 0..n {
             for j in 0..m {
-                let (i_, j_, reward) = transition(&state_grid, i, j, &policy_grid[i][j]);
+                let (i_, j_, reward) = transition(&cell_grid, i, j, &policy_grid[i][j]);
                 let new_state_value = reward as f64 + gamma * state_value[i_][j_];
                 delta = delta.max((new_state_value - state_value[i][j]).abs());
                 state_value[i][j] = new_state_value;
@@ -110,7 +115,7 @@ pub fn policy_evaluation(
 /// Returns a boolean to see if policy is stable
 pub fn policy_improvement(
     policy: &mut Grid<Policy>,
-    grid: &Grid<Cell>,
+    cell_grid: &Grid<Cell>,
     state_value_grid: &Grid<f64>,
     gamma: Option<f64>,
 ) -> bool {
@@ -122,7 +127,7 @@ pub fn policy_improvement(
             let mut max_reward = -1.0;
             let mut max_cell_policy = Policy::Up;
             for cell_policy in get_policy_directions() {
-                let (i_, j_, reward) = transition(&grid, i, j, &cell_policy);
+                let (i_, j_, reward) = transition(&cell_grid, i, j, &cell_policy);
                 let new_reward = reward as f64 + gamma * state_value_grid[i_][j_];
                 if new_reward > max_reward {
                     max_reward = new_reward;
@@ -140,8 +145,9 @@ pub fn policy_improvement(
 
 pub fn choose_random_state(grid: &Grid<Cell>) -> (usize, usize) {
     let mut valid_states = vec![];
-    for i in 0..grid.len() {
-        for j in 0..grid[0].len() {
+    let (n, m) = get_grid_size(&grid);
+    for i in 0..n {
+        for j in 0..m {
             if grid[i][j] == Cell::Air {
                 valid_states.push((i, j));
             }
