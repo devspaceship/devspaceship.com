@@ -138,10 +138,10 @@ pub fn policy_improvement(
             let mut max_reward = -1.0;
             let mut max_cell_policy = Policy::Up;
             for cell_policy in get_policy_directions() {
-                let (i_, j_, reward) = transition(&cell_grid, i, j, &cell_policy);
-                let new_reward = reward as f64 + gamma * state_value_grid[i_][j_];
-                if new_reward > max_reward {
-                    max_reward = new_reward;
+                let (i_, j_, r) = transition(&cell_grid, i, j, &cell_policy);
+                let reward = r as f64 + gamma * state_value_grid[i_][j_];
+                if reward > max_reward {
+                    max_reward = reward;
                     max_cell_policy = cell_policy;
                 }
             }
@@ -200,7 +200,7 @@ pub fn epsilon_greedy(
     exploration_period: u32,
 ) -> Policy {
     let mut rng = rand::thread_rng();
-    let epsilon = epsilon_0 / (1.0 + (t / exploration_period) as f64);
+    let epsilon = epsilon_0 / (1.0 + (t / exploration_period + 1) as f64);
     if rng.gen::<f64>() < epsilon {
         choose_random_action()
     } else {
