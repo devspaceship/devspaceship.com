@@ -4,6 +4,8 @@ export const HEIGHT = 8;
 export const CELL_PADDING = 0.03;
 export const CORNER_ROUNDING = "25%";
 export const FPS = 15;
+export const MAX_NUM_STEPS = 1000;
+export const LOG_THRESHOLD = -5;
 const gridMapping: Record<number, CellType> = {
   0: CellType.EMPTY,
   1: CellType.WALL,
