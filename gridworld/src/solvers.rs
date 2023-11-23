@@ -1,5 +1,8 @@
 use crate::{
-    config::MAX_NUM_STEPS,
+    config::{
+        DEFAULT_ALPHA, DEFAULT_EPSILON_0, DEFAULT_EXPLORATION_PERIOD, DEFAULT_GAMMA,
+        DEFAULT_NUM_EPISODES, MAX_NUM_STEPS,
+    },
     types::{Cell, Grid, Policy},
     utils::{
         choose_random_state, epsilon_greedy, get_grid_size, matrix, max_action_value,
@@ -29,18 +32,24 @@ pub fn policy_value_iteration(
     (state_value_grid, policy_grid)
 }
 
-// TODO optional num_episodes alhpa gamma epsilon exploration period
 // TODO test this and remove dead code line
 // #[allow(dead_code)]
 fn sarsa_q_learning(
     cell_grid: Grid<Cell>,
-    num_episodes: u32,
-    alpha: f64,
-    gamma: f64,
-    epsilon_0: f64,
-    exploration_period: u32,
     q_learning: bool,
+    num_episodes: Option<u32>,
+    alpha: Option<f64>,
+    gamma: Option<f64>,
+    epsilon_0: Option<f64>,
+    exploration_period: Option<u32>,
 ) {
+    // Default values
+    let num_episodes = num_episodes.unwrap_or(DEFAULT_NUM_EPISODES);
+    let alpha = alpha.unwrap_or(DEFAULT_ALPHA);
+    let gamma = gamma.unwrap_or(DEFAULT_GAMMA);
+    let epsilon_0 = epsilon_0.unwrap_or(DEFAULT_EPSILON_0);
+    let exploration_period = exploration_period.unwrap_or(DEFAULT_EXPLORATION_PERIOD);
+
     let (n, m) = get_grid_size(&cell_grid);
     let mut action_value_grid = new_action_value_grid(n, m);
     for episode in 1..=num_episodes {
