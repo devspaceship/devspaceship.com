@@ -78,9 +78,9 @@ export const reducer = (
       const drawingType = getDrawingType(state, action.row, action.column);
       return {
         ...state,
-        grid: state.grid.map((row, rowIndex) => {
-          return row.map((cell, columnIndex) => {
-            return rowIndex === action.row && columnIndex === action.column
+        grid: state.grid.map((row, i) => {
+          return row.map((cell, j) => {
+            return i === action.row && j === action.column
               ? {
                   ...cell,
                   type: drawingType,
@@ -105,11 +105,11 @@ export const reducer = (
       }
       return {
         ...state,
-        grid: state.grid.map((row, rowIndex) =>
-          row.map((cell, columnIndex) => {
+        grid: state.grid.map((row, i) =>
+          row.map((cell, j) => {
             if (
-              rowIndex === action.row &&
-              columnIndex === action.column &&
+              i === action.row &&
+              j === action.column &&
               cell.type !== CellType.END
             ) {
               return {
@@ -117,7 +117,7 @@ export const reducer = (
                 type: state.drawingState.cellType,
               };
             } else if (state.drawingState.cellType === CellType.END) {
-              if (action.row === rowIndex && action.column === columnIndex) {
+              if (action.row === i && action.column === j) {
                 return {
                   ...cell,
                   type: state.drawingState.cellType,
