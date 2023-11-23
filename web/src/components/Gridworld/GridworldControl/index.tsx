@@ -48,24 +48,13 @@ const GridworldControl = () => {
         {[SolverType.POLICY_ITERATION, SolverType.VALUE_ITERATION].includes(
           state.config.solver
         ) && (
-          <>
-            <ConfigRange
-              id="discount-rate"
-              label="Discount Rate"
-              min={0}
-              max={1}
-              step={0.01}
-            />
-            <ConfigRange
-              id="log-threshold"
-              label="Threshold"
-              min={-8}
-              max={-3}
-              step="any"
-              isInteger
-              isLog
-            />
-          </>
+          <ConfigRange
+            id="discount-rate"
+            label="Discount Rate"
+            min={0}
+            max={1}
+            step={0.01}
+          />
         )}
         {state.config.solver === SolverType.VALUE_ITERATION && (
           <ConfigRange

@@ -43,7 +43,6 @@ export const INITIAL_STATE: GridworldState = {
   config: {
     solver: SolverType.POLICY_ITERATION,
     discountRate: 0.97,
-    logThreshold: -5,
     evaluationsBeforeImprovement: 7,
     episodes: 500,
     learningRate: 0.3,

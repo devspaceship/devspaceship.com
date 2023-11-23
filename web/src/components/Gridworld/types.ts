@@ -8,7 +8,6 @@ export enum SolverType {
 export interface GridworldConfig {
   solver: SolverType;
   discountRate: number;
-  logThreshold: number;
   evaluationsBeforeImprovement: number;
   episodes: number;
   learningRate: number;
