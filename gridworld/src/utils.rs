@@ -29,6 +29,17 @@ pub fn new_action_value_grid(n: usize, m: usize) -> Grid<ActionValue> {
     grid
 }
 
+pub fn action_value_grid_to_policy_grid(action_value_grid: &Grid<ActionValue>) -> Grid<Policy> {
+    let (n, m) = get_grid_size(&action_value_grid);
+    let mut policy_grid = matrix(n, m, Policy::Up);
+    for i in 0..n {
+        for j in 0..m {
+            policy_grid[i][j] = greedy(&action_value_grid[i][j]);
+        }
+    }
+    policy_grid
+}
+
 /// Takes n, m and value
 /// Returns a matrix of n rows and m columns filled with value
 pub fn matrix<T: Clone>(n: usize, m: usize, value: T) -> Grid<T> {
