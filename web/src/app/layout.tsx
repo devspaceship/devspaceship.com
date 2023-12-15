@@ -48,7 +48,7 @@ export default function RootLayout({
     <html lang="en" className="bg-background-900 text-white antialiased">
       <body className={inter.className}>
         <NavBar />
-        <main className="container mx-auto flex h-full flex-col items-center justify-start space-y-12 text-center">
+        <main className="container mx-auto flex h-full flex-col items-center justify-start space-y-12 text-center motion-safe:animate-fade-in-from-bottom">
           {children}
         </main>
         <Script

@@ -18,6 +18,22 @@ module.exports = {
       secondary: colors.fuchsia,
       tertiary: colors.amber,
     },
+    extend: {
+      keyframes: {
+        "fade-in-from-bottom": {
+          "0%": { opacity: "0", transform: "translateY(5rem)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "fade-in-from-top": {
+          "0%": { opacity: "0", transform: "translateY(-5rem)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+      },
+      animation: {
+        "fade-in-from-bottom": "fade-in-from-bottom 0.8s ease-out",
+        "fade-in-from-top": "fade-in-from-top 0.8s ease-out",
+      },
+    },
   },
   plugins: [require("@tailwindcss/typography"), require("@tailwindcss/forms")],
 };
