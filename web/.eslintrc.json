@@ -14,5 +14,9 @@
   "parserOptions": {
     "project": true
   },
-  "root": true
+  "root": true,
+  "rules": {
+    "tailwindcss/no-custom-classname": "off",
+    "tailwindcss/classnames-order": "off"
+  }
 }
