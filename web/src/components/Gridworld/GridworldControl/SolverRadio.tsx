@@ -25,7 +25,7 @@ const SolverRadio = ({
     });
   };
   return (
-    <>
+    <div>
       <input
         type="radio"
         id={id}
@@ -38,7 +38,7 @@ const SolverRadio = ({
       <label htmlFor={id} className="ml-2 mr-4">
         {label}
       </label>
-    </>
+    </div>
   );
 };
 
