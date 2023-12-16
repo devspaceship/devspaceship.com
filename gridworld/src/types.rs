@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use crate::models::Policy;
+use crate::models::Action;
 
 #[derive(Debug, PartialEq)]
 pub enum Cell {
@@ -10,4 +10,4 @@ pub enum Cell {
 }
 
 pub type Grid<T> = Vec<Vec<T>>;
-pub type ActionValues = HashMap<Policy, f64>;
+pub type ActionValueMap = HashMap<Action, f64>;

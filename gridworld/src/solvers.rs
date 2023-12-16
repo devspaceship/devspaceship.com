@@ -3,8 +3,8 @@ use crate::{
         DEFAULT_ALPHA, DEFAULT_EPSILON_0, DEFAULT_EXPLORATION_PERIOD, DEFAULT_GAMMA,
         DEFAULT_NUM_EPISODES, MAX_NUM_STEPS,
     },
-    models::Policy,
-    types::{ActionValues, Cell, Grid},
+    models::Action,
+    types::{ActionValueMap, Cell, Grid},
     utils::{
         choose_random_state, create_grid, epsilon_greedy, get_grid_size, max_action_value,
         new_action_value_grid, policy_evaluation, policy_improvement, transition,
@@ -15,11 +15,11 @@ pub fn policy_value_iteration(
     cell_grid: Grid<Cell>,
     gamma: Option<f64>,
     iter_before_improvement: Option<u32>,
-) -> (Grid<f64>, Grid<Policy>) {
+) -> (Grid<f64>, Grid<Action>) {
     let (n, m) = get_grid_size(&cell_grid);
     let mut is_stable = false;
     let mut state_value_grid = create_grid(n, m, 0.0);
-    let mut policy_grid = create_grid(n, m, Policy::Up);
+    let mut policy_grid = create_grid(n, m, Action::Up);
     while !is_stable {
         state_value_grid = policy_evaluation(
             &cell_grid,
@@ -41,7 +41,7 @@ pub fn sarsa_q_learning(
     gamma: Option<f64>,
     epsilon_0: Option<f64>,
     exploration_period: Option<u32>,
-) -> Grid<ActionValues> {
+) -> Grid<ActionValueMap> {
     // Default values
     let num_episodes = num_episodes.unwrap_or(DEFAULT_NUM_EPISODES);
     let alpha = alpha.unwrap_or(DEFAULT_ALPHA);
@@ -106,8 +106,8 @@ mod tests {
         let test_grid = get_test_grid();
         let action_value_grid = sarsa_q_learning(test_grid, false, None, None, None, None, None);
         let policy_grid = action_value_grid_to_policy_grid(&action_value_grid);
-        assert_eq!(policy_grid[0][0], Policy::Right);
-        assert_eq!(policy_grid[0][1], Policy::Down);
+        assert_eq!(policy_grid[0][0], Action::Right);
+        assert_eq!(policy_grid[0][1], Action::Down);
     }
 
     #[test]
@@ -115,7 +115,7 @@ mod tests {
         let test_grid = get_test_grid();
         let action_value_grid = sarsa_q_learning(test_grid, true, None, None, None, None, None);
         let policy_grid = action_value_grid_to_policy_grid(&action_value_grid);
-        assert_eq!(policy_grid[0][0], Policy::Right);
-        assert_eq!(policy_grid[0][1], Policy::Down);
+        assert_eq!(policy_grid[0][0], Action::Right);
+        assert_eq!(policy_grid[0][1], Action::Down);
     }
 }
