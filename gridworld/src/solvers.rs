@@ -3,7 +3,8 @@ use crate::{
         DEFAULT_ALPHA, DEFAULT_EPSILON_0, DEFAULT_EXPLORATION_PERIOD, DEFAULT_GAMMA,
         DEFAULT_NUM_EPISODES, MAX_NUM_STEPS,
     },
-    types::{ActionValues, Cell, Grid, Policy},
+    policy::Policy,
+    types::{ActionValues, Cell, Grid},
     utils::{
         choose_random_state, create_grid, epsilon_greedy, get_grid_size, max_action_value,
         new_action_value_grid, policy_evaluation, policy_improvement, transition,

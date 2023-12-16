@@ -1,18 +1,12 @@
 use std::collections::HashMap;
 
+use crate::policy::Policy;
+
 #[derive(Debug, PartialEq)]
 pub enum Cell {
     Air,
     Wall,
     End,
-}
-
-#[derive(Eq, Hash, PartialEq, Debug, Clone, Copy)]
-pub enum Policy {
-    Up,
-    Down,
-    Left,
-    Right,
 }
 
 pub type Grid<T> = Vec<Vec<T>>;

@@ -1,4 +1,7 @@
-use crate::types::{Cell, Grid, Policy};
+use crate::{
+    policy::Policy,
+    types::{Cell, Grid},
+};
 
 pub fn get_test_grid() -> Grid<Cell> {
     vec![vec![Cell::Air, Cell::Air], vec![Cell::Wall, Cell::End]]
