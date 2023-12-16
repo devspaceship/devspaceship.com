@@ -1,3 +1,3 @@
-mod policy;
+mod action;
 
-pub use policy::Policy;
+pub use action::Action;

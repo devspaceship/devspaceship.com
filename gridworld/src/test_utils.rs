@@ -1,5 +1,5 @@
 use crate::{
-    models::Policy,
+    models::Action,
     types::{Cell, Grid},
 };
 
@@ -7,15 +7,15 @@ pub fn get_test_grid() -> Grid<Cell> {
     vec![vec![Cell::Air, Cell::Air], vec![Cell::Wall, Cell::End]]
 }
 
-pub fn get_optimal_policy() -> Grid<Policy> {
+pub fn get_optimal_policy() -> Grid<Action> {
     vec![
-        vec![Policy::Right, Policy::Down],
-        vec![Policy::Up, Policy::Up],
+        vec![Action::Right, Action::Down],
+        vec![Action::Up, Action::Up],
     ]
 }
 
-pub fn is_policy_optimal(policy: &Grid<Policy>) -> bool {
-    policy[0][0] == Policy::Right && policy[0][1] == Policy::Down
+pub fn is_policy_optimal(policy: &Grid<Action>) -> bool {
+    policy[0][0] == Action::Right && policy[0][1] == Action::Down
 }
 
 pub fn get_no_gamma_state_value() -> Grid<f64> {

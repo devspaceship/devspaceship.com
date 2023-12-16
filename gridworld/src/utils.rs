@@ -4,19 +4,19 @@ use rand::{seq::SliceRandom, Rng};
 
 use crate::{
     config::DEFAULT_GAMMA,
-    models::Policy,
-    types::{ActionValues, Cell, Grid},
+    models::Action,
+    types::{ActionValueMap, Cell, Grid},
 };
 
-pub fn new_action_value() -> ActionValues {
+pub fn new_action_value() -> ActionValueMap {
     let mut map = HashMap::new();
-    for direction in Policy::get_variants() {
+    for direction in Action::get_all() {
         map.insert(direction, 0.0);
     }
     map
 }
 
-pub fn new_action_value_grid(n: usize, m: usize) -> Grid<ActionValues> {
+pub fn new_action_value_grid(n: usize, m: usize) -> Grid<ActionValueMap> {
     let mut grid = create_grid(n, m, new_action_value());
     for i in 0..n {
         for j in 0..m {
@@ -26,9 +26,9 @@ pub fn new_action_value_grid(n: usize, m: usize) -> Grid<ActionValues> {
     grid
 }
 
-pub fn action_value_grid_to_policy_grid(action_value_grid: &Grid<ActionValues>) -> Grid<Policy> {
+pub fn action_value_grid_to_policy_grid(action_value_grid: &Grid<ActionValueMap>) -> Grid<Action> {
     let (n, m) = get_grid_size(&action_value_grid);
-    let mut policy_grid = create_grid(n, m, Policy::Up);
+    let mut policy_grid = create_grid(n, m, Action::Up);
     for i in 0..n {
         for j in 0..m {
             policy_grid[i][j] = greedy(&action_value_grid[i][j]);
@@ -48,7 +48,7 @@ pub fn transition(
     cell_grid: &Grid<Cell>,
     i: usize,
     j: usize,
-    action: &Policy,
+    action: &Action,
 ) -> (usize, usize, i32) {
     let cell = &cell_grid[i][j];
 
@@ -62,10 +62,10 @@ pub fn transition(
     // Tentative position
     let (i_i32, j_i32) = (i as i32, j as i32);
     let (i_, j_) = match action {
-        Policy::Up => (i_i32 - 1, j_i32),
-        Policy::Down => (i_i32 + 1, j_i32),
-        Policy::Left => (i_i32, j_i32 - 1),
-        Policy::Right => (i_i32, j_i32 + 1),
+        Action::Up => (i_i32 - 1, j_i32),
+        Action::Down => (i_i32 + 1, j_i32),
+        Action::Left => (i_i32, j_i32 - 1),
+        Action::Right => (i_i32, j_i32 + 1),
     };
 
     // Check out of bounds
@@ -89,7 +89,7 @@ pub fn transition(
 /// Returns a new state value grid
 pub fn policy_evaluation(
     cell_grid: &Grid<Cell>,
-    policy_grid: &Grid<Policy>,
+    policy_grid: &Grid<Action>,
     gamma: Option<f64>,
     iter_before_improvement: Option<u32>,
     state_value_grid: Option<&Grid<f64>>,
@@ -127,7 +127,7 @@ pub fn policy_evaluation(
 /// Improves the policy in place for a given state value grid
 /// Returns a boolean to see if policy is stable
 pub fn policy_improvement(
-    policy: &mut Grid<Policy>,
+    policy: &mut Grid<Action>,
     cell_grid: &Grid<Cell>,
     state_value_grid: &Grid<f64>,
     gamma: Option<f64>,
@@ -139,8 +139,8 @@ pub fn policy_improvement(
     for i in 0..n {
         for j in 0..m {
             let mut max_reward = -1.0;
-            let mut max_cell_policy = Policy::Up;
-            for cell_policy in Policy::get_variants() {
+            let mut max_cell_policy = Action::Up;
+            for cell_policy in Action::get_all() {
                 let (i_, j_, r) = transition(&cell_grid, i, j, &cell_policy);
                 let reward = r as f64 + gamma * state_value_grid[i_][j_];
                 if reward > max_reward {
@@ -177,16 +177,16 @@ pub fn choose_random_state(grid: &Grid<Cell>) -> (usize, usize) {
     valid_states[random_index]
 }
 
-fn choose_random_action() -> Policy {
+fn choose_random_action() -> Action {
     let mut rng = rand::thread_rng();
-    let mut actions = Policy::get_variants();
+    let mut actions = Action::get_all();
     actions.shuffle(&mut rng);
     actions[0]
 }
 
-fn greedy(action_value: &ActionValues) -> Policy {
+fn greedy(action_value: &ActionValueMap) -> Action {
     let mut max_reward = -999.9;
-    let mut max_policy = Policy::Up;
+    let mut max_policy = Action::Up;
     for (policy, reward) in action_value {
         if *reward > max_reward {
             max_reward = *reward;
@@ -197,11 +197,11 @@ fn greedy(action_value: &ActionValues) -> Policy {
 }
 
 pub fn epsilon_greedy(
-    action_value: &ActionValues,
+    action_value: &ActionValueMap,
     epsilon_0: f64,
     t: u32,
     exploration_period: u32,
-) -> Policy {
+) -> Action {
     let mut rng = rand::thread_rng();
     let epsilon = epsilon_0 / (1.0 + (t / exploration_period + 1) as f64);
     if rng.gen::<f64>() < epsilon {
@@ -215,7 +215,7 @@ pub fn get_grid_size<T>(grid: &Grid<T>) -> (usize, usize) {
     (grid.len(), grid[0].len())
 }
 
-pub fn max_action_value(action_value: &ActionValues) -> f64 {
+pub fn max_action_value(action_value: &ActionValueMap) -> f64 {
     let mut max_reward = -999.9;
     for (_, reward) in action_value {
         if *reward > max_reward {
@@ -242,33 +242,33 @@ mod tests {
     #[test]
     fn test_transition_to_boundaries() {
         let grid = get_test_grid();
-        assert_eq!(transition(&grid, 0, 0, &Policy::Left), (0, 0, -1));
-        assert_eq!(transition(&grid, 0, 0, &Policy::Up), (0, 0, -1));
-        assert_eq!(transition(&grid, 0, 1, &Policy::Right), (0, 1, -1));
+        assert_eq!(transition(&grid, 0, 0, &Action::Left), (0, 0, -1));
+        assert_eq!(transition(&grid, 0, 0, &Action::Up), (0, 0, -1));
+        assert_eq!(transition(&grid, 0, 1, &Action::Right), (0, 1, -1));
     }
 
     #[test]
     fn test_transition_to_air() {
         let grid = get_test_grid();
-        assert_eq!(transition(&grid, 0, 0, &Policy::Right), (0, 1, -1));
+        assert_eq!(transition(&grid, 0, 0, &Action::Right), (0, 1, -1));
     }
 
     #[test]
     fn test_transition_to_wall() {
         let grid = get_test_grid();
-        assert_eq!(transition(&grid, 0, 0, &Policy::Down), (0, 0, -1));
+        assert_eq!(transition(&grid, 0, 0, &Action::Down), (0, 0, -1));
     }
 
     #[test]
     fn test_transition_to_end() {
         let grid = get_test_grid();
-        assert_eq!(transition(&grid, 0, 1, &Policy::Down), (1, 1, 100));
+        assert_eq!(transition(&grid, 0, 1, &Action::Down), (1, 1, 100));
     }
 
     #[test]
     fn test_transition_to_end_from_end() {
         let grid = get_test_grid();
-        assert_eq!(transition(&grid, 1, 1, &Policy::Up), (1, 1, 0));
+        assert_eq!(transition(&grid, 1, 1, &Action::Up), (1, 1, 0));
     }
 
     #[test]
