@@ -16,4 +16,4 @@ pub enum Policy {
 }
 
 pub type Grid<T> = Vec<Vec<T>>;
-pub type ActionValue = HashMap<Policy, f64>;
+pub type ActionValues = HashMap<Policy, f64>;

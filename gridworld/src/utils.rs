@@ -4,14 +4,14 @@ use rand::{seq::SliceRandom, Rng};
 
 use crate::{
     config::DEFAULT_GAMMA,
-    types::{ActionValue, Cell, Grid, Policy},
+    types::{ActionValues, Cell, Grid, Policy},
 };
 
 pub fn get_policy_directions() -> Vec<Policy> {
     vec![Policy::Up, Policy::Down, Policy::Left, Policy::Right]
 }
 
-pub fn new_action_value() -> ActionValue {
+pub fn new_action_value() -> ActionValues {
     let mut map = HashMap::new();
     for direction in get_policy_directions() {
         map.insert(direction, 0.0);
@@ -19,8 +19,8 @@ pub fn new_action_value() -> ActionValue {
     map
 }
 
-pub fn new_action_value_grid(n: usize, m: usize) -> Grid<ActionValue> {
-    let mut grid = matrix(n, m, new_action_value());
+pub fn new_action_value_grid(n: usize, m: usize) -> Grid<ActionValues> {
+    let mut grid = create_grid(n, m, new_action_value());
     for i in 0..n {
         for j in 0..m {
             grid[i][j] = new_action_value();
@@ -29,9 +29,9 @@ pub fn new_action_value_grid(n: usize, m: usize) -> Grid<ActionValue> {
     grid
 }
 
-pub fn action_value_grid_to_policy_grid(action_value_grid: &Grid<ActionValue>) -> Grid<Policy> {
+pub fn action_value_grid_to_policy_grid(action_value_grid: &Grid<ActionValues>) -> Grid<Policy> {
     let (n, m) = get_grid_size(&action_value_grid);
-    let mut policy_grid = matrix(n, m, Policy::Up);
+    let mut policy_grid = create_grid(n, m, Policy::Up);
     for i in 0..n {
         for j in 0..m {
             policy_grid[i][j] = greedy(&action_value_grid[i][j]);
@@ -41,8 +41,8 @@ pub fn action_value_grid_to_policy_grid(action_value_grid: &Grid<ActionValue>) -
 }
 
 /// Takes n, m and value
-/// Returns a matrix of n rows and m columns filled with value
-pub fn matrix<T: Clone>(n: usize, m: usize, value: T) -> Grid<T> {
+/// Returns a grid of n rows and m columns filled with value
+pub fn create_grid<T: Clone>(n: usize, m: usize, value: T) -> Grid<T> {
     vec![vec![value; m]; n]
 }
 
@@ -54,12 +54,14 @@ pub fn transition(
     action: &Policy,
 ) -> (usize, usize, i32) {
     let cell = &cell_grid[i][j];
+
     // Edge cases
     if (*cell) == Cell::End {
         return (i, j, 0);
     } else if (*cell) == Cell::Wall {
         return (i, j, -1);
     }
+
     // Tentative position
     let (i_i32, j_i32) = (i as i32, j as i32);
     let (i_, j_) = match action {
@@ -68,12 +70,14 @@ pub fn transition(
         Policy::Left => (i_i32, j_i32 - 1),
         Policy::Right => (i_i32, j_i32 + 1),
     };
+
     // Check out of bounds
     let (n, m) = get_grid_size(&cell_grid);
     let (n, m) = (n as i32, m as i32);
     if i_ < 0 || i_ >= n || j_ < 0 || j_ >= m {
         return (i, j, -1);
     }
+
     // Result
     let (i_, j_) = (i_ as usize, j_ as usize);
     let cell_ = &cell_grid[i_][j_];
@@ -96,13 +100,14 @@ pub fn policy_evaluation(
     let (n, m) = get_grid_size(&cell_grid);
     let mut state_value = match state_value_grid {
         Some(state_value) => state_value.clone(),
-        None => matrix(n, m, 0.0),
+        None => create_grid(n, m, 0.0),
     };
     let gamma = gamma.unwrap_or(DEFAULT_GAMMA);
     let early_stop = match iter_before_improvement {
         Some(_) => true,
         None => false,
     };
+
     let mut iteration = 0;
     loop {
         iteration += 1;
@@ -132,6 +137,7 @@ pub fn policy_improvement(
 ) -> bool {
     let (n, m) = get_grid_size(state_value_grid);
     let gamma = gamma.unwrap_or(DEFAULT_GAMMA);
+
     let mut is_stable = true;
     for i in 0..n {
         for j in 0..m {
@@ -181,7 +187,7 @@ fn choose_random_action() -> Policy {
     actions[0]
 }
 
-fn greedy(action_value: &ActionValue) -> Policy {
+fn greedy(action_value: &ActionValues) -> Policy {
     let mut max_reward = -999.9;
     let mut max_policy = Policy::Up;
     for (policy, reward) in action_value {
@@ -194,7 +200,7 @@ fn greedy(action_value: &ActionValue) -> Policy {
 }
 
 pub fn epsilon_greedy(
-    action_value: &ActionValue,
+    action_value: &ActionValues,
     epsilon_0: f64,
     t: u32,
     exploration_period: u32,
@@ -212,7 +218,7 @@ pub fn get_grid_size<T>(grid: &Grid<T>) -> (usize, usize) {
     (grid.len(), grid[0].len())
 }
 
-pub fn max_action_value(action_value: &ActionValue) -> f64 {
+pub fn max_action_value(action_value: &ActionValues) -> f64 {
     let mut max_reward = -999.9;
     for (_, reward) in action_value {
         if *reward > max_reward {
@@ -229,7 +235,7 @@ mod tests {
 
     #[test]
     fn test_matrix() {
-        let mut m = matrix(2, 3, 0);
+        let mut m = create_grid(2, 3, 0);
         m[0][0] = 1;
         assert_eq!(m, vec![vec![1, 0, 0], vec![0, 0, 0]]);
     }
