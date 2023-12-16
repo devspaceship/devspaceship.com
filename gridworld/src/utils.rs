@@ -4,7 +4,8 @@ use rand::{seq::SliceRandom, Rng};
 
 use crate::{
     config::DEFAULT_GAMMA,
-    types::{ActionValues, Cell, Grid, Policy},
+    policy::Policy,
+    types::{ActionValues, Cell, Grid},
 };
 
 pub fn get_policy_directions() -> Vec<Policy> {
