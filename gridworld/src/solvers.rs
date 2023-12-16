@@ -3,8 +3,8 @@ use crate::{
         DEFAULT_ALPHA, DEFAULT_EPSILON_0, DEFAULT_EXPLORATION_PERIOD, DEFAULT_GAMMA,
         DEFAULT_NUM_EPISODES, MAX_NUM_STEPS,
     },
-    models::Action,
-    types::{ActionValueMap, Cell, Grid},
+    models::{Action, ActionValueMap},
+    types::{Cell, Grid},
     utils::{
         choose_random_state, create_grid, epsilon_greedy, get_grid_size, max_action_value,
         new_action_value_grid, policy_evaluation, policy_improvement, transition,
@@ -67,11 +67,10 @@ pub fn sarsa_q_learning(
             let q_value = if q_learning {
                 max_action_value(&action_value_grid[i_][j_])
             } else {
-                *action_value_grid[i_][j_].get(&next_action).unwrap()
+                action_value_grid[i_][j_].get(&next_action)
             };
-            if let Some(action_value) = action_value_grid[i][j].get_mut(&action) {
-                *action_value += alpha * (reward as f64 + gamma * q_value - *action_value);
-            }
+            let action_value = action_value_grid[i][j].get_mut(&action);
+            *action_value += alpha * (reward as f64 + gamma * q_value - *action_value);
             (i, j, action) = (i_, j_, next_action);
         }
     }

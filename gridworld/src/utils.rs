@@ -1,26 +1,16 @@
-use std::{collections::HashMap, vec};
-
-use rand::{seq::SliceRandom, Rng};
+use rand::Rng;
 
 use crate::{
     config::DEFAULT_GAMMA,
-    models::Action,
-    types::{ActionValueMap, Cell, Grid},
+    models::{Action, ActionValueMap},
+    types::{Cell, Grid},
 };
 
-pub fn new_action_value() -> ActionValueMap {
-    let mut map = HashMap::new();
-    for direction in Action::get_all() {
-        map.insert(direction, 0.0);
-    }
-    map
-}
-
 pub fn new_action_value_grid(n: usize, m: usize) -> Grid<ActionValueMap> {
-    let mut grid = create_grid(n, m, new_action_value());
+    let mut grid = create_grid(n, m, ActionValueMap::new());
     for i in 0..n {
         for j in 0..m {
-            grid[i][j] = new_action_value();
+            grid[i][j] = ActionValueMap::new();
         }
     }
     grid
@@ -177,17 +167,10 @@ pub fn choose_random_state(grid: &Grid<Cell>) -> (usize, usize) {
     valid_states[random_index]
 }
 
-fn choose_random_action() -> Action {
-    let mut rng = rand::thread_rng();
-    let mut actions = Action::get_all();
-    actions.shuffle(&mut rng);
-    actions[0]
-}
-
 fn greedy(action_value: &ActionValueMap) -> Action {
-    let mut max_reward = -999.9;
+    let mut max_reward = f64::NEG_INFINITY;
     let mut max_policy = Action::Up;
-    for (policy, reward) in action_value {
+    for (policy, reward) in action_value.iter() {
         if *reward > max_reward {
             max_reward = *reward;
             max_policy = *policy;
@@ -202,10 +185,9 @@ pub fn epsilon_greedy(
     t: u32,
     exploration_period: u32,
 ) -> Action {
-    let mut rng = rand::thread_rng();
     let epsilon = epsilon_0 / (1.0 + (t / exploration_period + 1) as f64);
-    if rng.gen::<f64>() < epsilon {
-        choose_random_action()
+    if rand::random::<f64>() < epsilon {
+        Action::get_random()
     } else {
         greedy(action_value)
     }
@@ -217,7 +199,7 @@ pub fn get_grid_size<T>(grid: &Grid<T>) -> (usize, usize) {
 
 pub fn max_action_value(action_value: &ActionValueMap) -> f64 {
     let mut max_reward = -999.9;
-    for (_, reward) in action_value {
+    for (_, reward) in action_value.iter() {
         if *reward > max_reward {
             max_reward = *reward;
         }
