@@ -317,9 +317,8 @@ pub fn epsilon_greedy(
     t: u32,
     exploration_period: u32,
 ) -> Policy {
-    let mut rng = rand::thread_rng();
     let epsilon = epsilon_0 / (1.0 + (t / exploration_period + 1) as f64);
-    if rng.gen::<f64>() < epsilon {
+    if rand::random::<f64>() < epsilon {
         choose_random_action()
     } else {
         greedy(action_value)
