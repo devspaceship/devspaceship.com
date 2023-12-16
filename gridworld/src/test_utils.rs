@@ -14,6 +14,10 @@ pub fn get_optimal_policy() -> Grid<Policy> {
     ]
 }
 
+pub fn is_policy_optimal(policy: &Grid<Policy>) -> bool {
+    policy[0][0] == Policy::Right && policy[0][1] == Policy::Down
+}
+
 pub fn get_no_gamma_state_value() -> Grid<f64> {
     vec![vec![-1.0, 100.0], vec![-1.0, 0.0]]
 }

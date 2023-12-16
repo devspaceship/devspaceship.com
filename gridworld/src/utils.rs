@@ -228,7 +228,9 @@ pub fn max_action_value(action_value: &ActionValues) -> f64 {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::test_utils::{get_no_gamma_state_value, get_optimal_policy, get_test_grid};
+    use crate::test_utils::{
+        get_no_gamma_state_value, get_optimal_policy, get_test_grid, is_policy_optimal,
+    };
 
     #[test]
     fn test_matrix() {
@@ -282,8 +284,10 @@ mod tests {
         let grid = get_test_grid();
         let state_value = get_no_gamma_state_value();
         let mut policy = get_optimal_policy();
+        policy_improvement(&mut policy, &grid, &state_value, None);
+        assert!(is_policy_optimal(&policy));
         let is_stable = policy_improvement(&mut policy, &grid, &state_value, None);
-        assert_eq!(is_stable, true);
+        assert!(is_stable);
     }
 
     #[test]
