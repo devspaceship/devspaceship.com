@@ -4,7 +4,7 @@ use rand::{seq::SliceRandom, Rng};
 
 use crate::{
     config::DEFAULT_GAMMA,
-    policy::Policy,
+    models::Policy,
     types::{ActionValues, Cell, Grid},
 };
 
