@@ -1,5 +1,5 @@
 pub mod config;
-pub mod policy;
+pub mod models;
 pub mod solvers;
 pub mod test_utils;
 pub mod types;

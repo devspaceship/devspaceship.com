@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use crate::policy::Policy;
+use crate::models::Policy;
 
 #[derive(Debug, PartialEq)]
 pub enum Cell {

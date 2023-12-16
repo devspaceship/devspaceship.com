@@ -1,5 +1,5 @@
 use crate::{
-    policy::Policy,
+    models::Policy,
     types::{Cell, Grid},
 };
 
