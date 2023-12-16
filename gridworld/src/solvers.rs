@@ -3,9 +3,9 @@ use crate::{
         DEFAULT_ALPHA, DEFAULT_EPSILON_0, DEFAULT_EXPLORATION_PERIOD, DEFAULT_GAMMA,
         DEFAULT_NUM_EPISODES, MAX_NUM_STEPS,
     },
-    types::{ActionValue, Cell, Grid, Policy},
+    types::{ActionValues, Cell, Grid, Policy},
     utils::{
-        choose_random_state, epsilon_greedy, get_grid_size, matrix, max_action_value,
+        choose_random_state, create_grid, epsilon_greedy, get_grid_size, max_action_value,
         new_action_value_grid, policy_evaluation, policy_improvement, transition,
     },
 };
@@ -17,8 +17,8 @@ pub fn policy_value_iteration(
 ) -> (Grid<f64>, Grid<Policy>) {
     let (n, m) = get_grid_size(&cell_grid);
     let mut is_stable = false;
-    let mut state_value_grid = matrix(n, m, 0.0);
-    let mut policy_grid = matrix(n, m, Policy::Up);
+    let mut state_value_grid = create_grid(n, m, 0.0);
+    let mut policy_grid = create_grid(n, m, Policy::Up);
     while !is_stable {
         state_value_grid = policy_evaluation(
             &cell_grid,
@@ -40,7 +40,7 @@ pub fn sarsa_q_learning(
     gamma: Option<f64>,
     epsilon_0: Option<f64>,
     exploration_period: Option<u32>,
-) -> Grid<ActionValue> {
+) -> Grid<ActionValues> {
     // Default values
     let num_episodes = num_episodes.unwrap_or(DEFAULT_NUM_EPISODES);
     let alpha = alpha.unwrap_or(DEFAULT_ALPHA);
