@@ -8,13 +8,9 @@ use crate::{
     types::{ActionValues, Cell, Grid},
 };
 
-pub fn get_policy_directions() -> Vec<Policy> {
-    vec![Policy::Up, Policy::Down, Policy::Left, Policy::Right]
-}
-
 pub fn new_action_value() -> ActionValues {
     let mut map = HashMap::new();
-    for direction in get_policy_directions() {
+    for direction in Policy::get_variants() {
         map.insert(direction, 0.0);
     }
     map
@@ -144,7 +140,7 @@ pub fn policy_improvement(
         for j in 0..m {
             let mut max_reward = -1.0;
             let mut max_cell_policy = Policy::Up;
-            for cell_policy in get_policy_directions() {
+            for cell_policy in Policy::get_variants() {
                 let (i_, j_, r) = transition(&cell_grid, i, j, &cell_policy);
                 let reward = r as f64 + gamma * state_value_grid[i_][j_];
                 if reward > max_reward {
@@ -183,7 +179,7 @@ pub fn choose_random_state(grid: &Grid<Cell>) -> (usize, usize) {
 
 fn choose_random_action() -> Policy {
     let mut rng = rand::thread_rng();
-    let mut actions = get_policy_directions();
+    let mut actions = Policy::get_variants();
     actions.shuffle(&mut rng);
     actions[0]
 }
