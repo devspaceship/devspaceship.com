@@ -83,7 +83,7 @@ pub fn sarsa_q_learning(
 mod tests {
     use super::*;
     use crate::{
-        test_utils::{get_optimal_policy, get_test_grid},
+        test_utils::{get_test_grid, is_policy_optimal},
         utils::action_value_grid_to_policy_grid,
     };
 
@@ -91,14 +91,14 @@ mod tests {
     fn test_policy_iteration() {
         let test_grid = get_test_grid();
         let (_state_value_grid, policy_grid) = policy_value_iteration(test_grid, None, None);
-        assert!(get_optimal_policy() == policy_grid);
+        assert!(is_policy_optimal(&policy_grid));
     }
 
     #[test]
     fn test_value_iteration() {
         let test_grid = get_test_grid();
         let (_state_value_grid, policy_grid) = policy_value_iteration(test_grid, None, Some(5));
-        assert!(get_optimal_policy() == policy_grid);
+        assert!(is_policy_optimal(&policy_grid));
     }
 
     #[test]
