@@ -5,3 +5,9 @@ pub enum Policy {
     Right,
     Up,
 }
+
+impl Policy {
+    pub fn get_variants() -> Vec<Policy> {
+        vec![Policy::Down, Policy::Left, Policy::Right, Policy::Up]
+    }
+}
