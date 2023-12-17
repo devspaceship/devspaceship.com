@@ -1,4 +1,4 @@
-use super::{Action, State};
+use super::{Action, Policy, State};
 
 pub struct Environment<S, A>
 where
@@ -22,4 +22,10 @@ where
             transition,
         }
     }
+
+    // TODO implement evaluate policy
+    // pub fn evaluate_policy(&self, policy: impl Policy<S, A>) -> HashMap<S, f64> {
+    //     let mut total_reward = 0.0;
+    //     total_reward
+    // }
 }
