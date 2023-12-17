@@ -1,6 +1,5 @@
-use std::hash::Hash;
-
 use rand::prelude::*;
+use std::hash::Hash;
 
 /// This trait is used to represent an action in the MDP.
 /// It is usually implemented on an enum representing the different possible actions.

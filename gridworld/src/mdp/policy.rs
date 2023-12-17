@@ -1,4 +1,4 @@
-use super::{Action, State};
+use super::models::{Action, State};
 
 pub trait Policy<S, A>
 where

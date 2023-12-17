@@ -1,16 +1,18 @@
-use super::{Action, Policy, State};
+use super::models::{Action, State};
+use rand::prelude::*;
 
-pub struct Environment<S, A>
+pub struct MDP<S, A>
 where
     S: State,
     A: Action,
 {
-    pub states: Vec<S>,
-    pub actions: Vec<A>,
-    pub transition: fn(&S, &A) -> (S, f64),
+    states: Vec<S>,
+    actions: Vec<A>,
+    transition: fn(&S, &A) -> (S, f64),
+    rng: ThreadRng,
 }
 
-impl<S, A> Environment<S, A>
+impl<S, A> MDP<S, A>
 where
     S: State,
     A: Action,
@@ -20,7 +22,16 @@ where
             states,
             actions,
             transition,
+            rng: thread_rng(),
         }
+    }
+
+    fn get_random_state(&mut self) -> S {
+        *self.states.choose(&mut self.rng).unwrap()
+    }
+
+    fn get_random_action(&mut self) -> A {
+        *self.actions.choose(&mut self.rng).unwrap()
     }
 
     // TODO implement evaluate policy
