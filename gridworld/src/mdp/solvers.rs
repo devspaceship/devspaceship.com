@@ -1,9 +1,5 @@
-use super::{Environment, Policy};
-
-/// Evaluates the policy for a given environment and optional initial state value grid
-/// Returns a new state value grid
-fn test() {}
-
+// / Evaluates the policy for a given environment and optional initial state value grid
+// / Returns a new state value grid
 // pub fn policy_evaluation(
 //     cell_grid: &Grid<Cell>,
 //     policy_grid: &Grid<Action>,

@@ -1,4 +1,4 @@
-use crate::mdp::Action;
+// use crate::mdp::models::Action;
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum GridworldAction {
@@ -8,8 +8,8 @@ pub enum GridworldAction {
     Up,
 }
 
-impl Action for GridworldAction {
-    fn get_all() -> Vec<Self> {
-        vec![Self::Down, Self::Left, Self::Right, Self::Up]
-    }
-}
+// impl Action for GridworldAction {
+//     fn get_all() -> Vec<Self> {
+//         vec![Self::Down, Self::Left, Self::Right, Self::Up]
+//     }
+// }
