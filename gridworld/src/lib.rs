@@ -1,5 +1,5 @@
 pub mod config;
-pub mod markovian;
+pub mod mdp;
 pub mod models;
 pub mod solvers;
 pub mod test_utils;
