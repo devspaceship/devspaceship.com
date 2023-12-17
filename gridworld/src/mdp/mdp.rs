@@ -1,13 +1,14 @@
-use super::models::{Action, State};
+use super::models::{Action, ActionSpace, State, StateSpace};
 use rand::prelude::*;
 
+#[allow(dead_code)]
 pub struct MDP<S, A>
 where
     S: State,
     A: Action,
 {
-    states: Vec<S>,
-    actions: Vec<A>,
+    state_space: StateSpace<S>,
+    action_space: ActionSpace<A>,
     transition: fn(&S, &A) -> (S, f64),
     rng: ThreadRng,
 }
@@ -17,26 +18,16 @@ where
     S: State,
     A: Action,
 {
-    pub fn new(states: Vec<S>, actions: Vec<A>, transition: fn(&S, &A) -> (S, f64)) -> Self {
+    pub fn new(
+        state_space: StateSpace<S>,
+        action_space: ActionSpace<A>,
+        transition: fn(&S, &A) -> (S, f64),
+    ) -> Self {
         Self {
-            states,
-            actions,
+            state_space,
+            action_space,
             transition,
             rng: thread_rng(),
         }
     }
-
-    fn get_random_state(&mut self) -> S {
-        *self.states.choose(&mut self.rng).unwrap()
-    }
-
-    fn get_random_action(&mut self) -> A {
-        *self.actions.choose(&mut self.rng).unwrap()
-    }
-
-    // TODO implement evaluate policy
-    // pub fn evaluate_policy(&self, policy: impl Policy<S, A>) -> HashMap<S, f64> {
-    //     let mut total_reward = 0.0;
-    //     total_reward
-    // }
 }
