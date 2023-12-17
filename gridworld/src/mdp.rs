@@ -1,5 +1,7 @@
+pub mod defaults;
+
 mod action;
-mod action_value_map;
+mod config;
 mod environment;
 mod policy;
 mod solvers;
@@ -8,7 +10,7 @@ mod transition;
 mod value;
 
 pub use action::*;
-pub use action_value_map::*;
+pub use config::*;
 pub use environment::*;
 pub use policy::*;
 pub use solvers::*;
