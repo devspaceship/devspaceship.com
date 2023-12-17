@@ -1,5 +1,5 @@
 use crate::{
-    models::Action,
+    models::GridworldAction as Action,
     types::{Cell, Grid},
 };
 
