@@ -1,4 +1,4 @@
-use rand::prelude::*;
+use crate::markovian::ActionProvider;
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum Action {
@@ -8,14 +8,10 @@ pub enum Action {
     Up,
 }
 
-impl Action {
-    pub fn get_all() -> Vec<Action> {
-        vec![Action::Down, Action::Left, Action::Right, Action::Up]
-    }
+impl ActionProvider for Action {
+    type Action = Self;
 
-    pub fn get_random() -> Action {
-        let actions = Action::get_all();
-        let mut rng = rand::thread_rng();
-        actions.choose(&mut rng).unwrap().clone()
+    fn get_all() -> Vec<Self::Action> {
+        vec![Action::Down, Action::Left, Action::Right, Action::Up]
     }
 }

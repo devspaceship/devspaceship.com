@@ -2,6 +2,7 @@ use rand::Rng;
 
 use crate::{
     config::DEFAULT_GAMMA,
+    markovian::ActionProvider,
     models::{Action, ActionValueMap},
     types::{Cell, Grid},
 };
