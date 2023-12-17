@@ -4,9 +4,35 @@ use std::collections::HashMap;
 use super::Action;
 use super::State;
 
-pub type StateValue<S> = HashMap<S, f64>;
+pub struct StateValue<S>(HashMap<S, f64>)
+where
+    S: State;
 
-pub struct StateActionValue<A: Action>(HashMap<A, f64>);
+impl<S: State> StateValue<S> {
+    pub fn new() -> Self {
+        let mut map = HashMap::new();
+        for state in S::get_all() {
+            map.insert(state, 0.0);
+        }
+        Self(map)
+    }
+
+    pub fn get(&self, state: &S) -> f64 {
+        *self.0.get(state).unwrap()
+    }
+
+    pub fn get_mut(&mut self, state: &S) -> &mut f64 {
+        self.0.get_mut(state).unwrap()
+    }
+
+    pub fn iter(&self) -> hash_map::Iter<S, f64> {
+        self.0.iter()
+    }
+}
+
+pub struct StateActionValue<A>(HashMap<A, f64>)
+where
+    A: Action;
 
 impl<A: Action> StateActionValue<A> {
     pub fn new() -> Self {
@@ -18,7 +44,7 @@ impl<A: Action> StateActionValue<A> {
     }
 
     pub fn get(&self, action: &A) -> f64 {
-        self.0.get(action).unwrap().clone()
+        *self.0.get(action).unwrap()
     }
 
     pub fn get_mut(&mut self, action: &A) -> &mut f64 {
@@ -30,7 +56,10 @@ impl<A: Action> StateActionValue<A> {
     }
 }
 
-pub struct ActionValue<S: State, A: Action>(HashMap<S, StateActionValue<A>>);
+pub struct ActionValue<S, A>(HashMap<S, StateActionValue<A>>)
+where
+    S: State,
+    A: Action;
 
 impl<S: State, A: Action> ActionValue<S, A> {
     pub fn new() -> Self {
