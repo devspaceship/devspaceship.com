@@ -2,7 +2,7 @@ use std::hash::Hash;
 
 use rand::prelude::*;
 
-pub trait ActionTrait: Copy + Eq + Hash {
+pub trait Action: Copy + Eq + Hash {
     fn get_all() -> Vec<Self>;
 
     fn get_random() -> Self {
