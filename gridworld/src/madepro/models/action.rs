@@ -1,12 +1,28 @@
 use rand::prelude::*;
 use std::hash::Hash;
 
-/// This trait represents an action in the MDP.\
-/// You can use it by implementing it on an enum representing the different possible actions.
+/// # Action
+///
+/// An action type must implement this trait.\
+/// You can implement it on a custom enum for instance.
+///
+/// ## Example
+///
+/// ```
+/// use gridworld::mdp::models::Action;
+///
+/// #[derive(Clone, Copy, PartialEq, Eq, Hash)]
+/// enum ExampleAction {
+///     Up,
+///     Down,
+///     Left,
+///     Right,
+/// }
+///
+/// impl Action for ExampleAction {}
+/// ```
 pub trait Action: Copy + Eq + Hash {}
 
-/// This struct represents the action space of an MDP.\
-/// It contains a list of all possible actions.
 pub struct ActionSpace<A>
 where
     A: Action,
