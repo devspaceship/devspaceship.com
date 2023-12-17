@@ -1,4 +1,4 @@
-use crate::markovian::ActionProvider;
+use crate::mdp::ActionTrait;
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum Action {
@@ -8,10 +8,8 @@ pub enum Action {
     Up,
 }
 
-impl ActionProvider for Action {
-    type Action = Self;
-
-    fn get_all() -> Vec<Self::Action> {
-        vec![Action::Down, Action::Left, Action::Right, Action::Up]
+impl ActionTrait for Action {
+    fn get_all() -> Vec<Self> {
+        vec![Self::Down, Self::Left, Self::Right, Self::Up]
     }
 }
