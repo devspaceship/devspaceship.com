@@ -1,1 +1,63 @@
-pub type DynamicIntoIter<T> = dyn IntoIterator<Item = T, IntoIter = dyn Iterator<Item = T>>;
+use std::collections::HashMap;
+
+use crate::{config::Config, mdp::MDP};
+
+// pub type DynamicIntoIterator<T> = Box<dyn Iterator<Item = T>>;
+
+pub type StateValue<S> = HashMap<S, f64>;
+
+pub fn policy_evaluation<M>(mdp: &M, config: &Config<M::State>) -> StateValue<M::State>
+where
+    M: MDP,
+{
+    // let mut state_value = match &config.initial_state_value {
+    //     Some(state_value) => state_value,
+    //     None => {
+    //         let mut state_value = StateValue::new();
+    //         for state in mdp.get_states() {
+    //             state_value.insert(state, 0.0);
+    //         }
+    //         state_value
+    //     }
+    // };
+    todo!()
+}
+
+// / Evaluates the policy for a given environment and optional initial state value grid
+// / Returns a new state value grid
+// pub fn policy_evaluation(
+//     cell_grid: &Grid<Cell>,
+//     policy_grid: &Grid<Action>,
+//     gamma: Option<f64>,
+//     iter_before_improvement: Option<u32>,
+//     state_value_grid: Option<&Grid<f64>>,
+// ) -> Grid<f64> {
+//     let (n, m) = get_grid_size(&cell_grid);
+//     let mut state_value = match state_value_grid {
+//         Some(state_value) => state_value.clone(),
+//         None => create_grid(n, m, 0.0),
+//     };
+//     let gamma = gamma.unwrap_or(DEFAULT_GAMMA);
+//     let early_stop = match iter_before_improvement {
+//         Some(_) => true,
+//         None => false,
+//     };
+
+//     let mut iteration = 0;
+//     loop {
+//         iteration += 1;
+//         let mut delta: f64 = 0.0;
+//         for i in 0..n {
+//             for j in 0..m {
+//                 let (i_, j_, reward) = transition(&cell_grid, i, j, &policy_grid[i][j]);
+//                 let new_state_value = reward as f64 + gamma * state_value[i_][j_];
+//                 delta = delta.max((new_state_value - state_value[i][j]).abs());
+//                 state_value[i][j] = new_state_value;
+//             }
+//         }
+//         if delta < 1e-5 || (early_stop && iteration == iter_before_improvement.unwrap()) {
+//             break;
+//         }
+//     }
+//     state_value
+// }
