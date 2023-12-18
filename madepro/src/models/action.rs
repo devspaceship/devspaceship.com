@@ -9,7 +9,7 @@ use std::hash::Hash;
 /// ## Example
 ///
 /// ```
-/// use gridworld::madepro::models::Action;
+/// use madepro::models::Action;
 ///
 /// #[derive(Clone, Copy, PartialEq, Eq, Hash)]
 /// enum ExampleAction {

@@ -1,4 +1,4 @@
-use super::models::{Action, ActionSpace, State, StateSpace};
+use super::{Action, ActionSpace, State, StateSpace};
 use rand::prelude::*;
 
 #[allow(dead_code)]
