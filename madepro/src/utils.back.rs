@@ -28,54 +28,6 @@
 //     policy_grid
 // }
 
-// /// Takes n, m and value
-// /// Returns a grid of n rows and m columns filled with value
-// pub fn create_grid<T: Clone>(n: usize, m: usize, value: T) -> Grid<T> {
-//     vec![vec![value; m]; n]
-// }
-
-// /// Returns the next state and reward given the current state and action
-// pub fn transition(
-//     cell_grid: &Grid<Cell>,
-//     i: usize,
-//     j: usize,
-//     action: &Action,
-// ) -> (usize, usize, i32) {
-//     let cell = &cell_grid[i][j];
-
-//     // Edge cases
-//     if (*cell) == Cell::End {
-//         return (i, j, 0);
-//     } else if (*cell) == Cell::Wall {
-//         return (i, j, -1);
-//     }
-
-//     // Tentative position
-//     let (i_i32, j_i32) = (i as i32, j as i32);
-//     let (i_, j_) = match action {
-//         Action::Up => (i_i32 - 1, j_i32),
-//         Action::Down => (i_i32 + 1, j_i32),
-//         Action::Left => (i_i32, j_i32 - 1),
-//         Action::Right => (i_i32, j_i32 + 1),
-//     };
-
-//     // Check out of bounds
-//     let (n, m) = get_grid_size(&cell_grid);
-//     let (n, m) = (n as i32, m as i32);
-//     if i_ < 0 || i_ >= n || j_ < 0 || j_ >= m {
-//         return (i, j, -1);
-//     }
-
-//     // Result
-//     let (i_, j_) = (i_ as usize, j_ as usize);
-//     let cell_ = &cell_grid[i_][j_];
-//     match cell_ {
-//         Cell::End => (i_, j_, 100),
-//         Cell::Wall => (i, j, -1),
-//         Cell::Air => (i_, j_, -1),
-//     }
-// }
-
 // /// Improves the policy in place for a given state value grid
 // /// Returns a boolean to see if policy is stable
 // pub fn policy_improvement(

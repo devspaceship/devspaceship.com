@@ -1,44 +1,16 @@
-#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
-pub enum GridworldAction {
-    Down,
-    Left,
-    Right,
-    Up,
-}
+mod utils;
+// use utils::{GridworldAction, GridworldState};
 
-#[derive(Debug, PartialEq)]
-pub enum Cell {
-    Air,
-    Wall,
-    End,
-}
-
-pub type Grid<T> = Vec<Vec<T>>;
+// use madepro::models::{ActionSpace, StateSpace, MDP};
 
 #[test]
 fn main() {
-    println!("Hello, world!");
+    // let state_space = StateSpace::new(GridworldState::get_all());
+    // let action_space = ActionSpace::new(GridworldAction::get_all());
+
+    // fn transition(state: &GridworldState, _action: &GridworldAction) -> (GridworldState, f64) {
+    //     (*state, 0.0)
+    // }
+
+    // let _mdp = MDP::new(state_space, action_space, transition);
 }
-
-// use crate::types::{Cell, Grid};
-
-// use super::models::GridworldAction;
-
-// pub fn get_test_grid() -> Grid<Cell> {
-//     vec![vec![Cell::Air, Cell::Air], vec![Cell::Wall, Cell::End]]
-// }
-
-// pub fn get_optimal_policy() -> Grid<GridworldAction> {
-//     vec![
-//         vec![Action::Right, Action::Down],
-//         vec![Action::Up, Action::Up],
-//     ]
-// }
-
-// pub fn is_policy_optimal(policy: &Grid<Action>) -> bool {
-//     policy[0][0] == Action::Right && policy[0][1] == Action::Down
-// }
-
-// pub fn get_no_gamma_state_value() -> Grid<f64> {
-//     vec![vec![-1.0, 100.0], vec![-1.0, 0.0]]
-// }
