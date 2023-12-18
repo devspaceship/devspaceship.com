@@ -9,7 +9,7 @@ use std::hash::Hash;
 /// ## Example
 ///
 /// ```
-/// use gridworld::mdp::models::Action;
+/// use gridworld::madepro::models::Action;
 ///
 /// #[derive(Clone, Copy, PartialEq, Eq, Hash)]
 /// enum ExampleAction {
@@ -35,7 +35,7 @@ impl<A> ActionSpace<A>
 where
     A: Action,
 {
-    /// Creates a new action space from a list of actions.
+    /// Creates a new action space from a list of actions.\
     /// The list must not be empty.
     pub fn new(actions: Vec<A>) -> Self {
         assert!(actions.len() > 0, "Action space must not be empty.");
