@@ -1,11 +1,9 @@
-use crate::{defaults::ITERATIONS_BEFORE_IMPROVEMENT, utils::StateValue};
-
-use super::defaults::{
-    DISCOUNT_FACTOR, EXPLORATION_PERIOD, INITIAL_EXPLORATION_RATE, LEARNING_RATE, MAX_NUM_STEPS,
-    NUM_EPISODES,
+use crate::defaults::{
+    DISCOUNT_FACTOR, EXPLORATION_PERIOD, INITIAL_EXPLORATION_RATE, ITERATIONS_BEFORE_IMPROVEMENT,
+    LEARNING_RATE, MAX_NUM_STEPS, NUM_EPISODES,
 };
 
-pub struct Config<S> {
+pub struct Config {
     pub discount_factor: f64,
     pub max_num_steps: u32,
     pub num_episodes: u32,
@@ -13,10 +11,9 @@ pub struct Config<S> {
     pub initial_exploration_rate: f64,
     pub exploration_period: u32,
     pub iterations_before_improvement: Option<u32>,
-    pub initial_state_value: Option<StateValue<S>>,
 }
 
-impl<S> Config<S> {
+impl Config {
     pub fn new() -> Self {
         Self {
             discount_factor: DISCOUNT_FACTOR,
@@ -26,7 +23,6 @@ impl<S> Config<S> {
             initial_exploration_rate: INITIAL_EXPLORATION_RATE,
             exploration_period: EXPLORATION_PERIOD,
             iterations_before_improvement: ITERATIONS_BEFORE_IMPROVEMENT,
-            initial_state_value: None,
         }
     }
 
@@ -65,11 +61,6 @@ impl<S> Config<S> {
         iterations_before_improvement: Option<u32>,
     ) -> Self {
         self.iterations_before_improvement = iterations_before_improvement;
-        self
-    }
-
-    pub fn initial_state_value(mut self, initial_state_value: Option<StateValue<S>>) -> Self {
-        self.initial_state_value = initial_state_value;
         self
     }
 }
