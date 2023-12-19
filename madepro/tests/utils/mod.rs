@@ -1,96 +1,114 @@
-// // use madepro::models::{Action, State};
+use std::vec;
 
-// #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
-// pub enum GridworldAction {
-//     Down,
-//     Left,
-//     Right,
-//     Up,
-// }
+use madepro::models::{Action, Model, State, MDP};
 
-// impl Action for GridworldAction {}
+#[derive(Clone, Copy, PartialEq, Eq, Hash)]
+pub enum GridworldAction {
+    Down,
+    Left,
+    Right,
+    Up,
+}
 
-// impl GridworldAction {
-//     pub fn get_all() -> Vec<GridworldAction> {
-//         vec![
-//             GridworldAction::Down,
-//             GridworldAction::Left,
-//             GridworldAction::Right,
-//             GridworldAction::Up,
-//         ]
-//     }
-// }
+impl Model for GridworldAction {
+    type IntoIter = vec::IntoIter<Self>;
 
-// #[derive(Clone, Copy, PartialEq, Eq, Hash)]
-// pub struct GridworldState {
-//     i: usize,
-//     j: usize,
-// }
+    fn get_all() -> Self::IntoIter {
+        vec![Self::Down, Self::Left, Self::Right, Self::Up].into_iter()
+    }
+}
 
-// impl State for GridworldState {}
+impl Action for GridworldAction {}
 
-// impl GridworldState {
-//     pub fn get_all() -> Vec<GridworldState> {
-//         vec![
-//             GridworldState { i: 0, j: 0 },
-//             GridworldState { i: 0, j: 1 },
-//             GridworldState { i: 1, j: 0 },
-//             GridworldState { i: 1, j: 1 },
-//         ]
-//     }
-// }
+#[derive(Clone, Copy, PartialEq, Eq, Hash)]
+pub struct GridworldState {
+    i: usize,
+    j: usize,
+}
 
-// #[derive(Debug, PartialEq)]
-// enum Cell {
-//     Air,
-//     Wall,
-//     End,
-// }
+impl GridworldState {
+    pub fn new(i: usize, j: usize) -> Self {
+        Self { i, j }
+    }
+}
 
-// // pub fn transition(
-// //     cell_grid: &Grid<Cell>,
-// //     i: usize,
-// //     j: usize,
-// //     action: &Action,
-// // ) -> (usize, usize, i32) {
-// //     let cell = &cell_grid[i][j];
+impl Model for GridworldState {
+    type IntoIter = vec::IntoIter<Self>;
 
-// //     // Edge cases
-// //     if (*cell) == Cell::End {
-// //         return (i, j, 0);
-// //     } else if (*cell) == Cell::Wall {
-// //         return (i, j, -1);
-// //     }
+    fn get_all() -> Self::IntoIter {
+        vec![
+            Self::new(0, 0),
+            Self::new(0, 1),
+            Self::new(1, 0),
+            Self::new(1, 1),
+        ]
+        .into_iter()
+    }
+}
 
-// //     // Tentative position
-// //     let (i_i32, j_i32) = (i as i32, j as i32);
-// //     let (i_, j_) = match action {
-// //         Action::Up => (i_i32 - 1, j_i32),
-// //         Action::Down => (i_i32 + 1, j_i32),
-// //         Action::Left => (i_i32, j_i32 - 1),
-// //         Action::Right => (i_i32, j_i32 + 1),
-// //     };
+impl State for GridworldState {}
 
-// //     // Check out of bounds
-// //     let (n, m) = get_grid_size(&cell_grid);
-// //     let (n, m) = (n as i32, m as i32);
-// //     if i_ < 0 || i_ >= n || j_ < 0 || j_ >= m {
-// //         return (i, j, -1);
-// //     }
+#[derive(Debug, PartialEq)]
+enum Cell {
+    Air,
+    Wall,
+    End,
+}
 
-// //     // Result
-// //     let (i_, j_) = (i_ as usize, j_ as usize);
-// //     let cell_ = &cell_grid[i_][j_];
-// //     match cell_ {
-// //         Cell::End => (i_, j_, 100),
-// //         Cell::Wall => (i, j, -1),
-// //         Cell::Air => (i_, j_, -1),
-// //     }
-// // }
+pub struct Gridworld {
+    cell_grid: Vec<Vec<Cell>>,
+}
 
-// // use crate::types::{Cell, Grid};
+impl Gridworld {
+    fn get_grid_size(&self) -> (usize, usize) {
+        (self.cell_grid.len(), self.cell_grid[0].len())
+    }
+}
 
-// // use super::models::GridworldAction;
+impl MDP for Gridworld {
+    type State = GridworldState;
+    type Action = GridworldAction;
+
+    fn is_state_terminal(&self, state: &Self::State) -> bool {
+        let cell = &self.cell_grid[state.i][state.j];
+        *cell == Cell::End
+    }
+
+    fn transition(&self, state: &Self::State, action: &Self::Action) -> (Self::State, f64) {
+        let cell = &self.cell_grid[state.i][state.j];
+
+        // Edge cases
+        // In theory the Cell::Wall case should never happen
+        if (*cell) == Cell::End || (*cell) == Cell::Wall {
+            return (*state, 0.0);
+        }
+
+        // Tentative position
+        let (i, j) = (state.i as i32, state.j as i32);
+        let (i_, j_) = match action {
+            Self::Action::Up => (i - 1, j),
+            Self::Action::Down => (i + 1, j),
+            Self::Action::Left => (i, j - 1),
+            Self::Action::Right => (i, j + 1),
+        };
+
+        // Check out of bounds
+        let (n, m) = self.get_grid_size();
+        let (n, m) = (n as i32, m as i32);
+        if i_ < 0 || i_ >= n || j_ < 0 || j_ >= m {
+            return (*state, -1.0);
+        }
+
+        // Result
+        let (i_, j_) = (i_ as usize, j_ as usize);
+        let cell_ = &self.cell_grid[i_][j_];
+        match cell_ {
+            Cell::Air => (Self::State::new(i_, j_), -1.0),
+            Cell::Wall => (*state, -1.0),
+            Cell::End => (Self::State::new(i_, j_), 100.0),
+        }
+    }
+}
 
 // // pub fn get_test_grid() -> Grid<Cell> {
 // //     vec![vec![Cell::Air, Cell::Air], vec![Cell::Wall, Cell::End]]
