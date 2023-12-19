@@ -3,6 +3,13 @@ use crate::{
     models::{Model, Policy, StateValue, MDP},
 };
 
+/// # Policy Evaluation
+///
+/// This function implements the policy evaluation algorithm.\
+/// It works by using the Bellman equation to iteratively update the state values.
+/// The algorithm stops when the state values converge.
+/// If the `iterations_before_improvement` parameter is set, the algorithm will stop after
+/// the given number of iterations.
 pub fn policy_evaluation<M>(
     mdp: &M,
     config: &Config,

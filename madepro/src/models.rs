@@ -54,6 +54,7 @@ impl<S: State, A: Action> Policy<S, A> {
     }
 }
 
+#[derive(Debug)]
 pub struct StateValue<S>(HashMap<S, f64>)
 where
     S: State;

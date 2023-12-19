@@ -1,6 +1,32 @@
 use std::vec;
 
-use madepro::models::{Action, Model, State, MDP};
+use madepro::models::{Action, Model, Policy, State, MDP};
+
+// State
+
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub struct GridworldState {
+    i: usize,
+    j: usize,
+}
+
+impl GridworldState {
+    pub fn new(i: usize, j: usize) -> Self {
+        Self { i, j }
+    }
+}
+
+impl Model for GridworldState {
+    type IntoIter = vec::IntoIter<Self>;
+
+    fn get_all() -> Self::IntoIter {
+        vec![Self::new(0, 0), Self::new(0, 1), Self::new(1, 1)].into_iter()
+    }
+}
+
+impl State for GridworldState {}
+
+// Action
 
 #[derive(Clone, Copy, PartialEq, Eq, Hash)]
 pub enum GridworldAction {
@@ -20,43 +46,40 @@ impl Model for GridworldAction {
 
 impl Action for GridworldAction {}
 
-#[derive(Clone, Copy, PartialEq, Eq, Hash)]
-pub struct GridworldState {
-    i: usize,
-    j: usize,
+// Policy
+
+pub fn get_optimal_policy() -> Policy<GridworldState, GridworldAction> {
+    let mut policy = Policy::new();
+    policy.insert(GridworldState::new(0, 0), GridworldAction::Right);
+    policy.insert(GridworldState::new(0, 1), GridworldAction::Down);
+    policy.insert(GridworldState::new(1, 0), GridworldAction::Up);
+    policy.insert(GridworldState::new(1, 1), GridworldAction::Up);
+    policy
 }
 
-impl GridworldState {
-    pub fn new(i: usize, j: usize) -> Self {
-        Self { i, j }
-    }
-}
-
-impl Model for GridworldState {
-    type IntoIter = vec::IntoIter<Self>;
-
-    fn get_all() -> Self::IntoIter {
-        vec![
-            Self::new(0, 0),
-            Self::new(0, 1),
-            Self::new(1, 0),
-            Self::new(1, 1),
-        ]
-        .into_iter()
-    }
-}
-
-impl State for GridworldState {}
+// Cell
 
 #[derive(Debug, PartialEq)]
-enum Cell {
+pub enum Cell {
     Air,
     Wall,
     End,
 }
 
+pub fn get_test_grid() -> Vec<Vec<Cell>> {
+    vec![vec![Cell::Air, Cell::Air], vec![Cell::Wall, Cell::End]]
+}
+
+// Gridworld
+
 pub struct Gridworld {
     cell_grid: Vec<Vec<Cell>>,
+}
+
+impl Gridworld {
+    pub fn new(cell_grid: Vec<Vec<Cell>>) -> Self {
+        Self { cell_grid }
+    }
 }
 
 impl Gridworld {
@@ -109,10 +132,6 @@ impl MDP for Gridworld {
         }
     }
 }
-
-// // pub fn get_test_grid() -> Grid<Cell> {
-// //     vec![vec![Cell::Air, Cell::Air], vec![Cell::Wall, Cell::End]]
-// // }
 
 // // pub fn get_optimal_policy() -> Grid<GridworldAction> {
 // //     vec![
