@@ -1,12 +1,13 @@
 use rand::prelude::*;
 use std::collections::HashMap;
+use std::fmt::Debug;
 use std::hash::Hash;
 
 /// # Model
 ///
 /// This trait represents a model in the MDP.\
 /// `State` and `Action` extend this trait.
-pub trait Model: Copy + Eq + Hash {
+pub trait Model: Copy + Eq + Hash + Debug {
     type IntoIter: IntoIterator<Item = Self>;
 
     /// Returns an iterator over all items.
@@ -31,6 +32,7 @@ pub trait State: Model {}
 /// You can implement it on a custom enum for instance.
 pub trait Action: Model {}
 
+#[derive(Debug)]
 pub struct Policy<S, A>(HashMap<S, A>)
 where
     S: State,

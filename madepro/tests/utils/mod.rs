@@ -28,7 +28,7 @@ impl State for GridworldState {}
 
 // Action
 
-#[derive(Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
 pub enum GridworldAction {
     Down,
     Left,
