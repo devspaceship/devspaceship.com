@@ -41,3 +41,30 @@ where
     }
     state_value
 }
+
+pub fn infer_policy<M>(
+    mdp: &M,
+    config: &Config,
+    state_value: &StateValue<M::State>,
+) -> Policy<M::State, M::Action>
+where
+    M: MDP,
+{
+    let mut policy = Policy::new();
+    for state in M::State::get_all() {
+        let mut best_action = None;
+        let mut best_value = None;
+        for action in M::Action::get_all() {
+            let (next_state, reward) = mdp.transition(&state, &action);
+            let value = reward + config.discount_factor * state_value.get(&next_state);
+            if best_value.is_none() || value > best_value.unwrap() {
+                best_value = Some(value);
+                best_action = Some(action);
+            }
+        }
+        if let Some(best_action) = best_action {
+            policy.insert(state, best_action);
+        }
+    }
+    policy
+}
