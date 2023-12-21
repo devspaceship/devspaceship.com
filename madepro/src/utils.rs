@@ -8,8 +8,8 @@ use crate::{
 /// This function implements the policy evaluation algorithm.\
 /// It works by using the Bellman equation to iteratively update the state values.
 /// The algorithm stops when the state values converge.
-/// If the `iterations_before_improvement` parameter is set, the algorithm will stop after
-/// the given number of iterations.
+/// If the `iterations_before_improvement` parameter is set,
+/// the algorithm will stop early after the given number of iterations.
 pub fn policy_evaluation<M>(
     mdp: &M,
     config: &Config,
@@ -42,6 +42,9 @@ where
     state_value
 }
 
+/// # Policy Inference
+///
+/// Given a state value function, this function infers the optimal policy.
 pub fn infer_policy<M>(
     mdp: &M,
     config: &Config,

@@ -1,33 +1,25 @@
-use crate::utils::{GridworldAction, GridworldState};
-use madepro::{
-    config::Config,
-    utils::{infer_policy, policy_evaluation},
-};
-use utils::{get_optimal_policy, get_test_grid, Gridworld};
-
 mod utils;
 
+use madepro::utils::{infer_policy, policy_evaluation};
+use utils::{
+    assert_policy_optimal, assert_state_value_correct, get_optimal_policy, get_test_config,
+    get_test_mdp, get_test_state_value,
+};
+
 #[test]
-fn main() {
-    // Policy evaluation
-    let mdp = Gridworld::new(get_test_grid());
-    let config = Config::new()
-        .discount_factor(0.97)
-        .iterations_before_improvement(None);
+fn test_policy_evaluation() {
+    let mdp = get_test_mdp();
+    let config = get_test_config();
     let policy = get_optimal_policy();
     let state_value = policy_evaluation(&mdp, &config, &policy, None);
-    assert_eq!(state_value.get(&GridworldState::new(0, 0)), 96.0);
-    assert_eq!(state_value.get(&GridworldState::new(0, 1)), 100.0);
-    assert_eq!(state_value.get(&GridworldState::new(1, 1)), 0.0);
+    assert_state_value_correct(&state_value);
+}
 
-    // Policy inference
+#[test]
+fn test_policy_inference() {
+    let mdp = get_test_mdp();
+    let config = get_test_config();
+    let state_value = get_test_state_value();
     let inferred_policy = infer_policy(&mdp, &config, &state_value);
-    assert_eq!(
-        inferred_policy.get(&GridworldState::new(0, 0)),
-        &GridworldAction::Right
-    );
-    assert_eq!(
-        inferred_policy.get(&GridworldState::new(0, 1)),
-        &GridworldAction::Down
-    );
+    assert_policy_optimal(&inferred_policy);
 }
