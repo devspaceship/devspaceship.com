@@ -4,28 +4,6 @@
 //     // utils::{create_grid, get_grid_size, policy_evaluation, policy_improvement},
 // };
 
-// pub fn policy_value_iteration(
-//     cell_grid: Grid<Cell>,
-//     gamma: Option<f64>,
-//     iter_before_improvement: Option<u32>,
-// ) -> (Grid<f64>, Grid<Action>) {
-//     let (n, m) = get_grid_size(&cell_grid);
-//     let mut is_stable = false;
-//     let mut state_value_grid = create_grid(n, m, 0.0);
-//     let mut policy_grid = create_grid(n, m, Action::Up);
-//     while !is_stable {
-//         state_value_grid = policy_evaluation(
-//             &cell_grid,
-//             &policy_grid,
-//             gamma,
-//             iter_before_improvement,
-//             Some(&state_value_grid),
-//         );
-//         is_stable = policy_improvement(&mut policy_grid, &cell_grid, &state_value_grid, gamma);
-//     }
-//     (state_value_grid, policy_grid)
-// }
-
 // pub fn sarsa_q_learning(
 //     cell_grid: Grid<Cell>,
 //     q_learning: bool,

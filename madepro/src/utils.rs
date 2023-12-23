@@ -20,7 +20,6 @@ where
     M: MDP,
 {
     let mut state_value = initial_state_value.unwrap_or(StateValue::new());
-    let early_stop = config.iterations_before_improvement.is_some();
     let mut iteration = 0;
     loop {
         iteration += 1;
@@ -34,7 +33,9 @@ where
             state_value.insert(state, new_state_value);
         }
         if delta < 1e-5
-            || (early_stop && iteration == config.iterations_before_improvement.unwrap())
+            || config
+                .iterations_before_improvement
+                .is_some_and(|n| iteration >= n)
         {
             break;
         }

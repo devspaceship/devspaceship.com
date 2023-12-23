@@ -32,7 +32,7 @@ pub trait State: Model {}
 /// You can implement it on a custom enum for instance.
 pub trait Action: Model {}
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct Policy<S, A>(HashMap<S, A>)
 where
     S: State,
