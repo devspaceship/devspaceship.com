@@ -1,6 +1,6 @@
 use crate::defaults::{
-    DISCOUNT_FACTOR, EXPLORATION_PERIOD, INITIAL_EXPLORATION_RATE, ITERATIONS_BEFORE_IMPROVEMENT,
-    LEARNING_RATE, MAX_NUM_STEPS, NUM_EPISODES,
+    DISCOUNT_FACTOR, EXPLORATION_RATE, ITERATIONS_BEFORE_IMPROVEMENT, LEARNING_RATE, MAX_NUM_STEPS,
+    NUM_EPISODES,
 };
 
 pub struct Config {
@@ -8,8 +8,7 @@ pub struct Config {
     pub max_num_steps: u32,
     pub num_episodes: u32,
     pub learning_rate: f64,
-    pub initial_exploration_rate: f64,
-    pub exploration_period: u32,
+    pub exploration_rate: f64,
     pub iterations_before_improvement: Option<u32>,
 }
 
@@ -20,8 +19,7 @@ impl Config {
             max_num_steps: MAX_NUM_STEPS,
             num_episodes: NUM_EPISODES,
             learning_rate: LEARNING_RATE,
-            initial_exploration_rate: INITIAL_EXPLORATION_RATE,
-            exploration_period: EXPLORATION_PERIOD,
+            exploration_rate: EXPLORATION_RATE,
             iterations_before_improvement: ITERATIONS_BEFORE_IMPROVEMENT,
         }
     }
@@ -46,13 +44,8 @@ impl Config {
         self
     }
 
-    pub fn initial_exploration_rate(mut self, initial_exploration_rate: f64) -> Self {
-        self.initial_exploration_rate = initial_exploration_rate;
-        self
-    }
-
-    pub fn exploration_period(mut self, exploration_period: u32) -> Self {
-        self.exploration_period = exploration_period;
+    pub fn exploration_rate(mut self, exploration_rate: f64) -> Self {
+        self.exploration_rate = exploration_rate;
         self
     }
 
