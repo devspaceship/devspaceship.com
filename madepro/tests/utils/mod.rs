@@ -57,10 +57,9 @@ impl Action for GridworldAction {}
 // Policy
 pub fn get_optimal_policy() -> Policy<GridworldState, GridworldAction> {
     let mut policy = Policy::new();
-    policy.insert(GridworldState::new(0, 0), GridworldAction::Right);
-    policy.insert(GridworldState::new(0, 1), GridworldAction::Down);
-    policy.insert(GridworldState::new(1, 0), GridworldAction::Up);
-    policy.insert(GridworldState::new(1, 1), GridworldAction::Up);
+    policy.insert(&TOP_LEFT, &GridworldAction::Right);
+    policy.insert(&TOP_RIGHT, &GridworldAction::Down);
+    policy.insert(&BOTTOM_RIGHT, &GridworldAction::Up);
     policy
 }
 
@@ -161,9 +160,9 @@ pub fn get_test_config() -> Config {
 
 pub fn get_test_state_value() -> StateValue<GridworldState> {
     let mut state_value = StateValue::new();
-    state_value.insert(TOP_LEFT, 96.0);
-    state_value.insert(TOP_RIGHT, 100.0);
-    state_value.insert(BOTTOM_RIGHT, 0.0);
+    state_value.insert(&TOP_LEFT, 96.0);
+    state_value.insert(&TOP_RIGHT, 100.0);
+    state_value.insert(&BOTTOM_RIGHT, 0.0);
     state_value
 }
 

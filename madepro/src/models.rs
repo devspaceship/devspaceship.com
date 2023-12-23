@@ -51,8 +51,8 @@ impl<S: State, A: Action> Policy<S, A> {
         self.0.get(state).unwrap()
     }
 
-    pub fn insert(&mut self, state: S, action: A) {
-        self.0.insert(state, action);
+    pub fn insert(&mut self, state: &S, action: &A) {
+        self.0.insert(*state, *action);
     }
 }
 
@@ -74,8 +74,8 @@ impl<S: State> StateValue<S> {
         *self.0.get(state).unwrap()
     }
 
-    pub fn insert(&mut self, state: S, value: f64) {
-        self.0.insert(state, value);
+    pub fn insert(&mut self, state: &S, value: f64) {
+        self.0.insert(*state, value);
     }
 }
 
@@ -96,8 +96,8 @@ impl<A: Action> StateActionValue<A> {
         *self.0.get(action).unwrap()
     }
 
-    pub fn insert(&mut self, action: A, value: f64) {
-        self.0.insert(action, value);
+    pub fn insert(&mut self, action: &A, value: f64) {
+        self.0.insert(*action, value);
     }
 
     pub fn greedy(&self) -> A {
@@ -142,7 +142,7 @@ impl<S: State, A: Action> ActionValue<S, A> {
         self.0.get(state).unwrap().get(action)
     }
 
-    pub fn insert(&mut self, state: &S, action: A, value: f64) {
+    pub fn insert(&mut self, state: &S, action: &A, value: f64) {
         self.0.get_mut(&state).unwrap().insert(action, value);
     }
 
