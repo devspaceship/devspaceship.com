@@ -30,7 +30,7 @@ where
             let next_state_value = state_value.get(&next_state);
             let new_state_value = reward + config.discount_factor * next_state_value;
             delta = delta.max((new_state_value - state_value.get(&state)).abs());
-            state_value.insert(state, new_state_value);
+            state_value.insert(&state, new_state_value);
         }
         if delta < 1e-5
             || config
@@ -67,7 +67,7 @@ where
             }
         }
         if let Some(best_action) = best_action {
-            policy.insert(state, best_action);
+            policy.insert(&state, &best_action);
         }
     }
     policy
