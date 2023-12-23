@@ -1,3 +1,3 @@
 # madepro
 
-A Rust library for solving finite deterministic Markov Decision Processes (MDPs).
+A minimal Rust library for solving finite deterministic Markov decision processes
