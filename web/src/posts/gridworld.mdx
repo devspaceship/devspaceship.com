@@ -18,8 +18,7 @@ import Gridworld from "@/components/Gridworld";
 
 ## What is a gridworld ?
 
-This gridworld is 8 lines x 12 columns.
-It represent an _environment_ in which our _agent_ is going to take _actions_.
+A gridworld represents an _environment_ in which an _agent_ is able to take _actions_.
 The orange cell placed on the bottom right is the goal _state_, where we want to go.
 You can move the ending point by draging it.
 Walls have been placed and are represented by blue cells.
@@ -35,25 +34,37 @@ If there is nothing or a wall, we get a 'reward' of $r_1 = -1$. And if we got to
 Note that we can define a terminal _state_ as a _state_ where every action takes you to the same _state_ with a reward of $0$.
 The goal is to finish the game with the maximum (discounted) reward possible $\sum_{t=0}^{+\infty} \gamma^t r_{t+1}$.
 That is why we give a negative reward when transitionning to a cell where there is nothing.
-This tells us that the shortest path to the end is going to be better than making 3 times the tour of the map before going to the goal _state_.
+This tells us that the shortest path to the end is going to be better than making 3 times the tour of the map before going to the goal _state_.\
+You might be wondering what this $\gamma$ thing is.
+It is a parameter between $0$ and $1$ called the _discount rate_.
+It indicates how much we care about rewards that are far in the future.
+If $\gamma$ is near $0$, we are going to take into account only reward in the near future.
+If, however, $\gamma$ is near $1$, we will considerate more long-lasting reward as well.
 
-The theory lying underneath that will help us understand the way we design solving algorithms for this kind of problems is **Reinforcement Learning**.  
-It is based on a mathematical model that capture the essence of problem like this one called [**Markov Decision Process**][1].  
-In a deterministic **MDP**, you have:
 
-- a set of _states_ $S$, where $S_t$ is the subset of _states_ you can access at time step $t$.
-- a set of _actions_ $A$, where $A_t$ is the subset of _actions_ you can chose at time step $t$.
-- a _reward_ function $R: S \times S \rightarrow \mathbb{R}$, where $R(s, s')$ is the _reward_ you get when transitionning from _state_ $s$ to $s'$.
+## Markov Decision Process
 
-Note that I sometimes use the $R$ function as a function defined like this instead $R: S \times A \rightarrow \mathbb{R}$ 
-where $R(s,a)$ is the reward you get from transitioning from $s$ to the state you end up in by following $a$.
+You might also be wondering why we are defining the problem like this.
+That is because it is a very general way to define a problem where an agent is going to take actions in an environment.
+This is central to the field of **Reinforcement Learning**.
+The underlying mathematical model is called a [**Markov Decision Process**][1].
+In this example, we will keep it simple and consider a deterministic _MDP_.
+In a deterministic **MDP**, the _state_ you end up in after taking a certain _action_ in a certain _state_ is always the same.
+Another simplification we are going to make is that the _reward_ you get when transitioning
+is independent of the _action_ you took and only depends on the _state_ you are transitioning to and the one you are transitiong from.
+Such an **MDP** is defined by:
+
+- A set of _states_ $S$
+- A set of _actions_ $A$
+- A _transition_ function $s: S \times A \rightarrow S$ that takes a _state_ and an _action_ and returns the next _state_
+- A _reward_ function $R: S \times S \rightarrow \mathbb{R}$ that takes a _state_ and the next _state_ and returns a _reward_
 
 ## What is a policy, a state value and a Q-function ?
 
 We first define the concept of _policy_.
 The policy is a function $\pi : S \rightarrow A$. In other words,
 it takes a _state_ as an input and output an _action_ to take.
-An agent is said to follow a policy $\pi$ if $\forall t \in \mathbb{N}, a_t = \pi(s_t)$ i.e. if it takes the action that the policy asks it to follow.  
+An agent is said to follow a policy $\pi$ if at every timestep $t$, $a_t = \pi(s_t)$ i.e. if it takes the action that the policy asks it to follow.  
 We can now define what are a state-value and a Q-value (also called action-value) function given a policy:
 
 $$
@@ -63,11 +74,6 @@ $$
 \end{aligned}
 $$
 
-We already used $0 < \gamma \leq 1$ three times without explaining what it was, it is called the _discount rate_.
-It will set at what extent our agent is going to be concerned by long-time reward.
-If $\gamma$ is near $0$, we are going to take into account only reward in the near future.
-If, however, $\gamma$ is near $1$, we will considerate more long-lasting reward.  
-Ok now, what about $V^{\pi}$ and $Q^{\pi}$ ?  
 $V^{\pi}(s_t)$ represents the future discounted reward, starting at $s_t$ and following the policy $\pi$.  
 $Q^{\pi}(s_t, a_t)$ is very similar, it is the future discounted reward, still starting at $s_t$
 but this time taking action $a_t$ (possilbly different from $\pi(s_t)$) before following the policy.
@@ -76,13 +82,13 @@ A policy which is going to maximize the future dicounted reward is called an opt
 There can be several ones sometimes (for instance if transitioning to nothing would yield a reward of 0 and if the discounting factor was 1) or if two paths from start to end have the same lengths.
 Let's take one, we are going to call it $\pi^*$, we also define the optimal
 state-value function $V^* = V^{\pi^*} = \max_{\pi} V^{\pi}$
-as well as the optimal Q-value function $Q^* = Q^{\pi^*} = \max_{\pi} Q^{\pi}$. Note that all optimal policies share the same state-value and action-value (Q-value) function because if one was higher than the others, the other ones wouldn't be optimal.
+as well as the optimal Q-value function $Q^* = Q^{\pi^*} = \max_{\pi} Q^{\pi}$.
+Note that all optimal policies share the same state-value and action-value (Q-value) function because if a policy was better than an optimal one, it would not be optimal.
 
 ## Let's solve it !
 
 The next remarks are going to be central for solving the problem,
-they are the [Bellman Equations][2] of a deterministic _MDP_ (with deterministic policy).\
-Note that here $s: S \times A \rightarrow S$ is a function that takes a state and action and returns a state since we are in the deterministic case.\
+they are the [Bellman Equations][2] of a deterministic _MDP_ (with deterministic policy).
 
 $$
 \begin{aligned}
@@ -112,17 +118,52 @@ $$
 \end{aligned}
 $$
 
-We can also remark that $V^*(s) = \max_a Q^*(s, a)$ and inject it in the last equation:
+We can also remark that $V^*(s) = \max_a Q^*(s, a)$.
+This is because the maximum discounted reward from a state is the one that you would get by following the best action available in that state.
+We can now inject this in the equation:
 
 $$
 Q^*(s_t, a_t) = R(s_t, s(s_t, a_t)) + \gamma \max_{a_{t+1}} Q^*(s(s_t, a_t), a_{t+1})
 $$
 
+This is called the _Bellman Optimality Equation_.
+
 ## Code preliminaries
 
-Those code examples are going to be written in Rust. We start by defining the following types:
+Those code examples are going to be written in Rust 🦀.
+We will be using a crate that I wrote for this purpose called [`madepro`](https://docs.rs/madepro/0.1.0/madepro/) (for Markov Decision Processes).
+The code examples will be from the environment part of the library where the gridworld is defined.
+I will just show the part of the code that is relevant to the concepts we talked about.
+Some details like implementations of certain functions will be ommited as they are not relevant to the concepts we are talking about.
+We start by defining types to represent the gridworld and the different concepts we talked about:
 
 ```rust
+use madepro::models::{Action, Sampler, State, MDP};
+
+const END_TRANSITION_REWARD: f64 = 100.0;
+const NO_OP_TRANSITION_REWARD: f64 = -1.0;
+
+/// A gridworld state (i, j)
+#[derive(PartialEq, Eq, Hash, Debug, Clone)]
+pub struct GridworldState {
+    i: usize,
+    j: usize,
+}
+
+impl State for GridworldState {}
+
+/// A gridworld action
+#[derive(PartialEq, Eq, Hash, Debug, Clone)]
+pub enum GridworldAction {
+    Down,
+    Left,
+    Right,
+    Up,
+}
+
+impl Action for GridworldAction {}
+
+/// A gridworld cell
 #[derive(Debug, PartialEq)]
 pub enum Cell {
     Air,
@@ -130,21 +171,73 @@ pub enum Cell {
     End,
 }
 
-#[derive(Eq, Hash, PartialEq, Debug, Clone, Copy)]
-pub enum Policy {
-    Up,
-    Down,
-    Left,
-    Right,
+/// A gridworld
+pub struct Gridworld {
+    cell_grid: Vec<Vec<Cell>>,
+    states: Sampler<GridworldState>,
+    actions: Sampler<GridworldAction>,
 }
 
-pub type Grid<T> = Vec<Vec<T>>;
-pub type ActionValue = HashMap<Policy, f64>;
-```
+impl Gridworld {
+    /// Returns the grid's width and height
+    fn get_grid_size(&self) -> (usize, usize) {
+        (self.cell_grid.len(), self.cell_grid[0].len())
+    }
+}
 
-I also wrote some helper functions to make the code more readable from which you can find all the functions [here][5].
-Also, note that given the similarity between the implementations of Policy Iteration and Value Iteration and those of SARSA and Q-Learning,
-I will have their implementations in 2 shared functions.
+impl MDP for Gridworld {
+    type State = GridworldState;
+    type Action = GridworldAction;
+
+    fn get_states(&self) -> &Sampler<Self::State> {
+        &self.states
+    }
+
+    fn get_actions(&self) -> &Sampler<Self::Action> {
+        &self.actions
+    }
+
+    fn is_state_terminal(&self, state: &Self::State) -> bool {
+        let cell = &self.cell_grid[state.i][state.j];
+        *cell == Cell::End
+    }
+
+    fn transition(&self, state: &Self::State, action: &Self::Action) -> (Self::State, f64) {
+        let cell = &self.cell_grid[state.i][state.j];
+
+        // Edge cases
+        // In theory the Cell::Wall case should never happen
+        if (*cell) == Cell::End || (*cell) == Cell::Wall {
+            return (state.clone(), 0.0);
+        }
+
+        // Tentative position
+        let (i, j) = (state.i as i32, state.j as i32);
+        let (i_, j_) = match action {
+            Self::Action::Up => (i - 1, j),
+            Self::Action::Down => (i + 1, j),
+            Self::Action::Left => (i, j - 1),
+            Self::Action::Right => (i, j + 1),
+        };
+
+        // Check out of bounds
+        let (n, m) = self.get_grid_size();
+        let (n, m) = (n as i32, m as i32);
+        if i_ < 0 || i_ >= n || j_ < 0 || j_ >= m {
+            return (state.clone(), NO_OP_TRANSITION_REWARD);
+        }
+
+        // Result
+        let (i_, j_) = (i_ as usize, j_ as usize);
+        let cell_ = &self.cell_grid[i_][j_];
+        match cell_ {
+            Cell::Air => (Self::State::new(i_, j_), NO_OP_TRANSITION_REWARD),
+            Cell::Wall => (state.clone(), NO_OP_TRANSITION_REWARD),
+            Cell::End => (Self::State::new(i_, j_), END_TRANSITION_REWARD),
+        }
+    }
+}
+```
 
 ## Policy Iteration
 
@@ -168,49 +261,50 @@ We can then have two arrays, one for the old values and one for the new values c
 We can also do it in-place with one array, replacing values as we go through $S$.
 Although the latter is usually faster to converge, it is anisotropic in the sense that
 the order in which we are going to do the updates is going to matter.
-In this example, we are going to use the two array version.
+This example is from the implementation of the library [madepro][6].
 
 ```rust
-/// Evaluates the policy for a given state and optional initial state value grid
-/// Returns a new state value grid
-pub fn policy_evaluation(
-    cell_grid: &Grid<Cell>,
-    policy_grid: &Grid<Policy>,
-    gamma: Option<f64>,
-    iter_before_improvement: Option<u32>,
-    state_value_grid: Option<&Grid<f64>>,
-) -> Grid<f64> {
-    let (n, m) = get_grid_size(&cell_grid);
-    let mut state_value = match state_value_grid {
-        Some(state_value) => state_value.clone(),
-        None => matrix(n, m, 0.0),
-    };
-    let gamma = gamma.unwrap_or(DEFAULT_GAMMA);
-    let early_stop = match iter_before_improvement {
-        Some(_) => true,
-        None => false,
-    };
+/// # Policy Evaluation
+///
+/// This function implements the policy evaluation algorithm.
+/// It works by using the Bellman equation to iteratively update the state value.
+/// The algorithm stops when the state value converge.
+/// If the `iterations_before_improvement` parameter is set,
+/// the algorithm will stop early after the given number of iterations.
+pub fn policy_evaluation<M>(
+    mdp: &M,
+    config: &Config,
+    policy: &Policy<M::State, M::Action>,
+    initial_state_value: Option<StateValue<M::State>>,
+) -> StateValue<M::State>
+where
+    M: MDP,
+{
+    let states = mdp.get_states();
+    let mut state_value = initial_state_value.unwrap_or(StateValue::new(states));
     let mut iteration = 0;
     loop {
         iteration += 1;
         let mut delta: f64 = 0.0;
-        for i in 0..n {
-            for j in 0..m {
-                let (i_, j_, reward) = transition(&cell_grid, i, j, &policy_grid[i][j]);
-                let new_state_value = reward as f64 + gamma * state_value[i_][j_];
-                delta = delta.max((new_state_value - state_value[i][j]).abs());
-                state_value[i][j] = new_state_value;
-            }
+        for state in states {
+            let action = policy.get(state);
+            let (next_state, reward) = mdp.transition(state, action);
+            let next_state_value = state_value.get(&next_state);
+            let new_state_value = reward + config.discount_factor * next_state_value;
+            delta = delta.max((new_state_value - state_value.get(state)).abs());
+            state_value.insert(state, new_state_value);
         }
-        if delta < 1e-5 || (early_stop && iteration == iter_before_improvement.unwrap()) {
+        if delta < 1e-5
+            || config
+                .iterations_before_improvement
+                .is_some_and(|n| iteration >= n)
+        {
             break;
         }
     }
     state_value
 }
 ```
-
-The `transition` function is a helper function that returns the next _state_ and the reward given a _state_ and an _action_. And the reason we have an early stop implemented in this function is that we are going to use it in the next solver: Value Iteration.
 
 ### Policy Improvement
 
@@ -222,36 +316,36 @@ $$
 $$
 
 ```rust
-/// Improves the policy in place for a given state value grid
-/// Returns a boolean to see if policy is stable
-pub fn policy_improvement(
-    policy: &mut Grid<Policy>,
-    cell_grid: &Grid<Cell>,
-    state_value_grid: &Grid<f64>,
-    gamma: Option<f64>,
-) -> bool {
-    let (n, m) = get_grid_size(state_value_grid);
-    let gamma = gamma.unwrap_or(DEFAULT_GAMMA);
-    let mut is_stable = true;
-    for i in 0..n {
-        for j in 0..m {
-            let mut max_reward = -1.0;
-            let mut max_cell_policy = Policy::Up;
-            for cell_policy in get_policy_directions() {
-                let (i_, j_, r) = transition(&cell_grid, i, j, &cell_policy);
-                let reward = r as f64 + gamma * state_value_grid[i_][j_];
-                if reward > max_reward {
-                    max_reward = reward;
-                    max_cell_policy = cell_policy;
-                }
+/// # Policy Improvement
+///
+/// Given an MDP, a discount factor and a state value,
+/// this function computes the optimal policy.
+pub fn policy_improvement<M>(
+    mdp: &M,
+    config: &Config,
+    state_value: &StateValue<M::State>,
+) -> Policy<M::State, M::Action>
+where
+    M: MDP,
+{
+    let states = mdp.get_states();
+    let actions = mdp.get_actions();
+    let mut policy = Policy::new(states, actions);
+    for state in states {
+        let mut best_action = None;
+        let mut best_value = None;
+        for action in actions {
+            let (next_state, reward) = mdp.transition(state, action);
+            let value = reward + config.discount_factor * state_value.get(&next_state);
+            if best_value.is_none() || value > best_value.unwrap() {
+                best_value = Some(value);
+                best_action = Some(action);
             }
-            if (*policy)[i][j] != max_cell_policy {
-                is_stable = false;
-            }
-            (*policy)[i][j] = max_cell_policy;
         }
+        // unwrap is safe because actions is not empty
+        policy.insert(state, best_action.unwrap());
     }
-    is_stable
+    policy
 }
 ```
 
@@ -271,32 +365,61 @@ In this case, the code will be the said variant.
 
 
 ```rust
-pub fn policy_value_iteration(
-    cell_grid: Grid<Cell>,
-    gamma: Option<f64>,
-    iter_before_improvement: Option<u32>,
-) -> (Grid<f64>, Grid<Policy>) {
-    let (n, m) = get_grid_size(&cell_grid);
-    let mut is_stable = false;
-    let mut state_value_grid = matrix(n, m, 0.0);
-    let mut policy_grid = matrix(n, m, Policy::Up);
-    while !is_stable {
-        state_value_grid = policy_evaluation(
-            &cell_grid,
-            &policy_grid,
-            gamma,
-            iter_before_improvement,
-            Some(&state_value_grid),
-        );
-        is_stable = policy_improvement(&mut policy_grid, &cell_grid, &state_value_grid, gamma);
+fn policy_value_iteration<M>(mdp: &M, config: &Config) -> StateValue<M::State>
+where
+    M: MDP,
+{
+    let states = mdp.get_states();
+    let actions = mdp.get_actions();
+    let mut state_value = StateValue::new(states);
+    let mut policy = Policy::new(states, actions);
+    loop {
+        state_value = policy_evaluation(mdp, config, &policy, Some(state_value));
+        let new_policy = policy_improvement(mdp, config, &state_value);
+        if new_policy == policy {
+            break;
+        }
+        policy = new_policy;
     }
-    (state_value_grid, policy_grid)
+    state_value
 }
 ```
 
-In this shared implementation we now see why we have the `iter_before_improvement` parameter.
+Note that the implementation is shared between Policy Iteration and Value Iteration as they are very similar.
+The difference between the two is the `iterations_before_improvement` parameter of the `Config` object.
 It is used to do a few steps of evaluation before improving the policy in the case of Value Iteration.
 If it is set to None, we evaluate until convergence so the Policy Iteration algorithm is used.
+
+## Temporal Difference Learning
+
+The last two methods we are going to look at are called SARSA and Q-Learning.
+They are both examples of Temporal Difference Learning.
+The idea is to estimate the state-value function by simulating episodes and updating the state-value function at each step.
+The advantage of these mehtods compared to dynamic programming methods like Policy Iteration and Value Iteration
+is that they can be used even in the case where the model is not known.
+
+### Exploration vs Exploitation
+
+When simulating episodes in an environment, we need to balance between exploration and exploitation.
+One very simple way to do that is to take a random action with a certain probability $\varepsilon$ and the greedy action otherwise.
+The greedy action represents the exploitation of the current knowledge of the environment.
+The random action on the other hand represnets the exploration of the environment.
+Such a policy is called an $\varepsilon$-greedy policy.
+
+### Epsilon Greedy Policy
+
+```rust
+/// Returns a random action with probability epsilon
+/// or the greedy action with probability 1 - epsilon.
+pub fn epsilon_greedy<'a>(&'a self, actions: &'a Sampler<A>, epsilon: f64) -> &A {
+    if random::<f64>() < epsilon {
+        actions.get_random()
+    } else {
+        self.greedy()
+    }
+}
+```
+
 
 ## SARSA
 
@@ -304,86 +427,56 @@ With SARSA and $Q$-Learning we are going to be estimating $Q$ instead of $V$ and
 Another difference with these methods is that we are going to be simulating episodes
 through the gridworld in order to estimate the $Q$-function instead of sweeping through the _state_ space $S$.
 SARSA stands for State-Action-Reward-State-Action because we are going to look one action forward following the policy to estimate $Q(s,a)$.
-In fact we are not always going to follow the policy because it can be biased if it has not tried certain actions.
-To ensure that we explore the state-action space we need to take a random action once in a while and to start at a random valid position on the grid.
-Since we don't need to explore as much as in the beginning episodes after episodes we can decrease the probability over time.
-This probability of chosing a random action in a given _state_ is represented by $\varepsilon$
-which decreases in $\frac{1}{t}$ where $t$ represent the epsiode.
-
-```rust
-pub fn epsilon_greedy(
-    action_value: &ActionValue,
-    epsilon_0: f64,
-    t: u32,
-    exploration_period: u32,
-) -> Policy {
-    let epsilon = epsilon_0 / (1.0 + (t / exploration_period + 1) as f64);
-    if rand::random::<f64>() < epsilon {
-        choose_random_action()
-    } else {
-        greedy(action_value)
-    }
-}
-```
-
-Here we use $\varepsilon = \frac{\varepsilon_0}{1+t/T}$.
-$\varepsilon_0$ is $\varepsilon$ at time-step $t=0$ and $T$ represents the decreasing period.
-Writing it this way also prevents from dividing by $0$ if $t=0$.
-I also added $1$ to the exploration period because we don't want to divide by $0$ in the first episode.
-Choosing a random action with probability $\varepsilon$ and the greedy action otherwise
-is called an $\varepsilon$-greedy policy.
 
 ## Q-Learning
 
 Q-Learning is basically the same as SARSA, it only differs in its update rule:
 instead of choosing a second action following the $\varepsilon$-greedy policy,
-we choose the best _action_ available in _state_ $s'$: $\argmax_{a'} a' \rightarrow Q(s', a')$
+we choose the best _action_ available in the next _state_:  $\argmax_{a'} a' \rightarrow Q(s', a')$
 
 ```rust
-pub fn sarsa_q_learning(
-    cell_grid: Grid<Cell>,
+fn sarsa_q_learning<M>(
+    mdp: &M,
+    config: &Config,
     q_learning: bool,
-    num_episodes: Option<u32>,
-    alpha: Option<f64>,
-    gamma: Option<f64>,
-    epsilon_0: Option<f64>,
-    exploration_period: Option<u32>,
-) -> Grid<ActionValue> {
-    // Default values
-    let num_episodes = num_episodes.unwrap_or(DEFAULT_NUM_EPISODES);
-    let alpha = alpha.unwrap_or(DEFAULT_ALPHA);
-    let gamma = gamma.unwrap_or(DEFAULT_GAMMA);
-    let epsilon_0 = epsilon_0.unwrap_or(DEFAULT_EPSILON_0);
-    let exploration_period = exploration_period.unwrap_or(DEFAULT_EXPLORATION_PERIOD);
-
-    let (n, m) = get_grid_size(&cell_grid);
-    let mut action_value_grid = new_action_value_grid(n, m);
-
-    for episode in 0..num_episodes {
-        let mut step = 0;
-        let (mut i, mut j) = choose_random_state(&cell_grid);
-        let action_value = &action_value_grid[i][j];
-        let mut action = epsilon_greedy(action_value, epsilon_0, episode, exploration_period);
-
-        while &cell_grid[i][j] != &Cell::End && step < MAX_NUM_STEPS {
-            step += 1;
-            let (i_, j_, reward) = transition(&cell_grid, i, j, &action);
-            let next_action_value = &action_value_grid[i_][j_];
-            let next_action =
-                epsilon_greedy(next_action_value, epsilon_0, episode, exploration_period);
+) -> ActionValue<M::State, M::Action>
+where
+    M: MDP,
+{
+    let states = mdp.get_states();
+    let actions = mdp.get_actions();
+    let mut action_value = ActionValue::new(states, actions);
+    for _ in 0..config.num_episodes {
+        let mut state = states.get_random().clone();
+        let mut action = action_value
+            .epsilon_greedy(actions, &state, config.exploration_rate)
+            .clone();
+        for _ in 0..config.max_num_steps {
+            let (next_state, reward) = mdp.transition(&state, &action);
+            let next_action = action_value
+                .epsilon_greedy(actions, &next_state, config.exploration_rate)
+                .clone();
+            // update action value
+            let current = action_value.get(&state, &action);
             let q_value = if q_learning {
-                max_action_value(&action_value_grid[i_][j_])
+                action_value.get(&next_state, action_value.greedy(&next_state))
             } else {
-                *action_value_grid[i_][j_].get(&next_action).unwrap()
+                action_value.get(&next_state, &next_action)
             };
-            if let Some(action_value) = action_value_grid[i][j].get_mut(&action) {
-                *action_value += alpha * (reward as f64 + gamma * q_value - *action_value);
+            let target = reward + config.discount_factor * q_value;
+            action_value.insert(
+                &state,
+                &action,
+                current + config.learning_rate * (target - current),
+            );
+            state = next_state;
+            action = next_action;
+            if mdp.is_state_terminal(&state) {
+                break;
             }
-            (i, j, action) = (i_, j_, next_action);
         }
     }
-
-    action_value_grid
+    action_value
 }
 ```
 
@@ -397,10 +490,11 @@ If you want to see the actual code used here (TypeScript React), look [here][3].
 Also, a lot of simplifications have been done in order to explain more directly
 the different concepts. Finally, we only looked at the case of deterministic MDP with known model.
 To have a better view of **Reinforcement Learning**, I recommend this [excellent book][4] about it
-written by Sutton & Barto, the visual representations from this article are actually taken from that book.
+written by Sutton & Barto, the visual representations from this article are actually directly inspired from that book but remade to fit this website colors.
 
 [1]: https://en.wikipedia.org/wiki/Markov_decision_process
 [2]: https://en.wikipedia.org/wiki/Bellman_equation
 [3]: https://github.com/devspaceship/devspaceship.com/tree/main/web/src/components/Gridworld
 [4]: http://incompleteideas.net/book/bookdraft2017nov5.pdf
 [5]: https://github.com/devspaceship/devspaceship.com/blob/main/gridworld/src/utils.rs
+[6]: https://docs.rs/madepro/0.1.0/madepro/
