@@ -3,7 +3,7 @@ export const meta = {
   title: "Interactive Gridworld",
   creation: "2019-01-15",
   updated: "2024-02-14",
-  summary: `An easy introduction to Markov Decision Processes and Reinforcement Learning by the mean of a gridworld environement
+  summary: `An easy introduction to Markov Decision Processes and Reinforcement Learning by the mean of a gridworld environment
     where you can play with different parameters of solving algorithms and modify the map to see the effects.
     We'll see what are state-value function and policies and we look into four solvers.`,
   categories: ["Artificial Intelligence"],
@@ -18,7 +18,7 @@ import Gridworld from "@/components/Gridworld";
 
 ## What is a gridworld ?
 
-A gridworld represents an _environment_ in which an _agent_ is able to take _actions_.
+A _gridworld_ represents an _environment_ in which an _agent_ is able to take _actions_.
 The orange cell placed on the bottom right is the goal _state_, where we want to go.
 You can move the ending point by draging it.
 Walls have been placed and are represented by blue cells.
@@ -28,15 +28,15 @@ Similarly, you can remove walls by clicking or initiating a drag on a wall cell.
 ![Finite Deterministic Markov Decision Process](/static/posts/gridworld/markov_decision_process.png)
 
 We start at the first time step on the starting point $s_0$, with an initial reward $r_0$ being $0$.
-At each time step $t$, we chose a possible action $a_t$.
+At each time step $t$, we chose a possible _action_ $a_t$.
 Let's say that we chosed to go down $a_0 = down$.
 If there is nothing or a wall, we get a 'reward' of $r_1 = -1$. And if we got to the end, we get a reward of $r_1 = +100$ and the game ends.
-Note that we can define a terminal _state_ as a _state_ where every action takes you to the same _state_ with a reward of $0$.
+Note that we can define a terminal _state_ as a _state_ where every _action_ takes you to the same _state_ with a reward of $0$.
 The goal is to finish the game with the maximum (discounted) reward possible $\sum_{t=0}^{+\infty} \gamma^t r_{t+1}$.
 That is why we give a negative reward when transitionning to a cell where there is nothing.
 This tells us that the shortest path to the end is going to be better than making 3 times the tour of the map before going to the goal _state_.\
 You might be wondering what this $\gamma$ thing is.
-It is a parameter between $0$ and $1$ called the _discount rate_.
+It is a parameter between $0$ and $1$ called the _discount factor_.
 It indicates how much we care about rewards that are far in the future.
 If $\gamma$ is near $0$, we are going to take into account only reward in the near future.
 If, however, $\gamma$ is near $1$, we will considerate more long-lasting reward as well.
@@ -45,7 +45,7 @@ If, however, $\gamma$ is near $1$, we will considerate more long-lasting reward 
 ## Markov Decision Process
 
 You might also be wondering why we are defining the problem like this.
-That is because it is a very general way to define a problem where an agent is going to take actions in an environment.
+That is because it is a very general way to define a problem where an _agent_ is going to take _actions_ in an _environment_.
 This is central to the field of **Reinforcement Learning**.
 The underlying mathematical model is called a [**Markov Decision Process**][1].
 In this example, we will keep it simple and consider a deterministic _MDP_.
@@ -59,13 +59,13 @@ Such an **MDP** is defined by:
 - A _transition_ function $s: S \times A \rightarrow S$ that takes a _state_ and an _action_ and returns the next _state_
 - A _reward_ function $R: S \times S \rightarrow \mathbb{R}$ that takes a _state_ and the next _state_ and returns a _reward_
 
-## What is a policy, a state value and a Q-function ?
+## What is a policy, a _state_ _value_ and a Q-function ?
 
 We first define the concept of _policy_.
 The policy is a function $\pi : S \rightarrow A$. In other words,
 it takes a _state_ as an input and output an _action_ to take.
-An agent is said to follow a policy $\pi$ if at every timestep $t$, $a_t = \pi(s_t)$ i.e. if it takes the action that the policy asks it to follow.  
-We can now define what are a state-value and a Q-value (also called action-value) function given a policy:
+An agent is said to follow a policy $\pi$ if at every timestep $t$, $a_t = \pi(s_t)$ i.e. if it takes the _action_ that the policy asks it to follow.  
+We can now define what are a _state-value_ and a Q-_value_ (also called _action-value_) function given a policy:
 
 $$
 \begin{aligned}
@@ -76,14 +76,14 @@ $$
 
 $V^{\pi}(s_t)$ represents the future discounted reward, starting at $s_t$ and following the policy $\pi$.  
 $Q^{\pi}(s_t, a_t)$ is very similar, it is the future discounted reward, still starting at $s_t$
-but this time taking action $a_t$ (possilbly different from $\pi(s_t)$) before following the policy.
+but this time taking _action_ $a_t$ (possilbly different from $\pi(s_t)$) before following the policy.
 
 A policy which is going to maximize the future dicounted reward is called an optimal policy.
 There can be several ones sometimes (for instance if transitioning to nothing would yield a reward of 0 and if the discounting factor was 1) or if two paths from start to end have the same lengths.
 Let's take one, we are going to call it $\pi^*$, we also define the optimal
-state-value function $V^* = V^{\pi^*} = \max_{\pi} V^{\pi}$
-as well as the optimal Q-value function $Q^* = Q^{\pi^*} = \max_{\pi} Q^{\pi}$.
-Note that all optimal policies share the same state-value and action-value (Q-value) function because if a policy was better than an optimal one, it would not be optimal.
+_state-value_ function $V^* = V^{\pi^*} = \max_{\pi} V^{\pi}$
+as well as the optimal Q-_value_ function $Q^* = Q^{\pi^*} = \max_{\pi} Q^{\pi}$.
+Note that all optimal policies share the same _state-value_ and _action-value_ (Q-_value_) function because if a policy was better than an optimal one, it would not be optimal.
 
 ## Let's solve it !
 
@@ -99,7 +99,7 @@ $$
 \end{aligned}
 $$
 
-By the same reasoning we obtain the equation for the action-value function:
+By the same reasoning we obtain the equation for the _action-value_ function:
 
 $$
 \begin{aligned}
@@ -109,7 +109,7 @@ $$
 \end{aligned}
 $$
 
-For the optimal state-value and action-value functions, we have:
+For the optimal _state-value_ and _action-value_ functions, we have:
 
 $$
 \begin{aligned}
@@ -119,7 +119,7 @@ $$
 $$
 
 We can also remark that $V^*(s) = \max_a Q^*(s, a)$.
-This is because the maximum discounted reward from a state is the one that you would get by following the best action available in that state.
+This is because the maximum discounted reward from a _state_ is the one that you would get by following the best _action_ available in that _state_.
 We can now inject this in the equation:
 
 $$
@@ -131,11 +131,11 @@ This is called the _Bellman Optimality Equation_.
 ## Code preliminaries
 
 Those code examples are going to be written in Rust 🦀.
-We will be using a crate that I wrote for this purpose called [`madepro`](https://docs.rs/madepro/0.1.0/madepro/) (for Markov Decision Processes).
-The code examples will be from the environment part of the library where the gridworld is defined.
+We will be using a crate that I wrote for this purpose called [`madepro`](https://docs.rs/madepro/0.1.0/madepro/) (for **Markov Decision Processes**).
+The code examples will be from the _environment_ part of the library where the _gridworld_ is defined.
 I will just show the part of the code that is relevant to the concepts we talked about.
 Some details like implementations of certain functions will be ommited as they are not relevant to the concepts we are talking about.
-We start by defining types to represent the gridworld and the different concepts we talked about:
+We start by defining types to represent the _gridworld_ and the different concepts we talked about:
 
 ```rust
 use madepro::models::{Action, Sampler, State, MDP};
@@ -242,23 +242,23 @@ impl MDP for Gridworld {
 ## Policy Iteration
 
 The first method we are going to use is called Policy Iteration.
-We initialize the state-value function with a random one or we can also initialize it at $0$ for every state.
-We, then, derive a better policy from this state-value.
-We calculate the new state-value and again a new better policy,
+We initialize the _state-value_ function with a random one or we can also initialize it at $0$ for every _state_.
+We, then, derive a better policy from this _state-value_.
+We calculate the new _state-value_ and again a new better policy,
 and so on until the policy is stable.
 
 ### Policy Evaluation
 
-We first need a method in order to estimate the state-value function of a policy.
+We first need a method in order to estimate the _state-value_ function of a policy.
 This technique is called _Policy Evaluation_.
-For this, we want to use the Bellman equation as an update rule for our state-value estimation:
+For this, we want to use the Bellman equation as an update rule for our _state-value_ estimation:
 
 $$
 V_{k+1}(s) = R(s, \pi(s)) + \gamma V_k(\pi(s))
 $$
 
-We can then have two arrays, one for the old values and one for the new values calculated from the old ones.
-We can also do it in-place with one array, replacing values as we go through $S$.
+We can then have two arrays, one for the old _values_ and one for the new _values_ calculated from the old ones.
+We can also do it in-place with one array, replacing _values_ as we go through $S$.
 Although the latter is usually faster to converge, it is anisotropic in the sense that
 the order in which we are going to do the updates is going to matter.
 This example is from the implementation of the library [madepro][6].
@@ -308,8 +308,8 @@ where
 
 ### Policy Improvement
 
-Once we have evaluated the state-value function,
-we change our policy for a better one according to this state-value function:
+Once we have evaluated the _state-value_ function,
+we change our policy for a better one according to this _state-value_ function:
 
 $$
 \pi'(s) = \text{argmax}_a [r(s, s(s, a)) + \gamma V(s(s, a))]
@@ -355,9 +355,9 @@ where
 
 ## Value Iteration
 
-In Policy Iteration, we were estimating the state-value function of the policies until reasonable convergence.
-In Value Iteration, we instantly greedify the policy between the sweeps for state-value evaluation.
-It discards the need for actually computing the policy between each evaluation as it just computes the greedy one on the fly at the moment of choosing an action.
+In Policy Iteration, we were estimating the _state-value_ function of the policies until reasonable convergence.
+In Value Iteration, we instantly greedify the policy between the sweeps for _state-value_ evaluation.
+It discards the need for actually computing the policy between each evaluation as it just computes the greedy one on the fly at the moment of choosing an _action_.
 In general, a variant of that algorithm is used where we do a few steps of evaluation between two policy improvement steps.
 In this case, the code will be the said variant.
 
@@ -394,16 +394,16 @@ If it is set to None, we evaluate until convergence so the Policy Iteration algo
 
 The last two methods we are going to look at are called SARSA and Q-Learning.
 They are both examples of Temporal Difference Learning.
-The idea is to estimate the state-value function by simulating episodes and updating the state-value function at each step.
+The idea is to estimate the _state-value_ function by simulating episodes and updating the _state-value_ function at each step.
 The advantage of these mehtods compared to dynamic programming methods like Policy Iteration and Value Iteration
 is that they can be used even in the case where the model is not known.
 
 ### Exploration vs Exploitation
 
-When simulating episodes in an environment, we need to balance between exploration and exploitation.
-One very simple way to do that is to take a random action with a certain probability $\varepsilon$ and the greedy action otherwise.
-The greedy action represents the exploitation of the current knowledge of the environment.
-The random action on the other hand represnets the exploration of the environment.
+When simulating episodes in an _environment_, we need to balance between exploration and exploitation.
+One very simple way to do that is to take a random _action_ with a certain probability $\varepsilon$ and the greedy _action_ otherwise.
+The greedy _action_ represents the exploitation of the current knowledge of the _environment_.
+The random _action_ on the other hand represnets the exploration of the _environment_.
 Such a policy is called an $\varepsilon$-greedy policy.
 
 ### Epsilon Greedy Policy
@@ -425,13 +425,13 @@ pub fn epsilon_greedy<'a>(&'a self, actions: &'a Sampler<A>, epsilon: f64) -> &A
 
 With SARSA and $Q$-Learning we are going to be estimating $Q$ instead of $V$ and derive the optimal policy from it.
 Another difference with these methods is that we are going to be simulating episodes
-through the gridworld in order to estimate the $Q$-function instead of sweeping through the _state_ space $S$.
-SARSA stands for State-Action-Reward-State-Action because we are going to look one action forward following the policy to estimate $Q(s,a)$.
+through the _gridworld_ in order to estimate the $Q$-function instead of sweeping through the _state_ space $S$.
+SARSA stands for State-Action-Reward-State-Action because we are going to look one _action_ forward following the policy to estimate $Q(s,a)$.
 
 ## Q-Learning
 
 Q-Learning is basically the same as SARSA, it only differs in its update rule:
-instead of choosing a second action following the $\varepsilon$-greedy policy,
+instead of choosing a second _action_ following the $\varepsilon$-greedy policy,
 we choose the best _action_ available in the next _state_:  $\argmax_{a'} a' \rightarrow Q(s', a')$
 
 ```rust
@@ -480,7 +480,7 @@ where
 }
 ```
 
-Remark that we do not completely update $Q(s,a)$ to the new computed value.
+Remark that we do not completely update $Q(s,a)$ to the new computed _value_.
 We make a step in that direction of proportion $\alpha$, this parameter is the
 learning rate of our algorithm. It is used to make the algorithm more stable.
 
