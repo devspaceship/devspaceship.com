@@ -1,10 +1,6 @@
 compose := docker compose
 scripts_dir := ./scripts
 
-.PHONY: help
-help:
-	cat $(scripts_dir)/help.txt
-
 # Launch the project in detached mode
 .PHONY: up
 up: setup_web
@@ -39,3 +35,8 @@ logs:
 .PHONY: shell
 shell:
 	$(compose) run --rm web bash
+
+# Print help
+.PHONY: help
+help:
+	cat $(scripts_dir)/help.txt
