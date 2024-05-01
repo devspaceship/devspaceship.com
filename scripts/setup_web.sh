@@ -2,5 +2,5 @@
 
 if [ ! -d web/node_modules ]; then
     echo "node_modules not found, installing"
-    docker compose run web npm install
+    docker compose run web pnpm install
 fi

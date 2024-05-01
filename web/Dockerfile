@@ -1,21 +1,21 @@
 # Development
-FROM node:18.16.0 as dev
+FROM node:20.12.2 as dev
 WORKDIR /app
 
-RUN npm install -g npm@9.6.5
+RUN corepack enable pnpm
 
-CMD [ "npm", "run", "dev" ]
+CMD [ "pnpm", "run", "dev" ]
 
 # Production
-FROM node:18.16.0-alpine3.17 as prod
+FROM node:20.12.2-alpine3.19 as prod
 WORKDIR /app
 
-RUN npm install -g npm@9.6.5
+RUN corepack enable pnpm
 
-COPY ./package.json ./package-lock.json ./
-RUN npm install
+COPY ./package.json ./pnpm-lock.yaml ./
+RUN pnpm install
 
 COPY ./ ./
-RUN npm run build
+RUN pnpm run build
 
-CMD [ "npm", "run", "start" ]
+CMD [ "pnpm", "run", "start" ]
