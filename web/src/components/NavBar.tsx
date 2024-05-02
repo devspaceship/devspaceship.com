@@ -1,20 +1,64 @@
-import Link from "next/link";
+"use client";
 
-import { faFileLines, faHouse } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { FC } from "react";
+import Box from "@mui/material/Box";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import { MouseEvent, SyntheticEvent, useState } from "react";
+import Link from "./Link";
 
-const NavBar: FC = () => (
-  <nav className="bg-background-950 py-6 motion-safe:animate-fade-in-from-top">
-    <div className="container mx-auto flex justify-evenly">
-      <Link href="/" className="hover:text-primary-300" aria-label="Home">
-        <FontAwesomeIcon icon={faHouse} size="2x" />
-      </Link>
-      <Link href="/posts" className="hover:text-primary-300" aria-label="Posts">
-        <FontAwesomeIcon icon={faFileLines} size="2x" />
-      </Link>
-    </div>
-  </nav>
-);
+function samePageLinkNavigation(event: MouseEvent<HTMLAnchorElement>) {
+  return !(
+    event.defaultPrevented ||
+    event.button !== 0 || // ignore everything but left-click
+    event.metaKey ||
+    event.ctrlKey ||
+    event.altKey ||
+    event.shiftKey
+  );
+}
+
+interface LinkTabProps {
+  label?: string;
+  href: string;
+  selected?: boolean;
+}
+
+function LinkTab(props: LinkTabProps) {
+  return (
+    <Tab component={Link} aria-current={props.selected && "page"} {...props} />
+  );
+}
+
+export function NavTabs() {
+  const [value, setValue] = useState(0);
+
+  const handleChange = (event: SyntheticEvent, newValue: number) => {
+    // event.type can be equal to focus with selectionFollowsFocus.
+    if (
+      event.type !== "click" ||
+      samePageLinkNavigation(event as MouseEvent<HTMLAnchorElement>)
+    ) {
+      setValue(newValue);
+    }
+  };
+
+  return (
+    <Box sx={{ width: "100%" }}>
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        aria-label="navigation tabs"
+        role="navigation"
+      >
+        <LinkTab label="Home" href="/" />
+        <LinkTab label="Posts" href="/posts" />
+      </Tabs>
+    </Box>
+  );
+}
+
+const NavBar = () => {
+  return <NavTabs />;
+};
 
 export default NavBar;
