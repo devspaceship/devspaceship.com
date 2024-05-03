@@ -43,12 +43,13 @@ export function NavTabs() {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box component="div" sx={{ width: "100%" }}>
       <Tabs
         value={value}
         onChange={handleChange}
         aria-label="navigation tabs"
         role="navigation"
+        centered
       >
         <LinkTab label="Home" href="/" />
         <LinkTab label="Posts" href="/posts" />
