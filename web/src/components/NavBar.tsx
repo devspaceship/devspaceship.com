@@ -3,7 +3,9 @@
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { MouseEvent, SyntheticEvent, useState } from "react";
+import HomeIcon from "@mui/icons-material/Home";
+import ArticleIcon from "@mui/icons-material/Article";
+import { MouseEvent, ReactElement, SyntheticEvent, useState } from "react";
 import Link from "./Link";
 
 function samePageLinkNavigation(event: MouseEvent<HTMLAnchorElement>) {
@@ -21,6 +23,7 @@ interface LinkTabProps {
   label?: string;
   href: string;
   selected?: boolean;
+  icon?: ReactElement;
 }
 
 function LinkTab(props: LinkTabProps) {
@@ -51,8 +54,8 @@ export function NavTabs() {
         role="navigation"
         centered
       >
-        <LinkTab label="Home" href="/" />
-        <LinkTab label="Posts" href="/posts" />
+        <LinkTab aria-label="Home" href="/" icon={<HomeIcon />} />
+        <LinkTab aria-label="Posts" href="/posts" icon={<ArticleIcon />} />
       </Tabs>
     </Box>
   );

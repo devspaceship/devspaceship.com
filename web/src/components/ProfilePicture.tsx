@@ -34,7 +34,7 @@ export default function ImageAvatar() {
         sx={{
           width: 250,
           height: 250,
-          border: "5px solid",
+          border: "7px solid",
           borderColor: theme.palette.primary.main,
         }}
       >
