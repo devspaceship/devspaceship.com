@@ -8,6 +8,8 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from "../theme";
 import "./globals.css";
 import CssBaseline from "@mui/material/CssBaseline";
+import { ReactNode } from "react";
+import { Container } from "@mui/material";
 config.autoAddCss = false;
 
 const thomas = "Thomas Saint-Gérand";
@@ -41,11 +43,7 @@ export const metadata: Metadata = {
   category: "science",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>
@@ -53,20 +51,22 @@ export default function RootLayout({
           <ThemeProvider theme={theme}>
             <CssBaseline />
             <NavBar />
-            <main>{children}</main>
-            <Script
-              src="https://www.googletagmanager.com/gtag/js?id=G-VJTBJP5KDG"
-              strategy="afterInteractive"
-            />
-            <Script id="google-analytics" strategy="afterInteractive">
-              {`
+            <Container component="main" maxWidth="md" fixed>
+              {children}
+            </Container>
+          </ThemeProvider>
+          <Script
+            src="https://www.googletagmanager.com/gtag/js?id=G-VJTBJP5KDG"
+            strategy="afterInteractive"
+          />
+          <Script id="google-analytics" strategy="afterInteractive">
+            {`
                   window.dataLayer = window.dataLayer || [];
                   function gtag(){window.dataLayer.push(arguments);}
                   gtag('js', new Date());
                   gtag('config', 'G-VJTBJP5KDG');
-                `}
-            </Script>
-          </ThemeProvider>
+            `}
+          </Script>
         </AppRouterCacheProvider>
       </body>
     </html>
