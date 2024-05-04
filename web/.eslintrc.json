@@ -14,5 +14,12 @@
     "project": true
   },
   "root": true,
-  "rules": {}
+  "rules": {
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": ["@mui/*/*/*"]
+      }
+    ]
+  }
 }
