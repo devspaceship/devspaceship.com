@@ -7,16 +7,18 @@ const Home = () => {
     <>
       <ProfilePicture />
       <Box component="div" sx={{ textAlign: "center" }}>
-        <h1>Thomas Saint-Gérand</h1>
+        <Box component="h1" sx={{ color: "primary.main" }}>
+          Thomas Saint-Gérand
+        </Box>
         <p>
           This website is intented to be a repository of stuff that I find cool,
           interesting, visually pleasing or all of these. <br />I try to answer
           specific questions with detailed examples.
         </p>
+        <footer>
+          <SocialLinks />
+        </footer>
       </Box>
-      <footer className="flex w-full justify-center space-x-6 pb-12">
-        <SocialLinks />
-      </footer>
     </>
   );
 };

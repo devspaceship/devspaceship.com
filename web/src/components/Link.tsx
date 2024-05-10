@@ -1,10 +1,10 @@
 // See https://github.com/mui/material-ui/blob/next/examples/material-ui-nextjs-pages-router-ts/src/Link.tsx
 
-import clsx from 'clsx';
-import { usePathname } from 'next/navigation';
-import NextLink, { LinkProps as NextLinkProps } from 'next/link';
-import MuiLink, { LinkProps as MuiLinkProps } from '@mui/material/Link';
-import { styled } from '@mui/material/styles';
+import clsx from "clsx";
+import { usePathname } from "next/navigation";
+import NextLink, { LinkProps as NextLinkProps } from "next/link";
+import MuiLink, { LinkProps as MuiLinkProps } from "@mui/material/Link";
+import { styled } from "@mui/material/styles";
 import { AnchorHTMLAttributes, forwardRef } from "react";
 
 // Add support for the sx prop for consistency with the other branches.
@@ -55,18 +55,21 @@ export const NextLinkComposed = forwardRef<
 
 export type LinkProps = {
   activeClassName?: string;
-  as?: NextLinkProps['as'];
-  href: NextLinkProps['href'];
-  linkAs?: NextLinkProps['as']; // Useful when the as prop is shallow by styled().
+  as?: NextLinkProps["as"];
+  href: NextLinkProps["href"];
+  linkAs?: NextLinkProps["as"]; // Useful when the as prop is shallow by styled().
   noLinkStyle?: boolean;
-} & Omit<NextLinkComposedProps, 'to' | 'linkAs' | 'href'> &
-  Omit<MuiLinkProps, 'href'>;
+} & Omit<NextLinkComposedProps, "to" | "linkAs" | "href"> &
+  Omit<MuiLinkProps, "href">;
 
 // A styled version of the Next.js Link component:
 // https://nextjs.org/docs/pages/api-reference/components/link
-const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(props, ref) {
+const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
+  props,
+  ref
+) {
   const {
-    activeClassName = 'active',
+    activeClassName = "active",
     as,
     className: classNameProps,
     href,
@@ -83,7 +86,7 @@ const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(props, ref) 
     ...other
   } = props;
 
-  const pathname = typeof href === 'string' ? href : href.pathname;
+  const pathname = typeof href === "string" ? href : href.pathname;
   const className = clsx(classNameProps, {
     [activeClassName]: usePathname() === pathname && activeClassName,
   });
@@ -102,7 +105,14 @@ const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(props, ref) 
   };
 
   if (noLinkStyle) {
-    return <NextLinkComposed className={className} ref={ref} {...nextjsProps} {...other} />;
+    return (
+      <NextLinkComposed
+        className={className}
+        ref={ref}
+        {...nextjsProps}
+        {...other}
+      />
+    );
   }
 
   return (
