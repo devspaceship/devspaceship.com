@@ -1,5 +1,3 @@
-import { config } from "@fortawesome/fontawesome-svg-core";
-import "@fortawesome/fontawesome-svg-core/styles.css";
 import { Metadata } from "next";
 import NavBar from "@/components/NavBar";
 import Script from "next/script";
@@ -10,7 +8,6 @@ import "./globals.css";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ReactNode } from "react";
 import { Container } from "@mui/material";
-config.autoAddCss = false;
 
 const thomas = "Thomas Saint-Gérand";
 const description = "A website about science and nerdy stuff";

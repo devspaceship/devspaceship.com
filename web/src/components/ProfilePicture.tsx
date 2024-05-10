@@ -1,24 +1,9 @@
-"use client";
-
 import Image from "next/image";
 import ppic from "public/static/ppic.jpg";
-
-// const ProfilePicture = () => (
-//   <Image
-//     src={ppic}
-//     alt="The author"
-//     className="w-[250px] rounded-full border-8 border-primary-300 sm:w-[300px] md:w-[350px]"
-//     priority
-//     sizes="(max-width: 640px) 250px, (max-width: 768px) 300px, 350px"
-//     placeholder="blur"
-//   />
-// );
-
 import Avatar from "@mui/material/Avatar";
-import { Box, useTheme } from "@mui/material";
+import { Box } from "@mui/material";
 
-export default function ImageAvatar() {
-  const theme = useTheme();
+const ProfilePicture = () => {
   return (
     <Box
       component="div"
@@ -35,7 +20,7 @@ export default function ImageAvatar() {
           width: 250,
           height: 250,
           border: "7px solid",
-          borderColor: theme.palette.primary.main,
+          borderColor: "primary.main",
         }}
       >
         <Image
@@ -50,6 +35,6 @@ export default function ImageAvatar() {
       </Avatar>
     </Box>
   );
-}
+};
 
-// export default ProfilePicture;
+export default ProfilePicture;

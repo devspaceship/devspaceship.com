@@ -41,7 +41,6 @@ It indicates how much we care about rewards that are far in the future.
 If $\gamma$ is near $0$, we are going to take into account only reward in the near future.
 If, however, $\gamma$ is near $1$, we will considerate more long-lasting reward as well.
 
-
 ## Markov Decision Process
 
 You might also be wondering why we are defining the problem like this.
@@ -363,7 +362,6 @@ In this case, the code will be the said variant.
 
 ![Value Iteration](/static/posts/gridworld/value_iteration.svg)
 
-
 ```rust
 fn policy_value_iteration<M>(mdp: &M, config: &Config) -> StateValue<M::State>
 where
@@ -420,7 +418,6 @@ pub fn epsilon_greedy<'a>(&'a self, actions: &'a Sampler<A>, epsilon: f64) -> &A
 }
 ```
 
-
 ## SARSA
 
 With SARSA and $Q$-Learning we are going to be estimating $Q$ instead of $V$ and derive the optimal policy from it.
@@ -432,7 +429,7 @@ SARSA stands for State-Action-Reward-State-Action because we are going to look o
 
 Q-Learning is basically the same as SARSA, it only differs in its update rule:
 instead of choosing a second _action_ following the $\varepsilon$-greedy policy,
-we choose the best _action_ available in the next _state_:  $\argmax_{a'} a' \rightarrow Q(s', a')$
+we choose the best _action_ available in the next _state_: $\argmax_{a'} a' \rightarrow Q(s', a')$
 
 ```rust
 fn sarsa_q_learning<M>(
