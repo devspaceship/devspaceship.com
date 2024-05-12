@@ -33,7 +33,7 @@ const PolicyArrow = ({ policy }: { policy: CellPolicy }) => {
   return (
     <g
       transform={`translate(0.5,0.5) scale(0.72) rotate(${policyToRotation[policy]})`}
-      className="stroke-tertiary-500"
+      className="stroke-secondary"
     >
       <PolicyArrowLine x1={0} y1={0.5} x2={0} y2={-0.5} />
       <PolicyArrowLine x1={-0.25} y1={-0.25} x2={0} y2={-0.5} />

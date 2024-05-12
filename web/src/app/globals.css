@@ -79,7 +79,8 @@
 /* Customization */
 @layer base {
   .dark {
-    --primary: 217 73% 80%;
+    --primary: 217 100% 85%;
+    --secondary: 142 100% 49%;
   }
 
   h1 {
