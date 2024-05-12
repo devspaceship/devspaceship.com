@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { RadioGroup } from "@/components/ui/radio-group";
 import {
   GridworldDispatchContext,
   GridworldStateContext,
@@ -24,9 +25,19 @@ const GridworldControl = () => {
     dispatch({ type: GridworldActionType.START_SOLVING, intervalId });
   };
 
+  const handleChangeSolver = (solver: string) => {
+    const solverType = parseInt(solver) as SolverType;
+    dispatch({ type: GridworldActionType.SET_SOLVER, solver: solverType });
+  };
+
   return (
     <>
-      <div className="mt-4 flex flex-col justify-center sm:flex-row">
+      <RadioGroup
+        name="solver"
+        defaultValue={`${SolverType.POLICY_ITERATION}`}
+        onValueChange={handleChangeSolver}
+        className="mt-4 flex flex-col justify-center sm:flex-row"
+      >
         <SolverRadio
           id="policy-iteration"
           label="Policy Iteration"
@@ -43,7 +54,7 @@ const GridworldControl = () => {
           label="Q-Learning"
           solverType={SolverType.Q_LEARNING}
         />
-      </div>
+      </RadioGroup>
       <div className="mt-4 sm:columns-2 lg:flex lg:flex-row lg:justify-center">
         {[SolverType.POLICY_ITERATION, SolverType.VALUE_ITERATION].includes(
           state.config.solver
