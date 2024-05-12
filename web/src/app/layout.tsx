@@ -50,9 +50,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    // <html lang="en" className="bg-background-900 text-white antialiased">
     <html lang="en">
-      <body className={cn("min-h-screen font-sans", fontSans.variable)}>
+      <body
+        className={cn("min-h-screen font-sans antialiased", fontSans.variable)}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
