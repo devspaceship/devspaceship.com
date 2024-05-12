@@ -35,9 +35,9 @@ export const INITIAL_GRID = initialGrid.map((row) =>
   }))
 );
 export const CELL_TYPE_CLASSES = {
-  [CellType.EMPTY]: "fill-background-950",
-  [CellType.WALL]: "fill-primary-300",
-  [CellType.END]: "fill-tertiary-500",
+  [CellType.EMPTY]: "fill-background",
+  [CellType.WALL]: "fill-primary",
+  [CellType.END]: "fill-tertiary",
 };
 export const INITIAL_STATE: GridworldState = {
   config: {

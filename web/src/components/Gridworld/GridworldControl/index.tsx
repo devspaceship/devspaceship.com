@@ -104,7 +104,7 @@ const GridworldControl = () => {
         )}
       </div>
       <button
-        className="mt-4 rounded-full bg-primary-300 px-3 py-1 text-xl text-background-950"
+        className="mt-4 rounded-full bg-primary px-3 py-1 text-xl text-background"
         onClick={handleToggleSolve}
       >
         {state.solverState.running ? "Stop" : "Solve"}
