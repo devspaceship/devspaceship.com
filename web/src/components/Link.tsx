@@ -1,3 +1,4 @@
+"use client";
 // See https://github.com/mui/material-ui/blob/next/examples/material-ui-nextjs-pages-router-ts/src/Link.tsx
 
 import clsx from "clsx";
@@ -120,6 +121,7 @@ const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
       component={NextLinkComposed}
       className={className}
       ref={ref}
+      sx={{ textDecoration: "none" }}
       {...nextjsProps}
       {...other}
     />

@@ -45,6 +45,10 @@ export function NavTabs() {
     }
   };
 
+  const iconSX = {
+    fontSize: 40,
+  };
+
   return (
     <Box component="div" sx={{ width: "100%" }}>
       <Tabs
@@ -54,8 +58,12 @@ export function NavTabs() {
         role="navigation"
         centered
       >
-        <LinkTab aria-label="Home" href="/" icon={<HomeIcon />} />
-        <LinkTab aria-label="Posts" href="/posts" icon={<ArticleIcon />} />
+        <LinkTab aria-label="Home" href="/" icon={<HomeIcon sx={iconSX} />} />
+        <LinkTab
+          aria-label="Posts"
+          href="/posts"
+          icon={<ArticleIcon sx={iconSX} />}
+        />
       </Tabs>
     </Box>
   );

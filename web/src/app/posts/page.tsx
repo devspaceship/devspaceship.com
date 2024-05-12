@@ -1,8 +1,10 @@
+import Link from "@/components/Link";
 import Title from "@/components/Title";
 import published_posts from "@/posts/published";
 import { PostMetadata } from "@/posts/types";
+import { Card, CardContent, Typography } from "@mui/material";
 import { Metadata } from "next";
-import Link from "next/link";
+// import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Posts",
@@ -29,10 +31,19 @@ const Posts = async () => {
             href={`/posts/${meta.slug}`}
             aria-label={meta.title}
           >
-            <div className="m-4 rounded-2xl bg-background-950 p-3">
-              <div className="text-xl text-primary-300">{meta.title}</div>
-              <div className="mt-2">{meta.summary}</div>
-            </div>
+            <Card
+              raised={true}
+              sx={{
+                margin: 2,
+              }}
+            >
+              <CardContent>
+                <Typography variant="h5" color="primary.main">
+                  {meta.title}
+                </Typography>
+                <Typography sx={{ marginTop: 1 }}>{meta.summary}</Typography>
+              </CardContent>
+            </Card>
           </Link>
         );
       })}

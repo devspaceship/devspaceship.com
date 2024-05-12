@@ -32,6 +32,7 @@ interface Link {
 
 const iconSX = {
   fontSize: 35,
+  mx: 1,
 };
 
 // would be nice to find a way to scale the icons
