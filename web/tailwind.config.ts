@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-import { fontFamily } from "tailwindcss/defaultTheme"
+import { fontFamily } from "tailwindcss/defaultTheme";
 
 const config = {
   darkMode: ["class"],
@@ -64,12 +64,12 @@ const config = {
           to: { height: "0" },
         },
         "fade-in-from-bottom": {
-          "0%": { opacity: "0", transform: "translateY(5rem)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
+          from: { opacity: "0", transform: "translateY(5rem)" },
+          to: { opacity: "1", transform: "translateY(0)" },
         },
         "fade-in-from-top": {
-          "0%": { opacity: "0", transform: "translateY(-5rem)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
+          from: { opacity: "0", transform: "translateY(-5rem)" },
+          to: { opacity: "1", transform: "translateY(0)" },
         },
       },
       animation: {

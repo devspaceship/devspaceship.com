@@ -6,6 +6,7 @@ import { Inter as FontSans } from "next/font/google";
 import NavBar from "@/components/NavBar";
 import Script from "next/script";
 import { cn } from "@/lib/utils";
+import { ThemeProvider } from "@/components/theme-provider";
 config.autoAddCss = false;
 
 const fontSans = FontSans({
@@ -49,12 +50,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="bg-background-900 text-white antialiased">
+    // <html lang="en" className="bg-background-900 text-white antialiased">
+    <html lang="en">
       <body className={cn("min-h-screen font-sans", fontSans.variable)}>
-        <NavBar />
-        <main className="container mx-auto flex h-full flex-col items-center justify-start space-y-12 text-center motion-safe:animate-fade-in-from-bottom">
-          {children}
-        </main>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <NavBar />
+          <main className="container mx-auto flex h-full flex-col items-center justify-start space-y-12 text-center motion-safe:animate-fade-in-from-bottom">
+            {children}
+          </main>
+        </ThemeProvider>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-VJTBJP5KDG"
           strategy="afterInteractive"
