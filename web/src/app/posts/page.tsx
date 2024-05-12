@@ -1,3 +1,4 @@
+import Title from "@/components/Title";
 import published_posts from "@/posts/published";
 import { PostMetadata } from "@/posts/types";
 import { Metadata } from "next";
@@ -18,10 +19,8 @@ const Posts = async () => {
   );
   return (
     <div>
-      <div className="mt-6">
-        <h1 className="text-3xl font-semibold sm:text-4xl md:text-5xl lg:text-6xl">
-          Posts
-        </h1>
+      <div>
+        <Title>Posts</Title>
       </div>
       {metas.map((meta) => {
         return (
