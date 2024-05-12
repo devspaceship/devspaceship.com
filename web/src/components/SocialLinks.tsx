@@ -20,7 +20,7 @@ const SocialLink = ({
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    className="hover:text-primary-300"
+    className="hover:text-primary"
     aria-label={ariaLabel}
   >
     {children}

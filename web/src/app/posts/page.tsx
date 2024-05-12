@@ -30,8 +30,8 @@ const Posts = async () => {
             href={`/posts/${meta.slug}`}
             aria-label={meta.title}
           >
-            <div className="m-4 rounded-2xl bg-background-950 p-3">
-              <div className="text-xl text-primary-300">{meta.title}</div>
+            <div className="m-4 rounded-2xl p-3">
+              <div className="text-xl text-primary">{meta.title}</div>
               <div className="mt-2">{meta.summary}</div>
             </div>
           </Link>
