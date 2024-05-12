@@ -1,13 +1,17 @@
+import "./globals.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
+import { Inter as FontSans } from "next/font/google";
 import NavBar from "@/components/NavBar";
 import Script from "next/script";
+import { cn } from "@/lib/utils";
 config.autoAddCss = false;
 
-const inter = Inter({ subsets: ["latin"] });
+const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
 const thomas = "Thomas Saint-Gérand";
 const description = "A website about science and nerdy stuff";
 const url = new URL("https://devspaceship.com");
@@ -46,7 +50,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="bg-background-900 text-white antialiased">
-      <body className={inter.className}>
+      <body className={cn("min-h-screen font-sans", fontSans.variable)}>
         <NavBar />
         <main className="container mx-auto flex h-full flex-col items-center justify-start space-y-12 text-center motion-safe:animate-fade-in-from-bottom">
           {children}
