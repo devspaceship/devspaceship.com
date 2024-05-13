@@ -9,6 +9,7 @@ import { SolverType } from "../types";
 import ConfigRange from "./ConfigRange";
 import SolverRadio from "./SolverRadio";
 import { FPS } from "../config";
+import { Button } from "@/components/ui/button";
 
 const GridworldControl = () => {
   const state = useContext(GridworldStateContext);
@@ -111,12 +112,9 @@ const GridworldControl = () => {
           </>
         )}
       </div>
-      <button
-        className="mt-4 rounded-full bg-primary px-3 py-1 text-xl text-background"
-        onClick={handleToggleSolve}
-      >
+      <Button onClick={handleToggleSolve} className="mt-3 rounded-full text-xl">
         {state.solverState.running ? "Stop" : "Solve"}
-      </button>
+      </Button>
     </>
   );
 };
