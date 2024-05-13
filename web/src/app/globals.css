@@ -89,10 +89,11 @@
   h1 {
     @apply text-primary;
   }
-  span.katex {
-    @apply overflow-x-auto overflow-y-hidden text-primary;
-  }
-  code.hljs {
-    @apply text-left;
-  }
+}
+
+span.katex {
+  @apply overflow-x-auto overflow-y-hidden text-primary;
+}
+code.hljs {
+  @apply text-left;
 }
