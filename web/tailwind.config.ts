@@ -48,6 +48,11 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        gridworld: {
+          DEFAULT: "hsl(var(--gridworld))",
+          primary: "hsl(var(--gridworld-primary))",
+          secondary: "hsl(var(--gridworld-secondary))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
