@@ -5,7 +5,7 @@ import solveStep from "./solvers";
 const getDrawingType = (
   state: GridworldState,
   row: number,
-  column: number
+  column: number,
 ): CellType => {
   const typeToDrawingType = {
     [CellType.WALL]: CellType.EMPTY,
@@ -18,7 +18,7 @@ const getDrawingType = (
 
 export const reducer = (
   state: GridworldState,
-  action: GridworldAction
+  action: GridworldAction,
 ): GridworldState => {
   switch (action.type) {
     case GridworldActionType.SET_SOLVER:
@@ -48,7 +48,7 @@ export const reducer = (
               [CellPolicy.RIGHT]: 0,
             },
             policy: CellPolicy.UP,
-          }))
+          })),
         ),
         solverState: {
           ...state.solverState,
@@ -131,7 +131,7 @@ export const reducer = (
               return cell;
             }
             return cell;
-          })
+          }),
         ),
       };
     case GridworldActionType.STOP_DRAWING:

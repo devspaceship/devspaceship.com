@@ -19,7 +19,7 @@ export const transition = (
   state: GridworldState,
   row: number,
   column: number,
-  policy?: CellPolicy
+  policy?: CellPolicy,
 ): [newRow: number, newColumn: number, reward: number] => {
   if (state.grid[row][column].type === CellType.END) {
     return [row, column, 0];

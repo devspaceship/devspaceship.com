@@ -32,7 +32,7 @@ export const INITIAL_GRID = initialGrid.map((row) =>
       [CellPolicy.DOWN]: 0,
       [CellPolicy.LEFT]: 0,
     },
-  }))
+  })),
 );
 export const CELL_TYPE_CLASSES = {
   [CellType.EMPTY]: "fill-gridworld",

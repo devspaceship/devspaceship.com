@@ -8,17 +8,17 @@ const Tesseract = (props: DisplayProps) => {
   const { params } = props;
   const tesseract = useMemo(() => get_tesseract(), []);
   const [projected_tesseract, set_projected_tesseract] = useState(
-    project_tesseract(tesseract.points, params.d / 50)
+    project_tesseract(tesseract.points, params.d / 50),
   );
 
   useFrame((state) => {
     const t = state.clock.elapsedTime;
     const rotation = get_rot4((t * params.alpha) / 25, (t * params.beta) / 25);
     const rotated_tesseract = tesseract.points.map((point) =>
-      matmul(rotation, point)
+      matmul(rotation, point),
     );
     set_projected_tesseract(
-      project_tesseract(rotated_tesseract, params.d / 75)
+      project_tesseract(rotated_tesseract, params.d / 75),
     );
   });
 

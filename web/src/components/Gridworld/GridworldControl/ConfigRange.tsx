@@ -1,15 +1,12 @@
-import { ChangeEvent, useContext } from "react";
+import { useContext } from "react";
 import { GridworldConfig } from "../types";
 import {
   GridworldDispatchContext,
   GridworldStateContext,
 } from "../GridworldContextProvider";
 import { GridworldActionType } from "../actions";
-import { cn } from "@/lib/utils";
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
-
-type SliderProps = React.ComponentProps<typeof Slider>;
 
 const ConfigRange = ({
   id,
@@ -29,7 +26,7 @@ const ConfigRange = ({
   const state = useContext(GridworldStateContext);
   const dispatch = useContext(GridworldDispatchContext);
   const configKey = id.replace(/-(\w)/g, (_, letter: string) =>
-    letter.toUpperCase()
+    letter.toUpperCase(),
   );
 
   const handleChange = (value: number[]) => {

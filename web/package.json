@@ -8,7 +8,8 @@
     "start": "next start -p 4200",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "format": "npx prettier --write ."
+    "format": "pnpm dlx prettier --check .",
+    "format:fix": "pnpm dlx prettier --write ."
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",

@@ -14,7 +14,7 @@ for (let row = 0; row < HEIGHT; row++) {
 const _getGridPosition = (
   currentTarget: SVGElement,
   clientX: number,
-  clientY: number
+  clientY: number,
 ) => {
   const { x, y, width, height } = currentTarget.getBoundingClientRect();
   const row = Math.floor(((clientY - y) / height) * HEIGHT);
@@ -30,7 +30,7 @@ const touchEventToGridPosition = (event: TouchEvent<SVGElement>) => {
   return _getGridPosition(
     event.currentTarget,
     event.touches[0].clientX,
-    event.touches[0].clientY
+    event.touches[0].clientY,
   );
 };
 

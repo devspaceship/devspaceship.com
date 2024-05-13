@@ -57,7 +57,7 @@ const GridworldControl = () => {
       </RadioGroup>
       <div className="mt-4 sm:columns-2 lg:flex lg:flex-row lg:justify-center">
         {[SolverType.POLICY_ITERATION, SolverType.VALUE_ITERATION].includes(
-          state.config.solver
+          state.config.solver,
         ) && (
           <ConfigRange
             id="discount-rate"
@@ -78,7 +78,7 @@ const GridworldControl = () => {
           />
         )}
         {[SolverType.SARSA, SolverType.Q_LEARNING].includes(
-          state.config.solver
+          state.config.solver,
         ) && (
           <>
             <ConfigRange

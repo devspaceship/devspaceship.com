@@ -89,7 +89,7 @@ const epsilonGreedy = (state: GridworldState): number => {
 const chooseAction = (
   state: GridworldState,
   row: number,
-  column: number
+  column: number,
 ): CellPolicy => {
   const epsilon = epsilonGreedy(state);
   return Math.random() < epsilon
@@ -131,7 +131,7 @@ const SarsaQLearning = (state: GridworldState, q_learning = false): void => {
         state.grid[i][j].stateActionValue[bestPolicy]
           ? policy
           : bestPolicy,
-      CellPolicy.UP
+      CellPolicy.UP,
     );
     i = i_;
     j = j_;
