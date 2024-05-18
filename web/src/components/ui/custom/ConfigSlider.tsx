@@ -1,0 +1,40 @@
+import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
+
+const ConfigSlider = ({
+  id,
+  label,
+  min,
+  max,
+  step,
+  value,
+  onValueChange,
+}: {
+  id: string;
+  label: string;
+  min: number;
+  max: number;
+  step?: number;
+  value: number;
+  onValueChange: (value: number) => void;
+}) => {
+  return (
+    <div>
+      <Slider
+        id={id}
+        name={id}
+        min={min}
+        max={max}
+        step={step}
+        value={[value]}
+        onValueChange={(values: number[]) => onValueChange(values[0])}
+        className="mx-auto my-2 w-32"
+      />
+      <Label htmlFor={id}>
+        {label}: {value}
+      </Label>
+    </div>
+  );
+};
+
+export default ConfigSlider;

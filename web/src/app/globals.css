@@ -45,8 +45,7 @@
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
 
-    /* --primary: 0 0% 98%; */
-    --primary: var(--blue);
+    --primary: 0 0% 98%;
     --primary-foreground: 240 5.9% 10%;
 
     --secondary: 240 3.7% 15.9%;
@@ -81,6 +80,7 @@
   .dark {
     --primary: 217 100% 85%;
     --secondary: 142 100% 49%;
+
     --gridworld: 240 10% 10%;
     --gridworld-primary: var(--primary);
     --gridworld-secondary: var(--secondary);

@@ -1,9 +1,9 @@
 const flatten = <T>(arr: T[][]) => ([] as T[]).concat(...arr);
 
 const product = <T>(...sets: T[][]) =>
-  sets.reduce(
+  sets.reduce<T[][]>(
     (acc, set) => flatten(acc.map((x) => set.map((y) => [...x, y]))),
-    [[]] as T[][],
+    [[]]
   );
 
 const get_vec4 = (...coordinates: number[]): number[][] => {
@@ -16,7 +16,7 @@ const get_points: () => number[][][] = () => {
     [-size, size],
     [-size, size],
     [-size, size],
-    [-size, size],
+    [-size, size]
   ).map((x: number[]) => get_vec4(...x));
 };
 

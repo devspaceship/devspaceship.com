@@ -10,10 +10,12 @@ export const meta = {
   tags: ["Tesseract", "Animation", "Stereographic Projection"],
 };
 
-import Tesseract from "@/old_components/Tesseract";
+import OldTesseract from "@/old_components/Tesseract";
+import Tesseract from "@/components/Tesseract";
 
 # Tesseract Animation Tutorial
 
+<OldTesseract />
 <Tesseract />
 
 ## What exactly is a tesseract ?
@@ -52,7 +54,7 @@ const flatten = (arr) => [].concat.apply([], arr);
 const product = (...sets) =>
   sets.reduce(
     (acc, set) => flatten(acc.map((x) => set.map((y) => [...x, y]))),
-    [[]],
+    [[]]
   );
 ```
 
