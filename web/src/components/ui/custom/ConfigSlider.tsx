@@ -28,9 +28,9 @@ const ConfigSlider = ({
         step={step}
         value={[value]}
         onValueChange={(values: number[]) => onValueChange(values[0])}
-        className="mx-auto my-2 w-32"
+        className="mx-auto my-3 w-32"
       />
-      <Label htmlFor={id}>
+      <Label htmlFor={id} className="text-lg">
         {label}: {value}
       </Label>
     </div>
