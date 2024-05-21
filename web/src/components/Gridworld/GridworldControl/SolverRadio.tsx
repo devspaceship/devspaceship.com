@@ -24,7 +24,9 @@ const SolverRadio = ({
           checked={checked}
           aria-checked={checked}
         />
-        <Label htmlFor={id}>{label}</Label>
+        <Label htmlFor={id} className="text-lg">
+          {label}
+        </Label>
       </div>
     </div>
   );

@@ -6,10 +6,11 @@ import {
 } from "../GridworldContextProvider";
 import { GridworldActionType } from "../actions";
 import { SolverType } from "../types";
-import ConfigRange from "./ConfigRange";
+import GridworldConfigSlider from "./GridworldConfigSlider";
 import SolverRadio from "./SolverRadio";
 import { FPS } from "../config";
 import { Button } from "@/components/ui/button";
+import { configSliderData, solverRadioData } from "./config";
 
 const GridworldControl = () => {
   const state = useContext(GridworldStateContext);
@@ -37,79 +38,25 @@ const GridworldControl = () => {
         name="solver"
         defaultValue={`${SolverType.POLICY_ITERATION}`}
         onValueChange={handleChangeSolver}
-        className="mt-4 flex flex-col justify-center sm:flex-row"
+        className="mt-4 justify-center sm:flex sm:flex-row"
       >
-        <SolverRadio
-          id="policy-iteration"
-          label="Policy Iteration"
-          solverType={SolverType.POLICY_ITERATION}
-        />
-        <SolverRadio
-          id="value-iteration"
-          label="Value Iteration"
-          solverType={SolverType.VALUE_ITERATION}
-        />
-        <SolverRadio id="sarsa" label="SARSA" solverType={SolverType.SARSA} />
-        <SolverRadio
-          id="q-learning"
-          label="Q-Learning"
-          solverType={SolverType.Q_LEARNING}
-        />
+        {solverRadioData.map(({ id, label, solverType }) => (
+          <SolverRadio key={id} id={id} label={label} solverType={solverType} />
+        ))}
       </RadioGroup>
-      <div className="mt-4 sm:columns-2 lg:flex lg:flex-row lg:justify-center">
-        {[SolverType.POLICY_ITERATION, SolverType.VALUE_ITERATION].includes(
-          state.config.solver
-        ) && (
-          <ConfigRange
-            id="discount-rate"
-            label="Discount Rate"
-            min={0}
-            max={1}
-            step={0.01}
-          />
-        )}
-        {state.config.solver === SolverType.VALUE_ITERATION && (
-          <ConfigRange
-            id="evaluations-before-improvement"
-            label="Evaluations Before Improvement"
-            min={1}
-            max={10}
-            step={1}
-          />
-        )}
-        {[SolverType.SARSA, SolverType.Q_LEARNING].includes(
-          state.config.solver
-        ) && (
-          <>
-            <ConfigRange
-              id="episodes"
-              label="Episodes"
-              min={1}
-              max={500}
-              step={1}
-            />
-            <ConfigRange
-              id="learning-rate"
-              label="Learning Rate"
-              min={0}
-              max={1}
-              step={0.01}
-            />
-            <ConfigRange
-              id="initial-exploration-coefficient"
-              label="Initial Exploration Coefficient"
-              min={0}
-              max={1}
-              step={0.01}
-            />
-            <ConfigRange
-              id="exploration-period"
-              label="Exploration Period"
-              min={0}
-              max={500}
-              step={1}
-            />
-          </>
+      <div className="mt-4 md:flex md:flex-row md:justify-center">
+        {configSliderData.map(
+          ({ condition, id, label, min, max, step }) =>
+            condition.includes(state.config.solver) && (
+              <GridworldConfigSlider
+                key={id}
+                id={id}
+                label={label}
+                min={min}
+                max={max}
+                step={step}
+              />
+            )
         )}
       </div>
       <Button onClick={handleToggleSolve} className="mt-3 rounded-full text-xl">
