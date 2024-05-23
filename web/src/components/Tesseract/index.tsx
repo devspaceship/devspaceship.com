@@ -7,6 +7,8 @@ import { getRot4, getTesseract, applyMatrix4, project } from "./utils";
 import { LineCurve3, Vector3 } from "three";
 
 const D = 3.3;
+const color = "#b3d0ff";
+const radius = 0.09;
 
 const TesseractDisplay = ({ alpha, beta }: { alpha: number; beta: number }) => {
   const { vertices: staticVertices, edges } = useMemo(getTesseract, []);
@@ -23,27 +25,31 @@ const TesseractDisplay = ({ alpha, beta }: { alpha: number; beta: number }) => {
 
   return (
     <>
-      <ambientLight />
-      <pointLight position={[5, 5, 5]} />
+      <ambientLight intensity={0.4} color={color} />
+      <pointLight position={[5, 5, 5]} color={color} />
       {tesseract.map((point, index) => {
         return (
           <mesh position={point} key={index}>
-            <sphereGeometry args={[0.15]} />
-            <meshStandardMaterial color={"#0c8bb9"} />
+            <sphereGeometry args={[radius]} />
+            <meshStandardMaterial />
           </mesh>
         );
       })}
       {edges.map((edge, index) => {
         const [a, b] = edge;
-        const vec_a = new Vector3(...tesseract[a]);
-        const vec_b = new Vector3(...tesseract[b]);
-        const connection_line = new LineCurve3(vec_a, vec_b);
-
         return (
           <mesh position={[0, 0, 0]} key={index}>
-            <tubeGeometry args={[connection_line, 1, 0.1]} />
-            {/* TODO change color to use Theme */}
-            <meshStandardMaterial color={"#1eaedb"} />
+            <tubeGeometry
+              args={[
+                new LineCurve3(
+                  new Vector3(...tesseract[a]),
+                  new Vector3(...tesseract[b])
+                ),
+                1,
+                radius,
+              ]}
+            />
+            <meshStandardMaterial />
           </mesh>
         );
       })}
@@ -76,7 +82,7 @@ const Tesseract = () => {
 
   return (
     <>
-      <Canvas style={{ height: "400px" }} camera={{ position: [5, 0, 0] }}>
+      <Canvas style={{ height: "400px" }} camera={{ position: [4, 2, 1] }}>
         <TesseractDisplay alpha={alpha} beta={beta} />
       </Canvas>
       <div className="flex justify-evenly">
