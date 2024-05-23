@@ -2,7 +2,7 @@
 
 import ConfigSlider from "@/components/ui/custom/ConfigSlider";
 import { Canvas, useFrame } from "@react-three/fiber";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { getRot4, getTesseract, applyMatrix4, project } from "./utils";
 import { LineCurve3, Vector3 } from "three";
 
@@ -13,10 +13,14 @@ const RADIUS = 0.09;
 const TesseractDisplay = ({ alpha, beta }: { alpha: number; beta: number }) => {
   const { vertices: staticVertices, edges } = useMemo(getTesseract, []);
   const [tesseract, setTesseract] = useState(project(staticVertices, D));
+  const rotationParams = useRef({ a: 0, b: 0, t: 0 });
 
   useFrame((state) => {
     const t = state.clock.elapsedTime;
-    const rotation = getRot4((t * alpha) / 25, (t * beta) / 25);
+    const { a, b, t: oldT } = rotationParams.current;
+    const delta = t - oldT;
+    const rotation = getRot4(a, b);
+    rotationParams.current = { a: a + delta * alpha, b: b + delta * beta, t };
     const rotatedTesseract = staticVertices.map((point) =>
       applyMatrix4(rotation, point)
     );
@@ -58,23 +62,19 @@ const TesseractDisplay = ({ alpha, beta }: { alpha: number; beta: number }) => {
 };
 
 const Tesseract = () => {
-  const [alpha, setAlpha] = useState(10);
-  const [beta, setBeta] = useState(12);
+  const [alpha, setAlpha] = useState(0.3);
+  const [beta, setBeta] = useState(0.7);
 
   const config = [
     {
       name: "alpha",
       label: "α",
-      min: 1,
-      max: 15,
       value: alpha,
       setValue: setAlpha,
     },
     {
       name: "beta",
       label: "β",
-      min: 1,
-      max: 15,
       value: beta,
       setValue: setBeta,
     },
@@ -86,13 +86,14 @@ const Tesseract = () => {
         <TesseractDisplay alpha={alpha} beta={beta} />
       </Canvas>
       <div className="flex justify-evenly">
-        {config.map(({ name, label, min, max, value, setValue }) => (
+        {config.map(({ name, label, value, setValue }) => (
           <ConfigSlider
             key={name}
             id={name}
             label={label ? label : name}
-            min={min}
-            max={max}
+            min={0}
+            max={1}
+            step={0.05}
             value={value}
             onValueChange={(value) => setValue(value)}
           />
