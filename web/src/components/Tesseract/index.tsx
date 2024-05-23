@@ -7,8 +7,8 @@ import { getRot4, getTesseract, applyMatrix4, project } from "./utils";
 import { LineCurve3, Vector3 } from "three";
 
 const D = 3.3;
-const color = "#b3d0ff";
-const radius = 0.09;
+const COLOR = "#b3d0ff";
+const RADIUS = 0.09;
 
 const TesseractDisplay = ({ alpha, beta }: { alpha: number; beta: number }) => {
   const { vertices: staticVertices, edges } = useMemo(getTesseract, []);
@@ -25,12 +25,12 @@ const TesseractDisplay = ({ alpha, beta }: { alpha: number; beta: number }) => {
 
   return (
     <>
-      <ambientLight intensity={0.4} color={color} />
-      <pointLight position={[5, 5, 5]} color={color} />
+      <ambientLight intensity={0.4} color={COLOR} />
+      <pointLight position={[5, 5, 5]} color={COLOR} />
       {tesseract.map((point, index) => {
         return (
           <mesh position={point} key={index}>
-            <sphereGeometry args={[radius]} />
+            <sphereGeometry args={[RADIUS]} />
             <meshStandardMaterial />
           </mesh>
         );
@@ -46,7 +46,7 @@ const TesseractDisplay = ({ alpha, beta }: { alpha: number; beta: number }) => {
                   new Vector3(...tesseract[b])
                 ),
                 1,
-                radius,
+                RADIUS,
               ]}
             />
             <meshStandardMaterial />

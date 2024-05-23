@@ -65,7 +65,8 @@ onto the canonical 3D space. Basically in this case, it just scales a point give
 If a point is in the space $w = 0$, it stays the same.
 If $w < 0$, it is going to scale down.
 And if $w > 0$, it is gonna scale up and approach an infinite scaling as $w$ approaches $d$.
-Here, $d$ is a parameter of our projection, you can try changing it with the slider under the canvas.
+Here, $d$ is a parameter of our projection,
+you need to take it large enough that no point's 4th coordinate would get too close to it.
 
 ## Rotating the tesseract
 
@@ -113,7 +114,7 @@ I_2 & 0_2 \\
 $$
 
 Also, $|R| = |R_{\alpha t}||R_{\beta t}| = 1$ <br/> $\alpha$ and $\beta$ represent,
-respectively, the rotation speeds for the XY plane and the ZW plane.
+respectively, the rotation speeds for the $XY$ plane and the $ZW$ plane.
 You can also change those parameters' values with the sliders.
 
 ## Final notes
