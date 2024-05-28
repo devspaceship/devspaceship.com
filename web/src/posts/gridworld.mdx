@@ -11,6 +11,7 @@ export const meta = {
 };
 
 import Gridworld from "components/Gridworld";
+import CodeAccordion from "ui/custom/CodeAccordion";
 
 # Interactive Gridworld
 
@@ -136,6 +137,8 @@ I will just show the part of the code that is relevant to the concepts we talked
 Some details like implementations of certain functions will be ommited as they are not relevant to the concepts we are talking about.
 We start by defining types to represent the _gridworld_ and the different concepts we talked about:
 
+<CodeAccordion>
+
 ```rust
 use madepro::models::{Action, Sampler, State, MDP};
 
@@ -238,6 +241,8 @@ impl MDP for Gridworld {
 }
 ```
 
+</CodeAccordion>
+
 ## Policy Iteration
 
 The first method we are going to use is called Policy Iteration.
@@ -261,6 +266,8 @@ We can also do it in-place with one array, replacing _values_ as we go through $
 Although the latter is usually faster to converge, it is anisotropic in the sense that
 the order in which we are going to do the updates is going to matter.
 This example is from the implementation of the library [madepro][6].
+
+<CodeAccordion>
 
 ```rust
 /// # Policy Evaluation
@@ -305,6 +312,8 @@ where
 }
 ```
 
+</CodeAccordion>
+
 ### Policy Improvement
 
 Once we have evaluated the _state-value_ function,
@@ -313,6 +322,8 @@ we change our policy for a better one according to this _state-value_ function:
 $$
 \pi'(s) = \text{argmax}_a [r(s, s(s, a)) + \gamma V(s(s, a))]
 $$
+
+<CodeAccordion>
 
 ```rust
 /// # Policy Improvement
@@ -348,6 +359,8 @@ where
 }
 ```
 
+</CodeAccordion>
+
 ### Final Algorithm
 
 ![Policy Iteration](/static/posts/gridworld/policy_iteration.svg)
@@ -361,6 +374,8 @@ In general, a variant of that algorithm is used where we do a few steps of evalu
 In this case, the code will be the said variant.
 
 ![Value Iteration](/static/posts/gridworld/value_iteration.svg)
+
+<CodeAccordion>
 
 ```rust
 fn policy_value_iteration<M>(mdp: &M, config: &Config) -> StateValue<M::State>
@@ -382,6 +397,8 @@ where
     state_value
 }
 ```
+
+</CodeAccordion>
 
 Note that the implementation is shared between Policy Iteration and Value Iteration as they are very similar.
 The difference between the two is the `iterations_before_improvement` parameter of the `Config` object.
@@ -431,6 +448,8 @@ Q-Learning is basically the same as SARSA, it only differs in its update rule:
 instead of choosing a second _action_ following the $\varepsilon$-greedy policy,
 we choose the best _action_ available in the next _state_: $\argmax_{a'} a' \rightarrow Q(s', a')$
 
+<CodeAccordion>
+
 ```rust
 fn sarsa_q_learning<M>(
     mdp: &M,
@@ -476,6 +495,8 @@ where
     action_value
 }
 ```
+
+</CodeAccordion>
 
 Remark that we do not completely update $Q(s,a)$ to the new computed _value_.
 We make a step in that direction of proportion $\alpha$, this parameter is the
