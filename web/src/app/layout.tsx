@@ -1,7 +1,7 @@
 import "./globals.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import { Metadata } from "next";
+import { Metadata, Viewport } from "next";
 import { Inter as FontSans } from "next/font/google";
 import NavBar from "components/NavBar";
 import Script from "next/script";
@@ -24,7 +24,6 @@ export const metadata: Metadata = {
   referrer: "origin-when-cross-origin",
   keywords: ["Devspaceship", thomas, "Science", "Coding", "Blog"],
   authors: [{ name: thomas }],
-  colorScheme: "dark",
   creator: thomas,
   publisher: thomas,
   metadataBase: url,
@@ -42,6 +41,10 @@ export const metadata: Metadata = {
     creator: "@devspaceship",
   },
   category: "science",
+};
+
+export const viewport: Viewport = {
+  colorScheme: "dark",
 };
 
 export default function RootLayout({
