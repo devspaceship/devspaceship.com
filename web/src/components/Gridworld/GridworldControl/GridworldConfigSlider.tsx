@@ -23,7 +23,7 @@ const GridworldConfigSlider = ({
   const state = useContext(GridworldStateContext);
   const dispatch = useContext(GridworldDispatchContext);
   const configKey = id.replace(/-(\w)/g, (_, letter: string) =>
-    letter.toUpperCase()
+    letter.toUpperCase(),
   );
 
   const handleChange = (value: number) => {

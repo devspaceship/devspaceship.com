@@ -22,7 +22,7 @@ const TesseractDisplay = ({ alpha, beta }: { alpha: number; beta: number }) => {
     rotationParams.current = { a: a + delta * alpha, b: b + delta * beta, t };
     const rotation = getRot4(a, b);
     const rotatedTesseract = staticVertices.map((point) =>
-      applyMatrix4(rotation, point)
+      applyMatrix4(rotation, point),
     );
     setTesseract(project(rotatedTesseract, D));
   });
@@ -47,7 +47,7 @@ const TesseractDisplay = ({ alpha, beta }: { alpha: number; beta: number }) => {
               args={[
                 new LineCurve3(
                   new Vector3(...tesseract[a]),
-                  new Vector3(...tesseract[b])
+                  new Vector3(...tesseract[b]),
                 ),
                 1,
                 RADIUS,

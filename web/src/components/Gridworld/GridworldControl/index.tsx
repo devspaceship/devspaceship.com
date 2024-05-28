@@ -56,7 +56,7 @@ const GridworldControl = () => {
                 max={max}
                 step={step}
               />
-            )
+            ),
         )}
       </div>
       <div className="text-center">

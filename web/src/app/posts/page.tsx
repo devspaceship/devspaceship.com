@@ -15,7 +15,7 @@ const Posts = async () => {
         meta: PostMetadata;
       };
       return meta;
-    })
+    }),
   );
   return (
     <div>

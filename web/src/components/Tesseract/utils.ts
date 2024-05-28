@@ -5,7 +5,7 @@ type Matrix4 = [Vector4, Vector4, Vector4, Vector4];
 const cartesianProduct = <T>(...sets: T[][]): T[][] =>
   sets.reduce<T[][]>(
     (acc, set) => acc.flatMap((res) => set.map((element) => [...res, element])),
-    [[]]
+    [[]],
   );
 
 const dotProduct = (a: number[], b: number[]) =>
@@ -19,7 +19,7 @@ export const getTesseract = () => {
     [-1, 1],
     [-1, 1],
     [-1, 1],
-    [-1, 1]
+    [-1, 1],
   ) as Vector4[];
   const edges = [];
   for (let i = 0; i < vertices.length; i++) {
@@ -41,5 +41,5 @@ export const getRot4 = (a: number, b: number): Matrix4 => [
 
 export const project = (vertices: Vector4[], d: number) =>
   vertices.map(
-    (v) => v.slice(0, 3).map((x) => (x * d) / (d - v[3])) as Vector3
+    (v) => v.slice(0, 3).map((x) => (x * d) / (d - v[3])) as Vector3,
   );
