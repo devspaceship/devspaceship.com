@@ -33,5 +33,10 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     tr: ({ children }) => <TypographyTR>{children}</TypographyTR>,
     td: ({ children }) => <TypographyTD>{children}</TypographyTD>,
     ul: ({ children }) => <TypographyList>{children}</TypographyList>,
+    a: ({ children, href }) => (
+      <a href={href} target="_blank" className="text-primary">
+        {children}
+      </a>
+    ),
   };
 }
