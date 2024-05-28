@@ -1,5 +1,5 @@
-import ProfilePicture from "@/components/ProfilePicture";
-import SocialLinks from "@/components/SocialLinks";
+import ProfilePicture from "components/ProfilePicture";
+import SocialLinks from "components/SocialLinks";
 
 const Home = () => {
   return (

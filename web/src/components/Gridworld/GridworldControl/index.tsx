@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { RadioGroup } from "@/components/ui/radio-group";
+import { RadioGroup } from "ui/radio-group";
 import {
   GridworldDispatchContext,
   GridworldStateContext,
@@ -9,7 +9,7 @@ import { SolverType } from "../types";
 import GridworldConfigSlider from "./GridworldConfigSlider";
 import SolverRadio from "./SolverRadio";
 import { FPS } from "../config";
-import { Button } from "@/components/ui/button";
+import { Button } from "ui/button";
 import { configSliderData, solverRadioData } from "./config";
 
 const GridworldControl = () => {

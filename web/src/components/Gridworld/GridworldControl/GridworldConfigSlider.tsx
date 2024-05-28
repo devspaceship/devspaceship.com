@@ -5,7 +5,7 @@ import {
   GridworldStateContext,
 } from "../GridworldContextProvider";
 import { GridworldActionType } from "../actions";
-import ConfigSlider from "@/components/ui/custom/ConfigSlider";
+import ConfigSlider from "ui/custom/ConfigSlider";
 
 const GridworldConfigSlider = ({
   id,

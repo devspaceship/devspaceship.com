@@ -1,6 +1,6 @@
 "use client";
 
-import ConfigSlider from "@/components/ui/custom/ConfigSlider";
+import ConfigSlider from "ui/custom/ConfigSlider";
 import { Canvas, useFrame } from "@react-three/fiber";
 import React, { useMemo, useRef, useState } from "react";
 import { getRot4, getTesseract, applyMatrix4, project } from "./utils";

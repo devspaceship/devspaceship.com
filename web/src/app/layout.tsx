@@ -3,10 +3,10 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
-import NavBar from "@/components/NavBar";
+import NavBar from "components/NavBar";
 import Script from "next/script";
 import { cn } from "@/lib/utils";
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from "components/theme-provider";
 config.autoAddCss = false;
 
 const fontSans = FontSans({
