@@ -19,8 +19,8 @@ const TesseractDisplay = ({ alpha, beta }: { alpha: number; beta: number }) => {
     const t = state.clock.elapsedTime;
     const { a, b, t: oldT } = rotationParams.current;
     const delta = t - oldT;
-    const rotation = getRot4(a, b);
     rotationParams.current = { a: a + delta * alpha, b: b + delta * beta, t };
+    const rotation = getRot4(a, b);
     const rotatedTesseract = staticVertices.map((point) =>
       applyMatrix4(rotation, point)
     );

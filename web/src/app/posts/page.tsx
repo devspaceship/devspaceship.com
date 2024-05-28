@@ -15,12 +15,12 @@ const Posts = async () => {
         meta: PostMetadata;
       };
       return meta;
-    }),
+    })
   );
   return (
     <div>
       <div className="mt-6">
-        <h1 className="text-3xl font-semibold sm:text-4xl md:text-5xl lg:text-6xl">
+        <h1 className="text-center text-3xl font-semibold sm:text-4xl md:text-5xl lg:text-6xl">
           Posts
         </h1>
       </div>

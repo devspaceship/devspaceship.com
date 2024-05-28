@@ -61,7 +61,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <NavBar />
-          <main className="container mx-auto flex h-full flex-col items-center justify-start space-y-12 text-center motion-safe:animate-fade-in-from-bottom">
+          <main className="container mx-auto flex h-full flex-col items-center justify-start space-y-12 motion-safe:animate-fade-in-from-bottom">
             {children}
           </main>
         </ThemeProvider>

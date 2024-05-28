@@ -59,9 +59,14 @@ const GridworldControl = () => {
             )
         )}
       </div>
-      <Button onClick={handleToggleSolve} className="mt-3 rounded-full text-xl">
-        {state.solverState.running ? "Stop" : "Solve"}
-      </Button>
+      <div className="text-center">
+        <Button
+          onClick={handleToggleSolve}
+          className="mt-3 rounded-full text-xl"
+        >
+          {state.solverState.running ? "Stop" : "Solve"}
+        </Button>
+      </div>
     </>
   );
 };
