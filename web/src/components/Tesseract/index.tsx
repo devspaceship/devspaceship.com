@@ -85,7 +85,7 @@ const Tesseract = () => {
       <Canvas style={{ height: "400px" }} camera={{ position: [4, 2, 1] }}>
         <TesseractDisplay alpha={alpha} beta={beta} />
       </Canvas>
-      <div className="flex justify-evenly">
+      <div className="flex justify-evenly text-center">
         {config.map(({ name, label, value, setValue }) => (
           <ConfigSlider
             key={name}

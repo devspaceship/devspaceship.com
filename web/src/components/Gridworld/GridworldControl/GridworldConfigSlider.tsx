@@ -38,7 +38,7 @@ const GridworldConfigSlider = ({
 
   const value = state.config[configKey as keyof GridworldConfig];
   return (
-    <div className="m-3">
+    <div className="m-3 text-center">
       <ConfigSlider
         id={id}
         label={label}
