@@ -10,6 +10,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import QueryClientProviderWrapper from "@/components/QueryClientProviderWrapper";
 
 type DataRow = {
   radius: number;
@@ -22,7 +23,7 @@ type EarthDensityProps = {
   dataKey: string;
 };
 
-const EarthDensity = (props: EarthDensityProps) => {
+const EarthDensityChart = (props: EarthDensityProps) => {
   const [data, setData] = useState([
     { radius: 0, density: 0, mass: 0, gravity: 0 },
   ]);
@@ -108,6 +109,14 @@ const EarthDensity = (props: EarthDensityProps) => {
     </ResponsiveContainer>
   );
 };
+
+function EarthDensity(props: EarthDensityProps) {
+  return (
+    <QueryClientProviderWrapper>
+      <EarthDensityChart {...props} />
+    </QueryClientProviderWrapper>
+  );
+}
 
 export default EarthDensity;
 

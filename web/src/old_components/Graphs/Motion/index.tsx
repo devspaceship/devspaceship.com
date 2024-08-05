@@ -10,6 +10,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import QueryClientProviderWrapper from "@/components/QueryClientProviderWrapper";
 
 type DataRow = {
   time: number;
@@ -22,7 +23,7 @@ type MotionProps = {
   speed: boolean;
 };
 
-const EarthDensity = (props: MotionProps) => {
+const MotionChart = (props: MotionProps) => {
   const [data, setData] = useState([
     { time: 0, radius: 0, speed: 0, acceleration: 0 },
   ]);
@@ -101,7 +102,15 @@ const EarthDensity = (props: MotionProps) => {
   );
 };
 
-export default EarthDensity;
+function Motion(props: MotionProps) {
+  return (
+    <QueryClientProviderWrapper>
+      <MotionChart {...props} />
+    </QueryClientProviderWrapper>
+  );
+}
+
+export default Motion;
 
 // TODO Fix react hydration error
 // TODO Refactor all the math.round
