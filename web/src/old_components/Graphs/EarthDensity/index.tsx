@@ -1,6 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
-import Papa from "papaparse";
+
 import {
   LineChart,
   Line,
@@ -11,38 +10,17 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import QueryClientProviderWrapper from "@/components/QueryClientProviderWrapper";
-
-type DataRow = {
-  radius: number;
-  density: number;
-  mass: number;
-  gravity: number;
-};
+import { useDensityData } from "@/queries/elevator";
 
 type EarthDensityProps = {
   dataKey: string;
 };
 
 const EarthDensityChart = (props: EarthDensityProps) => {
-  const [data, setData] = useState([
-    { radius: 0, density: 0, mass: 0, gravity: 0 },
-  ]);
+  const { isPending, error, data } = useDensityData();
 
-  const fetchParseData = async () => {
-    const raw_res = await fetch("/static/posts/elevator/density.csv");
-    const res = await raw_res.text();
-    const data_object = Papa.parse(res, { header: true, dynamicTyping: true });
-    const data = data_object.data.slice(0, -1) as DataRow[];
-
-    for (const row of data) {
-      row.mass = Number(row.mass);
-    }
-    setData(data);
-  };
-
-  useEffect(() => {
-    fetchParseData();
-  }, []);
+  if (isPending) return "Loading...";
+  if (error) return "An error has occurred while loading the data";
 
   const CustomTooltip = ({
     payload,
@@ -119,5 +97,3 @@ function EarthDensity(props: EarthDensityProps) {
 }
 
 export default EarthDensity;
-
-// TODO Fix react hydration error
