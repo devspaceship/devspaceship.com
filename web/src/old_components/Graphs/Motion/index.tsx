@@ -1,6 +1,4 @@
 "use client";
-import { useEffect, useState } from "react";
-import Papa from "papaparse";
 import {
   LineChart,
   Line,
@@ -11,34 +9,17 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import QueryClientProviderWrapper from "@/components/QueryClientProviderWrapper";
-
-type DataRow = {
-  time: number;
-  radius: number;
-  speed: number;
-  acceleration: number;
-};
+import { useMotionData } from "@/queries/elevator";
 
 type MotionProps = {
   speed: boolean;
 };
 
 const MotionChart = (props: MotionProps) => {
-  const [data, setData] = useState([
-    { time: 0, radius: 0, speed: 0, acceleration: 0 },
-  ]);
+  const { isPending, error, data } = useMotionData();
 
-  const fetchParseData = async () => {
-    const raw_res = await fetch("/static/posts/elevator/motion.csv");
-    const res = await raw_res.text();
-    const data_object = Papa.parse(res, { header: true, dynamicTyping: true });
-    const data = data_object.data.slice(0, -1) as DataRow[];
-    setData(data);
-  };
-
-  useEffect(() => {
-    fetchParseData();
-  }, []);
+  if (isPending) return "Loading...";
+  if (error) return "An error has occurred while loading the data";
 
   const CustomTooltip = ({
     payload,
