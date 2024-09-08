@@ -92,7 +92,3 @@ function Motion(props: MotionProps) {
 }
 
 export default Motion;
-
-// TODO Fix react hydration error
-// TODO Refactor all the math.round
-// TODO Merge Motion and Density in same component
