@@ -55,6 +55,7 @@ const GridworldRenderer = () => {
         });
         break;
       case "mouseup":
+      // eslint-disable-next-line no-fallthrough
       case "mouseleave":
         dispatch({
           type: GridworldActionType.STOP_DRAWING,
@@ -64,14 +65,24 @@ const GridworldRenderer = () => {
   };
 
   const handleTouchEvent = (event: TouchEvent<SVGElement>) => {
+    // This will log an error on Chrome for touchstart and touchmove events
+    // Don't try to check the user mobile browser with navigator.userAgent
+    // Just roll with it
+    // https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent#using_with_addeventlistener_and_preventdefault
     event.preventDefault();
+
     if (event.touches.length !== 1) {
       return;
     }
     const [row, column] = touchEventToGridPosition(event);
+    if (row < 0 || row >= HEIGHT || column < 0 || column >= WIDTH) {
+      dispatch({
+        type: GridworldActionType.STOP_DRAWING,
+      });
+      return;
+    }
     switch (event.type) {
       case "touchstart":
-        console.log("touchstart");
         dispatch({
           type: GridworldActionType.START_DRAWING,
           row,
@@ -79,7 +90,6 @@ const GridworldRenderer = () => {
         });
         break;
       case "touchmove":
-        console.log("touchmove");
         dispatch({
           type: GridworldActionType.DRAW,
           row,
@@ -87,10 +97,8 @@ const GridworldRenderer = () => {
         });
         break;
       case "touchend":
-        console.log("touchend");
       // eslint-disable-next-line no-fallthrough
       case "touchcancel":
-        console.log("touchcancel");
         dispatch({
           type: GridworldActionType.STOP_DRAWING,
         });
