@@ -20,6 +20,8 @@ export const reducer = (
   state: GridworldState,
   action: GridworldAction,
 ): GridworldState => {
+  const height = state.grid.length;
+  const width = state.grid[0].length;
   switch (action.type) {
     case GridworldActionType.SET_SOLVER:
       return {
@@ -100,7 +102,13 @@ export const reducer = (
         },
       };
     case GridworldActionType.DRAW:
-      if (!state.drawingState.drawing) {
+      if (
+        !state.drawingState.drawing ||
+        action.row < 0 ||
+        action.row >= height ||
+        action.column < 0 ||
+        action.column >= width
+      ) {
         return state;
       }
       return {

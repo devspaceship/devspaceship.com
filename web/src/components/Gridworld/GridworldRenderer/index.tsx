@@ -74,13 +74,8 @@ const GridworldRenderer = () => {
     if (event.touches.length !== 1) {
       return;
     }
+
     const [row, column] = touchEventToGridPosition(event);
-    if (row < 0 || row >= HEIGHT || column < 0 || column >= WIDTH) {
-      dispatch({
-        type: GridworldActionType.STOP_DRAWING,
-      });
-      return;
-    }
     switch (event.type) {
       case "touchstart":
         dispatch({
