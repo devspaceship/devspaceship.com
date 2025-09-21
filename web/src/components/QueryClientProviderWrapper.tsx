@@ -7,9 +7,9 @@ import { ReactNode } from "react";
 const queryClient = getQueryClient();
 
 const QueryClientProviderWrapper = ({ children }: { children: ReactNode }) => {
-  return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
+	return (
+		<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+	);
 };
 
 export default QueryClientProviderWrapper;

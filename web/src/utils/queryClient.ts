@@ -8,8 +8,8 @@ let queryClient: QueryClient;
 // A solution is thus to have the different client components have their own provider.
 // This singleton ensures that the providers share the same query client.
 export function getQueryClient() {
-  if (!queryClient) {
-    queryClient = new QueryClient();
-  }
-  return queryClient;
+	if (!queryClient) {
+		queryClient = new QueryClient();
+	}
+	return queryClient;
 }
