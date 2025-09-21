@@ -1,10 +1,9 @@
-usage: make [target]
-    targets:
-        help: Display this help message
-        up: Launch the project in detached mode
-        setup_web: Prepare the web container for development
-        build: Build the project using docker compose
-        setup_compose: Run initial setup scripts for docker compose
-        down: Take down the containers
-        logs: Follow logs
-        shell: Open a bash shell in the web container
+usage: make [command]
+  help:           Show this help message
+  up:             Launch the project in detached mode
+  setup_web:      Prepare the web container for development
+  build:          Build the project using docker compose
+  setup_compose:  Run initial setup scripts for docker compose
+  down:           Take down the containers
+  logs:           Follow logs
+  shell:          Open a bash shell in the web container
