@@ -1,6 +1,6 @@
 import published_posts from "@/posts/published";
-import { PostMetadata } from "@/posts/types";
-import { Metadata } from "next";
+import type { PostMetadata } from "@/posts/types";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "ui/card";
 

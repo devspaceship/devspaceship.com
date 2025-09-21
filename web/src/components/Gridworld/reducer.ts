@@ -1,5 +1,5 @@
-import { CellPolicy, CellType, GridworldState } from "./types";
-import { GridworldAction, GridworldActionType } from "./actions";
+import { CellPolicy, CellType, type GridworldState } from "./types";
+import { type GridworldAction, GridworldActionType } from "./actions";
 import solveStep from "./solvers";
 
 const getDrawingType = (
@@ -72,7 +72,7 @@ export const reducer = (
 					intervalId: undefined,
 				},
 			};
-		case GridworldActionType.START_DRAWING:
+		case GridworldActionType.START_DRAWING: {
 			if (state.solverState.intervalId !== undefined) {
 				clearInterval(state.solverState.intervalId);
 			}
@@ -101,6 +101,7 @@ export const reducer = (
 					intervalId: undefined,
 				},
 			};
+		}
 		case GridworldActionType.DRAW:
 			if (
 				!state.drawingState.drawing ||

@@ -1,5 +1,5 @@
 import { HEIGHT, WIDTH } from "./config";
-import { CellPolicy, CellType, GridworldState } from "./types";
+import { CellPolicy, CellType, type GridworldState } from "./types";
 
 const deltaRows = {
 	[CellPolicy.UP]: -1,

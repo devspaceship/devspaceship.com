@@ -1,5 +1,5 @@
 import published_posts from "@/posts/published";
-import { MDXComponent } from "@/posts/types";
+import type { MDXComponent } from "@/posts/types";
 
 import "katex/dist/katex.min.css";
 import "@highlightjs/cdn-assets/styles/github-dark.min.css";

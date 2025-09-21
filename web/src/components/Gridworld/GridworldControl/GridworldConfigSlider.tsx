@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { GridworldConfig } from "../types";
+import type { GridworldConfig } from "../types";
 import {
 	GridworldDispatchContext,
 	GridworldStateContext,

@@ -5,7 +5,7 @@ import {
 	faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 const SocialLink = ({
 	href,
