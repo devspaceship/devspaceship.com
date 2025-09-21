@@ -1,5 +1,5 @@
 # Development
-FROM node:20.12.2 AS dev
+FROM node:22-bookworm AS dev
 WORKDIR /app
 
 RUN corepack enable pnpm
@@ -7,7 +7,7 @@ RUN corepack enable pnpm
 CMD [ "pnpm", "run", "dev" ]
 
 # Production
-FROM node:20.12.2-alpine3.19 AS prod
+FROM node:22-alpine AS prod
 WORKDIR /app
 
 RUN corepack enable pnpm
