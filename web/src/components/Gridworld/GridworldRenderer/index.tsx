@@ -1,4 +1,4 @@
-import { MouseEvent, TouchEvent, useContext } from "react";
+import { type MouseEvent, type TouchEvent, useContext } from "react";
 import { GridworldDispatchContext } from "../GridworldContextProvider";
 import { GridworldActionType } from "../actions";
 import { HEIGHT, WIDTH } from "../config";

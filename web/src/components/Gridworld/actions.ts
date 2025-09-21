@@ -1,4 +1,4 @@
-import { SolverType, GridworldConfig, CellState } from "./types";
+import type { SolverType, GridworldConfig, CellState } from "./types";
 
 export enum GridworldActionType {
 	SET_SOLVER,

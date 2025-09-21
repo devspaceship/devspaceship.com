@@ -3,7 +3,7 @@ import { transition } from "./mdp";
 import {
 	CellPolicy,
 	CellType,
-	GridworldState,
+	type GridworldState,
 	SolverType,
 	cellPolicies,
 } from "./types";
@@ -11,7 +11,7 @@ import {
 const policyEvaluation = (state: GridworldState, early_stop = false): void => {
 	let delta = 1;
 	let iteration = 0;
-	while (delta > Math.pow(10, LOG_THRESHOLD)) {
+	while (delta > 10 ** LOG_THRESHOLD) {
 		delta = 0;
 		state.grid.forEach((row, i) => {
 			row.forEach((cell, j) => {

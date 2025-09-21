@@ -2,7 +2,7 @@
 
 import { QueryClientProvider } from "@tanstack/react-query";
 import { getQueryClient } from "@/utils/queryClient";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 const queryClient = getQueryClient();
 

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { faFileLines, faHouse } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { FC } from "react";
+import type { FC } from "react";
 
 const NavBar: FC = () => (
 	<nav className="py-6 motion-safe:animate-fade-in-from-top">

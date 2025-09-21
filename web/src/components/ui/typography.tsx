@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 export function TypographyH1({ children, ...props }: { children: ReactNode }) {
 	return (
