@@ -1,11 +1,11 @@
 import { useContext } from "react";
-import type { GridworldConfig } from "../types";
+import ConfigSlider from "ui/custom/ConfigSlider";
+import { GridworldActionType } from "../actions";
 import {
 	GridworldDispatchContext,
 	GridworldStateContext,
 } from "../GridworldContextProvider";
-import { GridworldActionType } from "../actions";
-import ConfigSlider from "ui/custom/ConfigSlider";
+import type { GridworldConfig } from "../types";
 
 const GridworldConfigSlider = ({
 	id,

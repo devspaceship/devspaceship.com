@@ -1,5 +1,5 @@
-import TesseractMDX, { meta } from "@/posts/tesseract.mdx";
 import type { Metadata } from "next";
+import TesseractMDX, { meta } from "@/posts/tesseract.mdx";
 
 export const metadata: Metadata = {
 	title: meta.title,

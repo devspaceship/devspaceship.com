@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { GridworldStateContext } from "../GridworldContextProvider";
 import { CELL_PADDING, CELL_TYPE_CLASSES, CORNER_ROUNDING } from "../config";
+import { GridworldStateContext } from "../GridworldContextProvider";
 import { CellType } from "../types";
 import PolicyArrow from "./PolicyArrow";
 

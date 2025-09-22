@@ -3,9 +3,9 @@ import { transition } from "./mdp";
 import {
 	CellPolicy,
 	CellType,
+	cellPolicies,
 	type GridworldState,
 	SolverType,
-	cellPolicies,
 } from "./types";
 
 const policyEvaluation = (state: GridworldState, early_stop = false): void => {

@@ -5,6 +5,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter as FontSans } from "next/font/google";
 import Script from "next/script";
 import { cn } from "@/lib/utils";
+
 config.autoAddCss = false;
 
 import NavBar from "components/NavBar";
@@ -69,11 +70,9 @@ export default function RootLayout({
 						{children}
 					</main>
 				</ThemeProvider>
-				<Script
-					src="https://www.googletagmanager.com/gtag/js?id=G-VJTBJP5KDG"
-					strategy="afterInteractive"
-				/>
-				<Script id="google-analytics" strategy="afterInteractive">
+				<Script src="https://www.googletagmanager.com/gtag/js?id=G-VJTBJP5KDG" />
+				{/** biome-ignore lint/correctness/useUniqueElementIds: inline Next script require id for optimization */}
+				<Script id="google-analytics">
 					{`
             window.dataLayer = window.dataLayer || [];
             function gtag(){window.dataLayer.push(arguments);}

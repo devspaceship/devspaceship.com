@@ -1,3 +1,4 @@
+import type { MDXComponents } from "mdx/types";
 import {
 	TypographyBlockquote,
 	TypographyH1,
@@ -6,12 +7,11 @@ import {
 	TypographyH4,
 	TypographyList,
 	TypographyP,
+	TypographyTable,
 	TypographyTD,
 	TypographyTH,
 	TypographyTR,
-	TypographyTable,
 } from "@/components/ui/typography";
-import type { MDXComponents } from "mdx/types";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
 	return {

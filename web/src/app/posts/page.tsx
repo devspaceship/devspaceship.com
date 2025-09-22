@@ -1,8 +1,8 @@
-import published_posts from "@/posts/published";
-import type { PostMetadata } from "@/posts/types";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "ui/card";
+import published_posts from "@/posts/published";
+import type { PostMetadata } from "@/posts/types";
 
 export const metadata: Metadata = {
 	title: "Posts",

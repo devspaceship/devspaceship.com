@@ -1,7 +1,6 @@
-import Link from "next/link";
-
 import { faFileLines, faHouse } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
 import type { FC } from "react";
 
 const NavBar: FC = () => (

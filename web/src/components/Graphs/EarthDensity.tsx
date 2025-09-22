@@ -1,13 +1,13 @@
 "use client";
 
 import {
-	LineChart,
-	Line,
 	CartesianGrid,
+	Line,
+	LineChart,
+	ResponsiveContainer,
+	Tooltip,
 	XAxis,
 	YAxis,
-	Tooltip,
-	ResponsiveContainer,
 } from "recharts";
 import QueryClientProviderWrapper from "@/components/QueryClientProviderWrapper";
 import { useDensityData } from "@/queries/elevator";

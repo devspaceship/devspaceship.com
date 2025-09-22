@@ -1,7 +1,7 @@
 import { type MouseEvent, type TouchEvent, useContext } from "react";
-import { GridworldDispatchContext } from "../GridworldContextProvider";
 import { GridworldActionType } from "../actions";
 import { HEIGHT, WIDTH } from "../config";
+import { GridworldDispatchContext } from "../GridworldContextProvider";
 import GridworldCell from "./GridworldCell";
 
 const positions: [number, number][] = [];
@@ -114,6 +114,7 @@ const GridworldRenderer = () => {
 			onTouchEnd={handleTouchEvent}
 			onTouchCancel={handleTouchEvent}
 		>
+			<title>Gridwold</title>
 			{positions.map(([row, column]) => (
 				<svg
 					key={`${row}:${column}`}
@@ -123,6 +124,7 @@ const GridworldRenderer = () => {
 					width="1"
 					height="1"
 				>
+					<title>Gridwold Cell</title>
 					<GridworldCell row={row} column={column} />
 				</svg>
 			))}
