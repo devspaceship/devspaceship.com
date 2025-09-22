@@ -71,7 +71,6 @@ export default function RootLayout({
 					</main>
 				</ThemeProvider>
 				<Script src="https://www.googletagmanager.com/gtag/js?id=G-VJTBJP5KDG" />
-				{/** biome-ignore lint/correctness/useUniqueElementIds: inline Next script require id for optimization */}
 				<Script id="google-analytics">
 					{`
             window.dataLayer = window.dataLayer || [];
