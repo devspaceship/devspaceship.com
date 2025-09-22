@@ -1,5 +1,5 @@
-import GridworldMDX, { meta } from "@/posts/gridworld.mdx";
 import type { Metadata } from "next";
+import GridworldMDX, { meta } from "@/posts/gridworld.mdx";
 
 export const metadata: Metadata = {
 	title: meta.title,

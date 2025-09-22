@@ -24,7 +24,7 @@ export const getTesseract = () => {
 	const edges = [];
 	for (let i = 0; i < vertices.length; i++) {
 		for (let j = i + 1; j < vertices.length; j++) {
-			if (dotProduct(vertices[i], vertices[j]) == 2) {
+			if (dotProduct(vertices[i], vertices[j]) === 2) {
 				edges.push([i, j]);
 			}
 		}

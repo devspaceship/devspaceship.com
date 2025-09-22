@@ -1,6 +1,6 @@
-import { CellPolicy, CellType, type GridworldState } from "./types";
 import { type GridworldAction, GridworldActionType } from "./actions";
 import solveStep from "./solvers";
+import { CellPolicy, CellType, type GridworldState } from "./types";
 
 const getDrawingType = (
 	state: GridworldState,

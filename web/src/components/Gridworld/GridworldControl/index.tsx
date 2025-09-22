@@ -1,16 +1,16 @@
 import { useContext } from "react";
+import { Button } from "ui/button";
 import { RadioGroup } from "ui/radio-group";
+import { GridworldActionType } from "../actions";
+import { FPS } from "../config";
 import {
 	GridworldDispatchContext,
 	GridworldStateContext,
 } from "../GridworldContextProvider";
-import { GridworldActionType } from "../actions";
 import { SolverType } from "../types";
+import { configSliderData, solverRadioData } from "./config";
 import GridworldConfigSlider from "./GridworldConfigSlider";
 import SolverRadio from "./SolverRadio";
-import { FPS } from "../config";
-import { Button } from "ui/button";
-import { configSliderData, solverRadioData } from "./config";
 
 const GridworldControl = () => {
 	const state = useContext(GridworldStateContext);
@@ -28,7 +28,7 @@ const GridworldControl = () => {
 	};
 
 	const handleChangeSolver = (solver: string) => {
-		const solverType = parseInt(solver) as SolverType;
+		const solverType = parseInt(solver, 10) as SolverType;
 		dispatch({ type: GridworldActionType.SET_SOLVER, solver: solverType });
 	};
 

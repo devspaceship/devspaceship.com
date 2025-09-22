@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { Label } from "ui/label";
 import { RadioGroupItem } from "ui/radio-group";
-import type { SolverType } from "../types";
 import { GridworldStateContext } from "../GridworldContextProvider";
+import type { SolverType } from "../types";
 
 const SolverRadio = ({
 	id,

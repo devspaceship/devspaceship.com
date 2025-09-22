@@ -1,5 +1,5 @@
-import ElevatorMDX, { meta } from "@/posts/elevator.mdx";
 import type { Metadata } from "next";
+import ElevatorMDX, { meta } from "@/posts/elevator.mdx";
 
 export const metadata: Metadata = {
 	title: meta.title,

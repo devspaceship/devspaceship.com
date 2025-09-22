@@ -1,4 +1,4 @@
-import { CellType, SolverType, type GridworldState, CellPolicy } from "./types";
+import { CellPolicy, CellType, type GridworldState, SolverType } from "./types";
 export const WIDTH = 12;
 export const HEIGHT = 8;
 export const CELL_PADDING = 0.03;

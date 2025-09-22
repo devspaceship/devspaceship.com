@@ -1,10 +1,10 @@
 "use client";
 
-import ConfigSlider from "ui/custom/ConfigSlider";
 import { Canvas, useFrame } from "@react-three/fiber";
-import React, { useMemo, useRef, useState } from "react";
-import { getRot4, getTesseract, applyMatrix4, project } from "./utils";
+import { useMemo, useRef, useState } from "react";
 import { LineCurve3, Vector3 } from "three";
+import ConfigSlider from "ui/custom/ConfigSlider";
+import { applyMatrix4, getRot4, getTesseract, project } from "./utils";
 
 const D = 3.3;
 const COLOR = "#b3d0ff";
@@ -33,6 +33,7 @@ const TesseractDisplay = ({ alpha, beta }: { alpha: number; beta: number }) => {
 			<pointLight position={[5, 5, 5]} color={COLOR} />
 			{tesseract.map((point, index) => {
 				return (
+					// biome-ignore lint/suspicious/noArrayIndexKey: index is stable
 					<mesh position={point} key={index}>
 						<sphereGeometry args={[RADIUS]} />
 						<meshStandardMaterial />
@@ -42,6 +43,7 @@ const TesseractDisplay = ({ alpha, beta }: { alpha: number; beta: number }) => {
 			{edges.map((edge, index) => {
 				const [a, b] = edge;
 				return (
+					// biome-ignore lint/suspicious/noArrayIndexKey: index is stable
 					<mesh position={[0, 0, 0]} key={index}>
 						<tubeGeometry
 							args={[

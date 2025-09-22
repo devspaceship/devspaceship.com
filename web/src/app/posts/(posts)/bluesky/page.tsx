@@ -1,5 +1,5 @@
-import BlueSkyMDX, { meta } from "@/posts/bluesky.mdx";
 import type { Metadata } from "next";
+import BlueSkyMDX, { meta } from "@/posts/bluesky.mdx";
 
 export const metadata: Metadata = {
 	title: meta.title,
