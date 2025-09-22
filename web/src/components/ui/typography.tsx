@@ -43,7 +43,7 @@ export function TypographyH4({ children, ...props }: { children: ReactNode }) {
 
 export function TypographyP({ children, ...props }: { children: ReactNode }) {
 	return (
-		<p className="leading-7 [&:not(:first-child)]:mt-6" {...props}>
+		<p className="leading-7 not-first:mt-6" {...props}>
 			{children}
 		</p>
 	);
