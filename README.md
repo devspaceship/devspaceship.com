@@ -14,8 +14,3 @@ make
 - TypeScript
 - Next.js
 - MDX
-
-## Pre-commit Hooks
-
-- Install [pre-commit](https://pre-commit.com/)
-- Install the hooks with `pre-commit install`
