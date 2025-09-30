@@ -35,7 +35,7 @@
 		"@types/mdx": "^2.0.13",
 		"@types/node": "^24.6.0",
 		"@types/papaparse": "^5.3.16",
-		"@types/react": "^19.1.15",
+		"@types/react": "^19.1.16",
 		"@types/react-dom": "^19.1.9",
 		"@types/three": "^0.180.0",
 		"class-variance-authority": "^0.7.1",
