@@ -1,6 +1,6 @@
-import "./globals.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
-import "@fortawesome/fontawesome-svg-core/styles.css";
+import NavBar from "components/NavBar";
+import { ThemeProvider } from "components/theme-provider";
 import type { Metadata, Viewport } from "next";
 import { Inter as FontSans } from "next/font/google";
 import Script from "next/script";
@@ -8,8 +8,8 @@ import { cn } from "@/lib/utils";
 
 config.autoAddCss = false;
 
-import NavBar from "components/NavBar";
-import { ThemeProvider } from "components/theme-provider";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import "./globals.css";
 
 const fontSans = FontSans({
 	subsets: ["latin"],
