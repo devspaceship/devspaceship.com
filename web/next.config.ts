@@ -14,7 +14,10 @@ const withMDX = createMDX({
 		remarkPlugins: ["remark-math"],
 		rehypePlugins: [
 			"rehype-slug",
-			["rehype-autolink-headings", { behavior: "wrap" }],
+			[
+				"rehype-autolink-headings",
+				{ behavior: "wrap", test: ["h2", "h3", "h4"] },
+			],
 			["rehype-katex", { strict: true, throwOnError: true }],
 			"rehype-highlight",
 		],

@@ -2,22 +2,22 @@ import { SolverType } from "../types";
 
 export const solverRadioData = [
 	{
-		id: "policy-iteration",
+		id: "policy-iteration-select",
 		label: "Policy Iteration",
 		solverType: SolverType.POLICY_ITERATION,
 	},
 	{
-		id: "value-iteration",
+		id: "value-iteration-select",
 		label: "Value Iteration",
 		solverType: SolverType.VALUE_ITERATION,
 	},
 	{
-		id: "sarsa",
+		id: "sarsa-select",
 		label: "SARSA",
 		solverType: SolverType.SARSA,
 	},
 	{
-		id: "q-learning",
+		id: "q-learning-select",
 		label: "Q-Learning",
 		solverType: SolverType.Q_LEARNING,
 	},

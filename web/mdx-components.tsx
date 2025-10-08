@@ -34,9 +34,9 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
 				<TypographyH1>{children}</TypographyH1>
 			</div>
 		),
-		h2: ({ children }) => <TypographyH2>{children}</TypographyH2>,
-		h3: ({ children }) => <TypographyH3>{children}</TypographyH3>,
-		h4: ({ children }) => <TypographyH4>{children}</TypographyH4>,
+		h2: ({ children, id }) => <TypographyH2 id={id}>{children}</TypographyH2>,
+		h3: ({ children, id }) => <TypographyH3 id={id}>{children}</TypographyH3>,
+		h4: ({ children, id }) => <TypographyH4 id={id}>{children}</TypographyH4>,
 		p: ({ children }) => <TypographyP>{children}</TypographyP>,
 		blockquote: ({ children }) => (
 			<TypographyBlockquote>{children}</TypographyBlockquote>
