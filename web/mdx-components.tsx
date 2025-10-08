@@ -1,4 +1,8 @@
+import { faLink } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { MDXComponents } from "mdx/types";
+import Link from "next/link";
+import ExternalLink from "@/components/ExternalLink";
 import {
 	TypographyBlockquote,
 	TypographyH1,
@@ -12,6 +16,15 @@ import {
 	TypographyTH,
 	TypographyTR,
 } from "@/components/ui/typography";
+
+function isExternalLink(href: string): boolean {
+	try {
+		new URL(href);
+		return true;
+	} catch {
+		return false;
+	}
+}
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
 	return {
@@ -33,10 +46,18 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
 		tr: ({ children }) => <TypographyTR>{children}</TypographyTR>,
 		td: ({ children }) => <TypographyTD>{children}</TypographyTD>,
 		ul: ({ children }) => <TypographyList>{children}</TypographyList>,
-		a: ({ children, href }) => (
-			<a href={href} target="_blank" className="text-primary">
-				{children}
-			</a>
-		),
+		a: ({ children, href }) =>
+			isExternalLink(href) ? (
+				<ExternalLink href={href}>{children}</ExternalLink>
+			) : (
+				<Link href={href} className="text-primary group">
+					{children}
+					{href.startsWith("#") && (
+						<span className="ml-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+							<FontAwesomeIcon icon={faLink} />
+						</span>
+					)}
+				</Link>
+			),
 	};
 }
