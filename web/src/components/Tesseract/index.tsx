@@ -7,7 +7,7 @@ import ConfigSlider from "ui/custom/ConfigSlider";
 import { applyMatrix4, getRot4, getTesseract, project } from "./utils";
 
 const D = 3.3;
-const COLOR = "#b3d0ff";
+const COLOR = "#89d0ff";
 const RADIUS = 0.09;
 
 const TesseractDisplay = ({ alpha, beta }: { alpha: number; beta: number }) => {
@@ -29,8 +29,13 @@ const TesseractDisplay = ({ alpha, beta }: { alpha: number; beta: number }) => {
 
 	return (
 		<>
-			<ambientLight intensity={0.4} color={COLOR} />
-			<pointLight position={[5, 5, 5]} color={COLOR} />
+			<ambientLight intensity={0.8} color={COLOR} />
+			<pointLight
+				decay={0}
+				intensity={2.2}
+				position={[5, 5, 5]}
+				color={COLOR}
+			/>
 			{tesseract.map((point, index) => {
 				return (
 					// biome-ignore lint/suspicious/noArrayIndexKey: index is stable
