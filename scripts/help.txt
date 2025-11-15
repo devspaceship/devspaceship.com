@@ -1,9 +1,13 @@
 usage: make [command]
+
+General:
   help:           Show this help message
-  up:             Launch the project in detached mode
-  setup_web:      Prepare the web container for development
-  build:          Build the project using docker compose
-  setup_compose:  Run initial setup scripts for docker compose
-  down:           Take down the containers
-  logs:           Follow logs
+
+Native:
+  dev:            Set up and start the development server natively
+
+Docker Compose:
+  up:             Set up and start the development server in Docker
+  down:           Stop the Docker containers
+  logs:           Follow Docker container logs
   shell:          Open a bash shell in the web container

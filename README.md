@@ -4,13 +4,23 @@
 
 ## Run
 
+Choose your preferred development environment:
+
+### Native
+
 ```bash
-make
+make dev
+```
+
+### Docker Compose
+
+```bash
+make up
 ```
 
 ## Tech Stack
 
-- Docker Compose
 - TypeScript
+- React
 - Next.js
 - MDX
