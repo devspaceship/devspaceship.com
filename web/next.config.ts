@@ -2,6 +2,7 @@ import createMDX from "@next/mdx";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+	cacheComponents: true,
 	experimental: {
 		// typedRoutes: true,
 		// mdxRs: true,

@@ -1,7 +1,8 @@
 import "katex/dist/katex.min.css";
 import "@highlightjs/cdn-assets/styles/github-dark.min.css";
 
-const PostLayout = ({ children }: { children: React.ReactNode }) => {
+const PostLayout = async ({ children }: { children: React.ReactNode }) => {
+	"use cache";
 	return (
 		<article
 			className="

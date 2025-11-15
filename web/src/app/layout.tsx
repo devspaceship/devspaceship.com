@@ -49,11 +49,12 @@ export const viewport: Viewport = {
 	colorScheme: "dark",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
+	"use cache";
 	return (
 		<html lang="en" className="dark" style={{ colorScheme: "dark" }}>
 			<body
