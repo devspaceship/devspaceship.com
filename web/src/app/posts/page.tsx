@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 };
 
 const Posts = async () => {
+	"use cache";
 	const metas = await Promise.all(
 		published_posts.map(async (name) => {
 			const { meta } = (await import(`@/posts/${name}.mdx`)) as {

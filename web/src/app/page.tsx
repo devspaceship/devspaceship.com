@@ -1,7 +1,8 @@
 import ProfilePicture from "components/ProfilePicture";
 import SocialLinks from "components/SocialLinks";
 
-const Home = () => {
+const Home = async () => {
+	"use cache";
 	return (
 		<>
 			<div className="mt-12">
