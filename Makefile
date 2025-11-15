@@ -5,20 +5,16 @@ scripts_dir := ./scripts
 help:
 	@cat $(scripts_dir)/help.txt
 
-.PHONY: setup_compose
-setup_compose:
-	$(scripts_dir)/setup_compose.sh
+# Native
+.PHONY: dev
+dev:
+	@$(scripts_dir)/setup_native.sh
+	cd web && pnpm run dev
 
-.PHONY: build
-build: setup_compose
-	$(compose) build
-
-.PHONY: setup_web
-setup_web: build
-	$(scripts_dir)/setup_web.sh
-
+# Docker Compose
 .PHONY: up
-up: setup_web
+up:
+	@$(scripts_dir)/setup_compose.sh
 	$(compose) up -d
 
 .PHONY: down
@@ -32,4 +28,5 @@ logs:
 .PHONY: shell
 shell:
 	$(compose) run --rm web bash
+
 
