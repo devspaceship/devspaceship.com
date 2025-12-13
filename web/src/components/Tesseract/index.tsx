@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { LineCurve3, Vector3 } from "three";
 import ConfigSlider from "ui/custom/ConfigSlider";
 import { applyMatrix4, getRot4, getTesseract, project } from "./utils";
@@ -71,6 +71,16 @@ const TesseractDisplay = ({ alpha, beta }: { alpha: number; beta: number }) => {
 const Tesseract = () => {
 	const [alpha, setAlpha] = useState(0.3);
 	const [beta, setBeta] = useState(0.7);
+	const [mounted, setMounted] = useState(false);
+
+	// Ensure proper mounting/unmounting to automatically
+	// clean up and reset WebGL context on route changes
+	useEffect(() => {
+		setMounted(true);
+		return () => {
+			setMounted(false);
+		};
+	}, []);
 
 	const config = [
 		{
@@ -89,9 +99,11 @@ const Tesseract = () => {
 
 	return (
 		<>
-			<Canvas style={{ height: "400px" }} camera={{ position: [4, 2, 1] }}>
-				<TesseractDisplay alpha={alpha} beta={beta} />
-			</Canvas>
+			{mounted && (
+				<Canvas style={{ height: "400px" }} camera={{ position: [4, 2, 1] }}>
+					<TesseractDisplay alpha={alpha} beta={beta} />
+				</Canvas>
+			)}
 			<div className="flex justify-evenly text-center">
 				{config.map(({ name, label, value, setValue }) => (
 					<ConfigSlider
