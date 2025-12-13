@@ -29,4 +29,20 @@ logs:
 shell:
 	$(compose) run --rm web bash
 
+# Testing
+.PHONY: test
+test:
+	cd web && pnpm run test
+
+.PHONY: test-coverage
+test-coverage:
+	cd web && pnpm run test:coverage
+
+.PHONY: test-ui
+test-ui:
+	cd web && pnpm run test:ui
+
+.PHONY: test-watch
+test-watch:
+	cd web && pnpm run test:watch
 

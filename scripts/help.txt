@@ -11,3 +11,9 @@ Docker Compose:
   down:           Stop the Docker containers
   logs:           Follow Docker container logs
   shell:          Open a bash shell in the web container
+
+Testing:
+  test:           Run tests
+  test-coverage:  Run tests and generate coverage report
+  test-ui:        Run tests and coverage with Vitest UI
+  test-watch:     Run tests in watch mode

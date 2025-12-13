@@ -1,8 +1,10 @@
-.next/
+.env
 .vscode/
+compose.override.yaml
+
+.DS_Store
+.next/
 .pnpm-store/
 node_modules/
 target/
-compose.override.yaml
-.DS_Store
-.env
+/web/coverage/
