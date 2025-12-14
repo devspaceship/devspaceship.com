@@ -6,7 +6,7 @@ export default defineConfig({
 	plugins: [tsconfigPaths(), react()],
 	test: {
 		environment: "jsdom",
-		setupFiles: ["./__tests__/setup.ts"],
+		setupFiles: ["./src/test-setup.ts"],
 		coverage: {
 			provider: "v8",
 			reporter: ["text", "json", "html", "clover"],
@@ -14,11 +14,12 @@ export default defineConfig({
 			exclude: [
 				".next/**",
 				".swc/**",
-				"__tests__/**",
 				"coverage/**",
 				"node_modules/**",
 				"**/*.config.*",
 				"**/*.d.ts",
+				"**/*.test.{ts,tsx}",
+				"**/test-setup.ts",
 			],
 		},
 	},
