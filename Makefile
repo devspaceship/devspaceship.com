@@ -46,3 +46,7 @@ test-ui:
 test-watch:
 	cd web && pnpm run test:watch
 
+# Biome
+.PHONY: check
+check:
+	cd web && pnpm run check

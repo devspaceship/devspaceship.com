@@ -17,3 +17,6 @@ Testing:
   test-coverage:  Run tests and generate coverage report
   test-ui:        Run tests and coverage with Vitest UI
   test-watch:     Run tests in watch mode
+
+Biome:
+  check:          Check code formatting and linting with Biome
