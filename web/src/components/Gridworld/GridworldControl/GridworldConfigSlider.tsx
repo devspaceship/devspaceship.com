@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { use } from "react";
 import ConfigSlider from "ui/custom/ConfigSlider";
 import { GridworldActionType } from "../actions";
 import {
@@ -20,8 +20,8 @@ const GridworldConfigSlider = ({
 	max: number;
 	step?: number;
 }) => {
-	const state = useContext(GridworldStateContext);
-	const dispatch = useContext(GridworldDispatchContext);
+	const state = use(GridworldStateContext);
+	const dispatch = use(GridworldDispatchContext);
 	const configKey = id.replace(/-(\w)/g, (_, letter: string) =>
 		letter.toUpperCase(),
 	);

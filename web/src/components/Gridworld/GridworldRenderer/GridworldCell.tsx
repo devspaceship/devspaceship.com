@@ -1,11 +1,11 @@
-import { useContext } from "react";
+import { use } from "react";
 import { CELL_PADDING, CELL_TYPE_CLASSES, CORNER_ROUNDING } from "../config";
 import { GridworldStateContext } from "../GridworldContextProvider";
 import { CellType } from "../types";
 import PolicyArrow from "./PolicyArrow";
 
 const GridworldCell = ({ row, column }: { row: number; column: number }) => {
-	const state = useContext(GridworldStateContext);
+	const state = use(GridworldStateContext);
 	const cell = state.grid[row][column];
 	const isCellPolicyVisible =
 		state.policyVisible && cell.type === CellType.EMPTY;

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { use } from "react";
 import { Button } from "ui/button";
 import { RadioGroup } from "ui/radio-group";
 import { GridworldActionType } from "../actions";
@@ -13,8 +13,8 @@ import GridworldConfigSlider from "./GridworldConfigSlider";
 import SolverRadio from "./SolverRadio";
 
 const GridworldControl = () => {
-	const state = useContext(GridworldStateContext);
-	const dispatch = useContext(GridworldDispatchContext);
+	const state = use(GridworldStateContext);
+	const dispatch = use(GridworldDispatchContext);
 
 	const handleToggleSolve = () => {
 		if (state.solverState.running) {

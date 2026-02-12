@@ -17,11 +17,11 @@ const GridworldContextProvider = ({
 	const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
 
 	return (
-		<GridworldStateContext.Provider value={state}>
-			<GridworldDispatchContext.Provider value={dispatch}>
+		<GridworldStateContext value={state}>
+			<GridworldDispatchContext value={dispatch}>
 				{children}
-			</GridworldDispatchContext.Provider>
-		</GridworldStateContext.Provider>
+			</GridworldDispatchContext>
+		</GridworldStateContext>
 	);
 };
 

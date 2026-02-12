@@ -1,4 +1,4 @@
-import { type MouseEvent, type TouchEvent, useContext } from "react";
+import { type MouseEvent, type TouchEvent, use } from "react";
 import { GridworldActionType } from "../actions";
 import { HEIGHT, WIDTH } from "../config";
 import { GridworldDispatchContext } from "../GridworldContextProvider";
@@ -35,7 +35,7 @@ const touchEventToGridPosition = (event: TouchEvent<SVGElement>) => {
 };
 
 const GridworldRenderer = () => {
-	const dispatch = useContext(GridworldDispatchContext);
+	const dispatch = use(GridworldDispatchContext);
 
 	const handleMouseEvent = (event: MouseEvent<SVGElement>) => {
 		const [row, column] = mouseEventToGridPosition(event);

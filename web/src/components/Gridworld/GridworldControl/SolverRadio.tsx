@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { use } from "react";
 import { Label } from "ui/label";
 import { RadioGroupItem } from "ui/radio-group";
 import { GridworldStateContext } from "../GridworldContextProvider";
@@ -13,7 +13,7 @@ const SolverRadio = ({
 	label: string;
 	solverType: SolverType;
 }) => {
-	const state = useContext(GridworldStateContext);
+	const state = use(GridworldStateContext);
 	const checked = solverType === state.config.solver;
 	return (
 		<div>
