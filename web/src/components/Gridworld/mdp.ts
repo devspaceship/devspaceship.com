@@ -1,4 +1,3 @@
-import { HEIGHT, WIDTH } from "./config";
 import { CellPolicy, CellType, type GridworldState } from "./types";
 
 const deltaRows = {
@@ -29,8 +28,10 @@ export const transition = (
 	}
 	const newRow = row + deltaRows[policy];
 	const newColumn = column + deltaColumns[policy];
+	const height = state.grid.length;
+	const width = state.grid[0].length;
 	const outOfBounds =
-		newRow < 0 || newRow >= HEIGHT || newColumn < 0 || newColumn >= WIDTH;
+		newRow < 0 || newRow >= height || newColumn < 0 || newColumn >= width;
 	if (outOfBounds) {
 		return [row, column, -1];
 	}
