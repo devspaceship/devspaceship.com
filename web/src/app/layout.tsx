@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 	title: thomas,
 	description,
 	generator: "Next.js",
-	referrer: "origin-when-cross-origin",
+	referrer: "strict-origin-when-cross-origin",
 	keywords: ["Devspaceship", thomas, "Science", "Coding", "Blog"],
 	authors: [{ name: thomas }],
 	creator: thomas,
