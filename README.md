@@ -9,13 +9,13 @@ Choose your preferred development environment:
 ### Native
 
 ```bash
-make dev
+just dev
 ```
 
 ### Docker Compose
 
 ```bash
-make up
+just up
 ```
 
 ## Tech Stack

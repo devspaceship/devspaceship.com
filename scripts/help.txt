@@ -1,4 +1,4 @@
-usage: make [command]
+usage: just [command]
 
 General:
   help:           Show this help message
