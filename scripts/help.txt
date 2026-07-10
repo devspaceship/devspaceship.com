@@ -12,6 +12,10 @@ Docker Compose:
   logs:           Follow Docker container logs
   shell:          Open a bash shell in the web container
 
+Rust:
+  rust-dev:       Set up the Rust toolchain and start the Leptos dev server (:4201)
+  rust-build:     Set up the Rust toolchain and build the Leptos site for release
+
 Testing:
   test:           Run tests
   test-coverage:  Run tests and generate coverage report

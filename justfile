@@ -24,6 +24,15 @@ logs:
 shell:
     {{ compose }} run --rm web bash
 
+# Rust
+rust-dev:
+    @{{ scripts_dir }}/setup_rust.sh
+    cd rust/site && cargo leptos watch
+
+rust-build:
+    @{{ scripts_dir }}/setup_rust.sh
+    cd rust/site && cargo leptos build --release
+
 # Testing
 test:
     cd web && pnpm run test
