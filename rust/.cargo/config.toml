@@ -1,0 +1,8 @@
+# rustc invokes `cc` to drive linking; a Nix/Homebrew GNU gcc earlier in PATH
+# cannot link against macOS system libraries (e.g. -liconv). Pin the linker to
+# Apple clang on macOS targets; these sections are ignored on other hosts.
+[target.aarch64-apple-darwin]
+linker = "/usr/bin/clang"
+
+[target.x86_64-apple-darwin]
+linker = "/usr/bin/clang"
