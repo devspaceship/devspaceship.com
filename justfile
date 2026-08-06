@@ -33,6 +33,14 @@ rust-build:
     @{{ scripts_dir }}/setup_rust.sh
     cd rust/site && cargo leptos build --release
 
+rust-run:
+    @{{ scripts_dir }}/setup_rust.sh
+    cd rust/site && cargo leptos serve --release
+
+rust-run-precompressed:
+    @{{ scripts_dir }}/setup_rust.sh
+    cd rust/site && cargo leptos serve --release --precompress
+
 # Testing
 test:
     cd web && pnpm run test

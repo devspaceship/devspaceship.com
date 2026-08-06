@@ -32,12 +32,6 @@ ssr = [
   "leptos_router/ssr",
 ]
 
-[profile.wasm-release]
-inherits = "release"
-opt-level = 'z'
-lto = true
-codegen-units = 1
-
 [package.metadata.leptos]
 output-name = "site"
 site-root = "target/site"
@@ -47,7 +41,6 @@ assets-dir = "public"
 site-addr = "127.0.0.1:4201"
 reload-port = 4202
 browserquery = "defaults"
-env = "DEV"
 bin-features = ["ssr"]
 bin-default-features = false
 lib-features = ["hydrate"]

@@ -41,6 +41,16 @@ if ! command -v cargo-leptos &>/dev/null; then
 	fi
 fi
 
+if ! command -v wasm-opt &>/dev/null; then
+	if command -v brew &>/dev/null; then
+		echo "Installing binaryen (wasm-opt)..."
+		brew install binaryen
+	else
+		echo "Error: wasm-opt is not installed. Please install binaryen."
+		exit 1
+	fi
+fi
+
 if [[ -f rust/site/package.json ]]; then
 	if ! command -v pnpm &>/dev/null; then
 		echo "Error: pnpm is not installed"
