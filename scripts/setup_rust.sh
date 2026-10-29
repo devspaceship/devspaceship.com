@@ -41,4 +41,42 @@ if ! command -v cargo-leptos &> /dev/null; then
   fi
 fi
 
+# The CLI must match the wasm-bindgen crate version used by the workspace.
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+wasm_bindgen_version="$(awk '
+  $0 == "name = \"wasm-bindgen\"" { found = 1; next }
+  found && /^version = / { gsub(/"/, "", $3); print $3; exit }
+' "$script_dir/../rust/Cargo.lock")"
+
+if [[ -z "$wasm_bindgen_version" ]]; then
+	echo "Error: could not determine wasm-bindgen version from rust/Cargo.lock"
+	exit 1
+fi
+
+if ! command -v wasm-bindgen &>/dev/null ||
+	[[ "$(wasm-bindgen --version)" != "wasm-bindgen $wasm_bindgen_version" ]]; then
+	echo "Installing wasm-bindgen-cli $wasm_bindgen_version..."
+	if command -v cargo-binstall &>/dev/null; then
+		cargo binstall -y wasm-bindgen-cli --version "$wasm_bindgen_version" --force
+	else
+		cargo install wasm-bindgen-cli --version "$wasm_bindgen_version" --locked --force
+	fi
+fi
+
+# The stylesheet uses Tailwind v4 directives; older CLIs cannot compile it.
+if ! command -v tailwindcss &>/dev/null ||
+	[[ "$(tailwindcss --help 2>&1)" != *"tailwindcss v4."* ]]; then
+	if ! command -v brew &>/dev/null; then
+		echo "Error: Tailwind CSS v4 is required. Install the standalone tailwindcss CLI and add it to PATH (https://tailwindcss.com/blog/standalone-cli)."
+		exit 1
+	fi
+	echo "Installing Tailwind CSS v4..."
+	brew install tailwindcss
+	if ! command -v tailwindcss &>/dev/null ||
+		[[ "$(tailwindcss --help 2>&1)" != *"tailwindcss v4."* ]]; then
+		echo "Error: Tailwind CSS v4 is still unavailable. Ensure Homebrew's tailwindcss is first on PATH."
+		exit 1
+	fi
+fi
+
 echo "Rust setup complete!"
