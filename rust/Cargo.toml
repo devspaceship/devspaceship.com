@@ -1,3 +1,9 @@
 [workspace]
 resolver = "2"
 members = ["site"]
+
+[profile.wasm-release]
+inherits = "release"
+opt-level = 'z'
+lto = true
+codegen-units = 1
