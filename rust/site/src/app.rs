@@ -5,7 +5,8 @@ use leptos_router::{
     StaticSegment,
 };
 
-use crate::layout::{Footer, ProfilePicture, SiteLayout};
+use crate::layout::SiteLayout;
+use crate::pages::{BeatapticPage, HomePage, NotFoundPage, PostsPage};
 
 pub fn shell(options: LeptosOptions) -> impl IntoView {
     view! {
@@ -35,24 +36,12 @@ pub fn App() -> impl IntoView {
         <Title text="Thomas Saint-Gérand"/>
         <Router>
             <SiteLayout>
-                <Routes fallback=|| "Not found.">
+                <Routes fallback=NotFoundPage>
                     <Route path=StaticSegment("") view=HomePage/>
+                    <Route path=StaticSegment("posts") view=PostsPage/>
+                    <Route path=(StaticSegment("apps"), StaticSegment("beataptic")) view=BeatapticPage/>
                 </Routes>
             </SiteLayout>
         </Router>
-    }
-}
-
-#[component]
-fn HomePage() -> impl IntoView {
-    view! {
-        <div class="mt-12">
-            <ProfilePicture/>
-        </div>
-        <div class="space-y-4 px-3 text-center">
-            <h1 class="text-4xl font-bold">"devspaceship.com"</h1>
-            <p class="text-lg text-neutral-500">"Rust edition — under construction 🦀"</p>
-        </div>
-        <Footer/>
     }
 }
