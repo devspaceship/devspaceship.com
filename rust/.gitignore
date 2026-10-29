@@ -1,0 +1,2 @@
+# cargo-leptos reads ignore rules from the Rust workspace root.
+/target/
