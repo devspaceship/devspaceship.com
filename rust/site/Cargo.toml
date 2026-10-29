@@ -33,12 +33,6 @@ ssr = [
   "leptos_router/ssr",
 ]
 
-[profile.wasm-release]
-inherits = "release"
-opt-level = 'z'
-lto = true
-codegen-units = 1
-
 [package.metadata.leptos]
 output-name = "site"
 site-root = "target/site"
