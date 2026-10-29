@@ -5,18 +5,21 @@ use leptos_router::{
     StaticSegment,
 };
 
+use crate::layout::{Footer, ProfilePicture, SiteLayout};
+
 pub fn shell(options: LeptosOptions) -> impl IntoView {
     view! {
         <!DOCTYPE html>
-        <html lang="en">
+        <html lang="en" class="dark">
             <head>
                 <meta charset="utf-8"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-                <AutoReload options=options.clone()/>
-                <HydrationScripts options/>
+                <AutoReload options/>
+                // Static routes do not need HydrationScripts; add an islands bootstrap
+                // when interactive components are introduced.
                 <MetaTags/>
             </head>
-            <body>
+            <body class="min-h-screen font-sans antialiased">
                 <App/>
             </body>
         </html>
@@ -31,11 +34,11 @@ pub fn App() -> impl IntoView {
         <Stylesheet id="leptos" href="/pkg/site.css"/>
         <Title text="Thomas Saint-Gérand"/>
         <Router>
-            <main>
+            <SiteLayout>
                 <Routes fallback=|| "Not found.">
                     <Route path=StaticSegment("") view=HomePage/>
                 </Routes>
-            </main>
+            </SiteLayout>
         </Router>
     }
 }
@@ -43,9 +46,13 @@ pub fn App() -> impl IntoView {
 #[component]
 fn HomePage() -> impl IntoView {
     view! {
-        <div class="flex min-h-screen flex-col items-center justify-center gap-4">
+        <div class="mt-12">
+            <ProfilePicture/>
+        </div>
+        <div class="space-y-4 px-3 text-center">
             <h1 class="text-4xl font-bold">"devspaceship.com"</h1>
             <p class="text-lg text-neutral-500">"Rust edition — under construction 🦀"</p>
         </div>
+        <Footer/>
     }
 }
