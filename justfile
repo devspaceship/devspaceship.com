@@ -26,12 +26,10 @@ shell:
 
 # Rust
 rust-dev:
-    @{{ scripts_dir }}/setup_rust.sh
-    cd rust/site && cargo leptos watch
+    @{{ scripts_dir }}/rust-dev.sh
 
 rust-build:
-    @{{ scripts_dir }}/setup_rust.sh
-    cd rust/site && cargo leptos build --release
+    @{{ scripts_dir }}/rust-build.sh
 
 # Testing
 test:
